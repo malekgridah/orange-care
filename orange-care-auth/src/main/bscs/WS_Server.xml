@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ComponentRegistry PUBLIC 'ComponentRegistry.dtd'
+		"ComponentRegistry.dtd" >
+
+<ComponentRegistry>
+<Node name="FUNC_WCLT">
+
+	<!--
+		The name of the SOI server the client should connect to.
+	-->
+	<KeyValue key="ServerName" type="String" value="com/lhs/public/soi/fedfactory1" comment="The name of the SOI server the client should connect to"/>
+	<KeyValue key="SOIName" type="String" value="CIL" comment=""/>
+	<KeyValue key="SOIVersion" type="String" value="7" comment=""/>
+
+</Node>
+</ComponentRegistry>
+
+

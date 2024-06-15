@@ -1,0 +1,977 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:sch0="http://lhsgroup.com/lhsws/money"
+                   xmlns:sch1="http://lhsgroup.com/lhsws/svlany"
+                   xmlns:sch2="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                   xmlns:sch3="http://ericsson.com/services/ws_CIL_7/financialdocumentsearch"
+                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                   xmlns:tns="http://ericsson.com/services/ws_CIL_7"
+                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                   targetNamespace="http://ericsson.com/services/ws_CIL_7">
+   <wsdl:types>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/money"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/money">
+         <xs:complexType name="money">
+            <xs:sequence>
+               <xs:element name="amount" type="xs:double"/>
+               <xs:element name="currency" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/svlany"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/svlany">
+         <xs:complexType name="svlany">
+            <xs:sequence>
+               <xs:element name="content" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/sessionchange">
+         <xs:complexType name="sessionChangeResponse"/>
+         <xs:complexType name="valuesListpartRequest">
+            <xs:all>
+               <xs:element name="key" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt; Name of the value that shall be changed.
+													For details about the session parameters that can be set, refer to 'Specification of Session Parameters' in the CIL documentation.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="value" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;New value for a named value. &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="valuesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;A list of all named values that shall be changed with this command.&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" name="item" type="wsi:valuesListpartRequest"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="sessionChangeRequest">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;
+					
+					&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="values" type="wsi:valuesRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:money="http://lhsgroup.com/lhsws/money"
+                  xmlns:sessionchange="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/financialdocumentsearch"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/financialdocumentsearch">
+         <xs:import namespace="http://ericsson.com/services/ws_CIL_7/sessionchange"/>
+         <xs:import namespace="http://lhsgroup.com/lhsws/money"/>
+         <xs:element name="financialDocumentSearchRequest"
+                      type="wsi:financialDocumentSearchRequest"/>
+         <xs:element name="financialDocumentSearchResponse"
+                      type="wsi:financialDocumentSearchResponse"/>
+         <xs:complexType name="documentsListpartResponse">
+            <xs:all>
+               <xs:element minOccurs="0" name="documentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Internal document id&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Document code&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="extDocumentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;external reference code&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="extRefDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;external reference date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="csId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Customers private key&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="csIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Customers public key&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="csCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Customer code&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="adrLname" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_LONG_CUST_NAME"
+                                         source="BUC808a"/>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_PC22701"
+                                         source="PC22701"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+													&lt;p&gt;last name&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="adrFname" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_LONG_CUST_NAME"
+                                         source="BUC808a"/>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_PC22701"
+                                         source="PC22701"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+													&lt;p&gt;first name&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="adrName" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_LONG_CUST_NAME"
+                                         source="BUC808a"/>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_PC22701"
+                                         source="PC22701"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+													&lt;p&gt;name&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="coId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Contract's private key&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="coIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Contract's public key&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt; The internal Id of the related billing account &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt; The public key of the related billing account &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="docType" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Document type&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="docCreditDebitType" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Identifies if the document type refers to credit or debit.&lt;/p&gt;&lt;p&gt;The returned value is "C" if the DOC_TYPE is in [CM, CO, DI, DP, II], otherwise the returned value is "D".&lt;/p&gt;&lt;p&gt;
+													&lt;ul&gt;&lt;li&gt;"C" Credit. In this case, a positive amount in interface means a credit, and a negative amount debit.&lt;/li&gt;&lt;li&gt;"D" Debit. In this case, a positive amount in interface means a debit, and a negative amount credit.&lt;/li&gt;&lt;/ul&gt;
+													&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="assDocumentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;associated Internal document id&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="buId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Business unkt&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="entryDate" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;entry date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="dueDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;due date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;reference date - invoice date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="convDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Conversion date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayCurrId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;proposed payment currency.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayCurrIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;proposed payment currency - public id.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;proposed payment date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayMethodId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;proposed payment method.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="discountDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;discount date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="complaintDate" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;complaint date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="complaint" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;complaint flag
+													&lt;ul&gt;&lt;li&gt;"X" - if a complaint has been received for the invoice.&lt;/li&gt;&lt;li&gt;"F" - if a complaint is finished.&lt;/li&gt;&lt;li&gt;NULL - no complaint.&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="collInd" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Flag indicating if document is in collection process.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="rsId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;The reason of a complaint, set only if &lt;code&gt;COMPLAINT&lt;/code&gt;is set.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentAmountDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;total document amount in document currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentAmountGl" type="money:money">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="Financial Overview changes in CX and AX" source="PC25141"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+													&lt;p&gt;total document amount in GL currency. License LHS_BSCS_PC25141 is required.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="openAmountDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;open amount in document currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="takenDiscountAmountDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;taken discount amount in DOC currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="grantedDiscountAmountDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;granted discount amount in DOC currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="taxAmountDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;tax amount in document currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="glCurrency" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;GL Currency.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDoc" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Flag indicating whether reference documents exist or not.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="revDocument" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Flag indicating whether document is a reverse document or not.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reversed" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Flag indicating whether document has been reversed or not.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="imageGenerated" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;&lt;code&gt;True&lt;/code&gt;if a bill image is generated for the current document.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentModeId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Internal payment mode Id.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentProcessingStatus" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Document processing status, only for incoming documents, shows if document is approved&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentInstrId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;identifier of the payment instruction&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentInstrIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;public key of the payment instruction&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="currPaymentInstrStatus" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;status of the payment instruction&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentSubTypeId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Invoice subtype id&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentSubTypeIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Invoice subtype public id&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="documentsResponse">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;Documents&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="item"
+                            type="wsi:documentsListpartResponse"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="financialDocumentSearchResponse">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;Properties of the finance document.&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="documents" type="wsi:documentsResponse"/>
+               <xs:element minOccurs="0" name="searchIsComplete" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;flag indicating if search was completed.&lt;/p&gt;&lt;p&gt;This flag will be set to false if more rows than specified in RESULT_LIMIT are available in the database&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="documentProcessingStatusesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;Document processing status, only for incoming documents, shows if document is approved&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="documentProcessingStatus"
+                            type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="docSubTypesListpartRequest">
+            <xs:all>
+               <xs:element minOccurs="0" name="documentSubTypeId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Invoice subtype id&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentSubTypeIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Invoice subtype key&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="docSubTypesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;List of document types that are searched. Only documents of one of the passed types are returned.&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="item"
+                            type="wsi:docSubTypesListpartRequest"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="docTypesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;Document type&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="docType"
+                            type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="inputAttributes">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;Input parameter of the search. Result contains only not cancels documents&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="ignoreBuInd" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt; Flag determines if result contains only customers with the current business unit or all business units valid for the user&lt;/p&gt;&lt;p&gt; The login business unit is ingnored if value is true, default false&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="searcher" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;This argument will be used if the client wants to use/create another searcher in the registry for searching for financial documents.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="csId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Customers private key&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="csIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Customers public key&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="csCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Customer code&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="adrLname" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_LONG_CUST_NAME"
+                                         source="BUC808a"/>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_PC22701"
+                                         source="PC22701"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+							&lt;p&gt;last name&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="adrFname" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_LONG_CUST_NAME"
+                                         source="BUC808a"/>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_PC22701"
+                                         source="PC22701"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+							&lt;p&gt;first name&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="adrName" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_LONG_CUST_NAME"
+                                         source="BUC808a"/>
+                        <ericsson:since enhancement="length is enlarged based on license LHS_BSCS_PC22701"
+                                         source="PC22701"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+							&lt;p&gt;name&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt; The internal Id of the related billing account &lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt; The public key of the related billing account &lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt; Document code&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="docTypes" type="wsi:docTypesRequest"/>
+               <xs:element minOccurs="0" name="docSubTypes" type="wsi:docSubTypesRequest"/>
+               <xs:element minOccurs="0" name="creditDebit" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Credit or debit
+							&lt;ul&gt;&lt;li&gt;"C" only credit documents with negative total document amount, including zero (DOCUMENT_AMOUNT_DOC &lt;= 0) are returned.&lt;/li&gt;&lt;li&gt;"D" only debit documents with positive total document amount, including zero (DOCUMENT_AMOUNT_DOC &gt;= 0) are returned.&lt;/li&gt;&lt;li&gt;"c" only credit documents with negative total document amount (DOCUMENT_AMOUNT_DOC &lt; 0) are returned.&lt;/li&gt;&lt;li&gt;"d" only debit documents with positive total document amount (DOCUMENT_AMOUNT_DOC &gt; 0) are returned.&lt;/li&gt;&lt;li&gt;no value - both, debit and credit documents &lt;/li&gt;&lt;/ul&gt;
+							&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentStatus" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;&lt;ul&gt;&lt;li&gt;"C" only closed documents&lt;/li&gt;&lt;li&gt;"O" only open documents - that means complete open invoice amoint == open amount&lt;/li&gt;&lt;li&gt;"P" only open and partley open documents&lt;/li&gt;&lt;li&gt;"L" only partly open and closed documents &lt;/li&gt;&lt;li&gt;no value - all documents&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="extDocumentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;external reference code&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="extRefDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;external reference date&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDateFrom" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;reference date from - invoice date&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDateUntil" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;reference date until - invoice date&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;reference date - invoice date&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="dueDateFrom" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;due date from&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="dueDateUntil" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;due date until&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentAmountDocMin" type="xs:double">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;minimum document amount&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentAmountDocMax" type="xs:double">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;maximum document amount&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCurrId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;document currency identifier.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCurrIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Document currency public key.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayCurrId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;proposed payment currency identifier.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayCurrIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;proposed payment currency public key.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0"
+                            name="documentProcessingStatuses"
+                            type="wsi:documentProcessingStatusesRequest"/>
+               <xs:element minOccurs="0" name="proposedPayDateFrom" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;proposed payment date from&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayDateUntil" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;proposed payment date until&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayMethodId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;proposed payment method.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="proposedPayMethodIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;payment method - public id.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="excludePayInstr" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Excludes all documents that are assigned to the payment instruction.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billSeqno" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Bill sequence number.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="extDocIdForRef" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;External document id (debit note).&lt;/p&gt;&lt;p&gt;If &lt;code&gt;EXT_DOC_ID_FOR_REF&lt;/code&gt; is specified all reference documents are returned.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDocIdForExt" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Reference document id.&lt;/p&gt;&lt;p&gt;If &lt;code&gt;REF_DOC_ID_FOR_EXT&lt;/code&gt; is specified all external documents (debit note) are returned.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="excludeReverseDn" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Excludes all reverse debit notes and its original debit note documents.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="invoiceTransfer" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;&lt;code&gt;INVOICE_TRANSFER&lt;/code&gt; must be set for invoice transfers.&lt;/p&gt;&lt;p&gt;In case debit notes are attached to invoices.&lt;/p&gt;&lt;p&gt;Invoices are exluded from the search when attached debit notes do not fullfill the following crietria.&lt;/p&gt;&lt;p&gt;Original amount = open amount&lt;/p&gt;&lt;p&gt;If open amount = 0, then debit note is reversed&lt;/p&gt;&lt;p&gt;Debit note is not referenced by another invoice.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refundable" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;&lt;code&gt;REFUNDABLE&lt;/code&gt; must be set for searching for documents with refundable payment transactions.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="resultLimit" type="xs:integer">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;It is possible to limit the number of result set. In case of null value, the server internal limitation is applied.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="disableResultLimit" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Disables the result set limitation.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="flagCase" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;case sensitive search.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="flagMatchcode" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;enable matchcode search&lt;/p&gt;&lt;p&gt;If set to true a matchcode search for the lastname will be executed &lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="rootCsId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Customers private key&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="rootCsIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Customers public key&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="ordrRefDate" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Order the result by the &lt;code&gt;REF_DATE&lt;/code&gt; value. Possible values are:
+							&lt;ul&gt;&lt;li&gt;"a" - ascending search, oldest first.&lt;/li&gt;&lt;li&gt;"d" - descnding search, youngest entries first.&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;&lt;p&gt;If not set, the result is delivered as provided from the database.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="orderBy" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="BUC803"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+							&lt;p&gt;Order the result by the value inserted. Possible values are:
+							&lt;ul&gt;&lt;li&gt;The name of column, (a) for ascending or (d) for descending. Separeted by comma.&lt;/li&gt;&lt;li&gt;Ex. DOC_TYPE, a, DOCUMENT_CODE, d, DUE_DATE, d, DOCUMENT_PROCESSING_STATUS, a CO_ID_PUB, a, CS_ID_PUB, a&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="startIndex" type="xs:long">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="BUC803"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+							&lt;p&gt;Specifies how many entries in the output should be skipped.
+							Together with the &lt;code&gt;RESULT_LIMIT&lt;/code&gt; parameter it provides a paging in the result set of a search.
+							
+							E.g. if the parameter is set to 50 and &lt;code&gt;RESULT_LIMIT&lt;/code&gt; is set to 20,
+							this command provides the entries 51 to 70 of the query.
+							
+							If not passed the command provides the search result 1 up to &lt;code&gt;RESULT_LIMIT&lt;/code&gt;.&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialDocumentSearchRequest">
+            <xs:all>
+               <xs:element minOccurs="0" name="inputAttributes" type="wsi:inputAttributes"/>
+               <xs:element minOccurs="0"
+                            name="sessionChangeRequest"
+                            type="sessionchange:sessionChangeRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="financialDocumentSearchResponse">
+      <wsdl:part element="sch3:financialDocumentSearchResponse"
+                  name="financialDocumentSearchResponse">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="financialDocumentSearchRequest">
+      <wsdl:part element="sch3:financialDocumentSearchRequest"
+                  name="financialDocumentSearchRequest">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:portType name="FinancialDocumentSearchService">
+      <wsdl:operation name="financialDocumentSearch">
+         <wsdl:documentation>
+            <since enhancement="New command version with additional parameters for rule based payment feature"
+                    source="BUC803"/>&lt;![CDATA[&lt;p&gt;This command searches financial documents according to the input parameter (ORDERHEADER)&lt;/p&gt;&lt;p&gt;All parameters introduced with the BUC803 require license LHS_BSCS_RULEBASEDPAYMNT.&lt;/p&gt;]]&gt;</wsdl:documentation>
+         <wsdl:input message="tns:financialDocumentSearchRequest"
+                      name="financialDocumentSearchRequest">
+    </wsdl:input>
+         <wsdl:output message="tns:financialDocumentSearchResponse"
+                       name="financialDocumentSearchResponse">
+    </wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="FinancialDocumentSearchServiceSoap11"
+                  type="tns:FinancialDocumentSearchService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="financialDocumentSearch">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="financialDocumentSearchRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="financialDocumentSearchResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="FinancialDocumentSearchService">
+      <wsdl:port binding="tns:FinancialDocumentSearchServiceSoap11"
+                  name="FinancialDocumentSearchServiceSoap11">
+         <soap:address location="/services"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

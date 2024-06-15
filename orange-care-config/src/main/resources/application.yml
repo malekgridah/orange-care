@@ -1,0 +1,12 @@
+server:
+  port: 8888
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/malek-gridah/orange-care-microservices-config
+          default-label: main
+        native:
+          searchLocations: file:///${GIT_REPO}

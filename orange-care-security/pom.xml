@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.billcom</groupId>
+        <artifactId>orange-care-bom</artifactId>
+        <version>${revision}</version>
+        <relativePath>../orange-care-bom/pom.xml</relativePath>
+    </parent>
+
+    <artifactId>orange-care-security</artifactId>
+    <packaging>pom</packaging>
+    <name>Orange Care :: Security</name>
+
+    <properties>
+        <main.basedir>${basedir}/..</main.basedir>
+        <spring-boot.version>2.7.18</spring-boot.version>
+        <ericsson-billing.version>22.15.12</ericsson-billing.version>
+        <jacorb.version>3.9</jacorb.version>
+        <jboss-rmi-api.version>1.0.6.Final</jboss-rmi-api.version>
+    </properties>
+
+    <scm>
+        <url>${git.url}</url>
+        <connection>${git.connection}</connection>
+        <developerConnection>${git.developerConnection}</developerConnection>
+    </scm>
+
+    <modules>
+        <module>orange-care-security-beans</module>
+        <module>orange-care-security-build</module>
+        <module>orange-care-security-connection-pools</module>
+        <module>orange-care-security-dependencies</module>
+        <module>orange-care-security-spring-boot-starter</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ComponentRegistry PUBLIC 'ComponentRegistry.dtd'
+        "ComponentRegistry.dtd" >
+
+<!-- FUNC_FRMWK_CMN_Registry.xml -->
+
+<ComponentRegistry>
+
+    <Node name="FUNC_FRMWK_CMN">
+
+        <Node name="ServiceRootLocator">
+            <!-- The Implementation determines if JGROUP multicast mesages are used. -->
+            <!-- "Multicast" switches on the multicast mechanism. -->
+            <!-- "NamingService" is the "old" implementation with the name based FF lookup. -->
+            <KeyValue key="Implementation" type="String" value="NamingService"
+                      comment="The node name of the implementation that shall be used for locating the ServiceRoot."/>
+
+            <Node name="NamingService">
+                <KeyValue key="ServiceRootLocatorImpl" type="String" value="com.lhs.ccb.common.soiimpl.ServiceRootLocatorNamingService"
+                          comment="The fully qualified implementation class of the ServiceRootLocater interface."/>
+                <KeyValue key="ServerName" type="String" value="com/lhs/public/soi/fedfactory1"
+                          comment="The server name to be looked up in the NamingService."/>
+            </Node>
+
+            <Node name="Multicast">
+                <KeyValue key="ServiceRootLocatorImpl" type="String" value="com.lhs.ccb.common.soiimpl.ServiceRootLocatorMulticast"
+                          comment="The fully qualified implementation class of the ServiceRootLocater interface.
+                This implementation currently needs no additional parameters since only the lookup of
+                of a FederatedFactory via multicast is supported."/>
+            </Node>
+        </Node>
+
+
+    </Node>
+
+</ComponentRegistry>

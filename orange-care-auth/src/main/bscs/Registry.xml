@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE Registry PUBLIC 'Registry.dtd'
+		"Registry.dtd">
+
+<!-- Registry for CMS server -->
+
+<Registry>
+    <!-- Location of a package registry file. -->
+
+	<Link location="WS_Registry.xml"/>
+	<Link location="WS_Server.xml"/>
+	<Link location="FUNC_FRMWK_CMN_Registry.xml" />
+	<Link location="SECURITY_User_Registry.xml" />
+</Registry>
+
+

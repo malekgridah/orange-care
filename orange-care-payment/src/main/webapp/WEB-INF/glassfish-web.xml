@@ -1,0 +1,3 @@
+<glassfish-web-app>
+    <context-root>/PaymentApi</context-root>
+</glassfish-web-app>

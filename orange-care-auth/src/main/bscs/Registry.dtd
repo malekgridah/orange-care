@@ -1,0 +1,14 @@
+<?xml encoding="UTF-8"?>
+
+<!-- 	
+The Registry defines the main structure of the Registry tree.
+ -->
+<!ELEMENT Registry (Link*)>
+
+
+<!ELEMENT Link EMPTY >
+<!ATTLIST Link  
+	location CDATA #REQUIRED
+>
+
+

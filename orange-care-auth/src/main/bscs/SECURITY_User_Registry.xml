@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ComponentRegistry PUBLIC "ComponentRegistry.dtd"
+        "ComponentRegistry.dtd" >
+
+<!--
+Contains common security settings for all Java servers.
+-->
+<ComponentRegistry>
+    <Node name="FUNC_FRMWK_SRV">
+
+        <!--
+        "SOIDefinitions" and "ServiceLayerAdapterNames" could be commented-out
+        when the server should not provide SECURIRY SOI
+        -->
+        <Node name="SOIDefinitions" >
+            <!--
+            <KeyValue key="security_1.xml" value="" type="String" comment=""/>
+            <KeyValue key="security_2.xml" value="" type="String" comment=""/>
+             -->
+            <KeyValue key="security_3.xml" value="" type="String" comment=""/>
+        </Node>
+        <Node name="ServiceLayerAdapterNames" >
+            <KeyValue key="com.lhs.ccb.sfw.security.db.SecurityAdapter" type="String" value="" comment=""/>
+        </Node>
+
+        <Node name="StartupListeners" >
+            <!--This entry is always required -->
+            <KeyValue key="com.lhs.ccb.sfw.security.SecurityInitializer" type="String" value="" comment="null"/>
+        </Node>
+
+        <Node name="ShutdownListeners" >
+        </Node>
+
+        <Node name="ClassLookupTable">
+            <!--Use
+            com.lhs.ccb.sfw.security.stub.EmptyPermissionChecker	    to turn security off (only user/password will be checked using ORACLE connection)
+            or
+            com.lhs.ccb.sfw.security.db.BSCSPermissionChecker        for built-in permission checker (user/password will be checked using ORACLE connection, access rights checked against USERACCESS table)
+            or
+            com.lhs.ccb.sfw.security.RemoteServerPermissionChecker   for permission checker acting as a client of the remote security server. User/password and access rights are retrieved from the remote security server. Note: in this case your server doesn't starts without a security server!
+            -->
+            <KeyValue key="com.lhs.ccb.sfw.security.ServerPermissionCheckerI" value="com.lhs.ccb.sfw.security.db.BSCSPermissionChecker" comment="" />
+        </Node>
+
+
+        <Node name="Persistence">
+
+            <Node name="PackageNamesForBORegistry">
+                <!-- This entry is required	for BSCSPermissionChecker and for EmptyPermissionChecker-->
+                <KeyValue key="com.lhs.ccb.sfw.security.db" value="" comment="" />
+            </Node>
+        </Node>
+
+    </Node>
+</ComponentRegistry>

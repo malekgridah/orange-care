@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT ComponentRegistry (Node*)>
+
+<!-- 
+The Node of a registry is defined as a section/directory in the Registry tree.  The 
+Node can have other Nodes or KeyValue entries.
+-->
+<!ELEMENT Node (KeyValue|Node)*>
+<!ATTLIST Node
+    name   CDATA	 	#REQUIRED
+>
+
+
+<!--
+The KeyValue element is the leaf in the Registry tree.  
+It is the last element of the registry path and contains the value of the Registry entry.
+-->
+<!ELEMENT KeyValue  EMPTY >
+<!ATTLIST KeyValue
+    key   CDATA	 	#REQUIRED
+    type  (Boolean | Float | Integer | String | Date) "String"
+    value CDATA 	#REQUIRED
+    comment CDATA	#IMPLIED 
+>

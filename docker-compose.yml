@@ -1,0 +1,38 @@
+services:
+  eureka:
+    image: orange-care-registry
+    container_name: orange-care-registry
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+
+  bscs:
+    container_name: orange-care-bscs
+    image: orange-care-bscs
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://registry:8761
+    ports:
+      - "8180:8080"
+      - "8181:8081"
+
+  admin:
+    container_name: orange-care-admin
+    image: orange-care-admin
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://eureka:8761
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+
+  payment:
+    container_name: orange-care-payment
+    image: orange-care-payment
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://eureka:8761
+    ports:
+      - "8280:8080"
+      - "8281:8081"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.billcom</groupId>
@@ -9,17 +9,9 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <name>Orange Care Parent</name>
-    <description>Orange Care</description>
-
-    <properties>
-        <revision>1.0.0</revision>
-        <java.version>17</java.version>
-
-        <maven.compiler.release>${java.version}</maven.compiler.release>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
+    <name>Orange Care</name>
+    <description>A microservice architecture for orange</description>
+    <inceptionYear>2024</inceptionYear>
 
     <licenses>
         <license>
@@ -34,10 +26,158 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git://github.com/malek-gridah/orange-care-microservices.git</connection>
-        <developerConnection>scm:git:git@github.com:malek-gridah/orange-care-microservices.git</developerConnection>
-        <tag>HEAD</tag>
-        <url>https://github.com/malek-gridah/orange-care-microservices/</url>
+        <url>${git.url}</url>
+        <connection>${git.connection}</connection>
+        <developerConnection>${git.developerConnection}</developerConnection>
     </scm>
+
+    <properties>
+        <revision>1.0.1</revision>
+
+        <cxf.version>4.0.4</cxf.version>
+        <springdoc.version>2.3.0</springdoc.version>
+        <joda.time.version>2.12.5</joda.time.version>
+        <joda.convert.version>2.2.2</joda.convert.version>
+        <spring.boot.version>3.3.0</spring.boot.version>
+        <spring.cloud.version>2023.0.1</spring.cloud.version>
+
+        <git.url>https://github.com/malek-gridah/orange-care</git.url>
+        <git.connection>scm:git:https://github.com/malek-gridah/orange-care.git</git.connection>
+        <git.developerConnection>scm:git:ssh://git@github.com:malek-gridah/orange-care.git</git.developerConnection>
+        <main.basedir>${basedir}</main.basedir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>orange-care-admin</module>
+        <module>orange-care-security</module>
+        <module>orange-care-bom</module>
+        <module>orange-care-bscs</module>
+        <module>orange-care-config</module>
+        <module>orange-care-gateway</module>
+        <module>orange-care-parent</module>
+<!--        <module>orange-care-payment</module>-->
+        <module>orange-care-registry</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <inherited>false</inherited>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.1</version>
+            </plugin>
+        </plugins>
+    </build>
+
+<!--    <profiles>-->
+<!--        <profile>-->
+<!--            <id>default</id>-->
+<!--            <activation>-->
+<!--                <property>-->
+<!--                    <name>!disable-initializr-default-profile</name>-->
+<!--                </property>-->
+<!--            </activation>-->
+<!--            <properties>-->
+<!--                <spring-javaformat.version>0.0.41</spring-javaformat.version>-->
+<!--                <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>-->
+<!--            </properties>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--&lt;!&ndash;                    <plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <groupId>io.spring.javaformat</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <artifactId>spring-javaformat-maven-plugin</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <version>${spring-javaformat.version}</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <executions>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <phase>validate</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <goal>validate</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </executions>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <plugin>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <groupId>org.apache.maven.plugins</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <artifactId>maven-checkstyle-plugin</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <version>3.3.1</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <dependencies>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <groupId>com.puppycrawl.tools</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <artifactId>checkstyle</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <version>10.12.7</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <groupId>io.spring.javaformat</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <artifactId>spring-javaformat-checkstyle</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <version>${spring-javaformat.version}</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <groupId>io.spring.nohttp</groupId>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <artifactId>nohttp-checkstyle</artifactId>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <version>${nohttp-checkstyle.version}</version>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </dependency>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </dependencies>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <executions>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <id>checkstyle-validation</id>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <phase>validate</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <configLocation>src/checkstyle/checkstyle.xml</configLocation>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <suppressionsLocation>src/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <includeTestSourceDirectory>true</includeTestSourceDirectory>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <propertyExpansion>main.basedir=${main.basedir}</propertyExpansion>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <goal>check</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <id>nohttp-checkstyle-validation</id>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <phase>validate</phase>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <configLocation>src/checkstyle/nohttp-checkstyle.xml</configLocation>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <suppressionsLocation>src/checkstyle/nohttp-checkstyle-suppressions.xml</suppressionsLocation>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <propertyExpansion>main.basedir=${main.basedir}</propertyExpansion>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <sourceDirectories>${basedir}</sourceDirectories>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <includes>**/*</includes>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <excludes>**/.git/**/*,**/.idea/**/*,**/target/**/,**/.flattened-pom.xml,**/*.class</excludes>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </configuration>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <goal>check</goal>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </goals>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <inherited>false</inherited>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </execution>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </executions>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </plugin>&ndash;&gt;-->
+<!--                </plugins>-->
+<!--            </build>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>m2e</id>-->
+<!--            <activation>-->
+<!--                <property>-->
+<!--                    <name>m2e.version</name>-->
+<!--                </property>-->
+<!--            </activation>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>docker</id>-->
+<!--        </profile>-->
+<!--    </profiles>-->
 
 </project>

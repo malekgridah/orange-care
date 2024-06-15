@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_FILE_NAME">PaymentApi</Property>
+        <property name="PATH_LOGS">../logs</property>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd' 'HH:mm:ss.SSS</Property>
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${sys:LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${sys:LOG_LEVEL_PATTERN}} %clr{%pid}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <Property name="FILE_LOG_PATTERN">%d{${sys:LOG_DATEFORMAT_PATTERN}} ${sys:LOG_LEVEL_PATTERN} %pid --- [%t] %-40.40c{1.} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" charset="${sys:CONSOLE_LOG_CHARSET}" />
+        </Console>
+        <RollingFile name="RollingFile" fileName="${PATH_LOGS}/${LOG_FILE_NAME}.log" filePattern="${PATH_LOGS}/$${date:yyyy-MM}/${LOG_FILE_NAME}-%d{yyyy-MM-dd}.log">
+            <PatternLayout disableAnsi="false" pattern="${sys:FILE_LOG_PATTERN}" charset="${sys:FILE_LOG_CHARSET}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+
+        <!-- ######################################## -->
+        <!-- #    Root Logger for all components    # -->
+        <!-- ######################################## -->
+        <Root level="debug">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="RollingFile" />
+        </Root>
+
+
+        <!-- ######################################## -->
+        <!-- #             Other Loggers            # -->
+        <!-- ######################################## -->
+        <Logger name="org.springframework" level="INFO" />
+    </Loggers>
+</Configuration>

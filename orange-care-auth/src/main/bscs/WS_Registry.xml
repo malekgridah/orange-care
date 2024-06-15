@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ComponentRegistry PUBLIC 'ComponentRegistry.dtd'
+        "ComponentRegistry.dtd" >
+
+<ComponentRegistry>
+<Node name="FUNC_WCLT">
+
+	 <!--
+        - The application name used for window titles.
+        - This value is directly accessible through method
+        ApplicationSettings.getApplicationName()
+        This key is also used as parent permission key for initialization of the
+        PermissionChecker.
+      -->
+      <KeyValue key="ApplicationName" type="String" value="WS" comment="The name of the web client application" />
+      <!--
+        - The version of the application.
+      -->
+      <KeyValue key="ApplicationVersion" type="String" value="1.0" comment="The version of the web client application" />
+
+    <!-- Jaas context.  -->
+    <KeyValue key="JaasContext" type="String" value="WSContext" comment="JAAS context to be used"/>
+
+
+	<!--
+	   - The error dictionary to be used.
+	   - Client : Translate server error messages with the ClientErrorDictionary.
+	   - Server : Display the server error messages on screen. (default)
+	   - None   : Dont translate the error messages.
+	   -          Display an generic error message as defined in the ClientErrorDictionary. (GlobalErrorMessage)
+	 -->
+
+	<KeyValue key="UseErrorDictionary" type="String"  value="client" comment=""/>
+
+	<!--  Client specific error dictionary -->
+
+    <KeyValue key="ClientErrorDictionary" type="String"  value="WEB_SERV_ErrorDictionary" comment=""/>
+
+
+    <!--
+     SoiName for security initialization
+     -->
+	  <KeyValue key="SoiNameForSecurity" type="String" value="SECURITY" comment="The name of the security SOI" />
+	   <!--
+	  SoiVersion for security initialization
+	  -->
+	  <KeyValue key="SoiVersionForSecurity" type="String" value="3" comment="The version of the security SOI" />
+
+      <!--
+        - When set to "true" force application to send only changed attributes
+        - to the CORBA server.
+        - "false" means that all attrubutes will be sent to the CORBA server.
+        - This flag doesn't affect HTTP communication.
+      -->
+      <KeyValue key="SendOnlyChangedData" type="Boolean" value="true" comment="" />
+       <!--
+        - "true" turns security checks in the application on.
+        - "false" turns security checks off
+        -
+        - This flag doesn't affect login mechanism - login should be performed always.
+      -->
+      <KeyValue key="UseSecurity" type="Boolean" value="true" comment="" />
+
+      <!--
+        - Permission checker class to be used by the client framework.
+      -->
+      <KeyValue key="PermissionChecker" type="String" value="com.lhs.ccb.util.ClientPermissionChecker" comment="" />
+
+
+	 <!--
+          - The configuration for localization.It can have one of these 2 possible values
+          - "Server" , "Browser" .The default value is "Browser".
+          -
+          - If the value of the key is  "Server"  then USER.READ command is used to get the user locale,
+          - for "Browser" Locale of the web browser is used is used in localization.
+
+          -->
+	<KeyValue key="Localization" type="String" value="Browser" comment="" />
+
+
+      <!--
+        - Global Resource bundle file for general error messages.
+        - This resoucebundle file should be used to define global error messages,
+        - that can occur in several pages.
+        -
+        - Used by: ErrorUtil class of CFW to obtain the error messages.
+      -->
+      <KeyValue key="CommonErrorBundle" type="String"  value="com/lhs/ccb/util/resource/CommonErrorsBundle" comment=""/>
+
+
+      <!--
+		- Hook that is called from the client framework after a Service Accessor (Service Object) is created
+		- This class reinitialises the Business unit and the dealer for the user
+	   -->
+	<KeyValue key="UserInitialisation"  type="String"  value="com.lhs.ccb.util.ClientUserInitialisation"/>
+
+	 <!--
+        - User attributes names,(Stored in user session by UserPropertiesFacade) whose chage should be observed and,
+          as a result  a SESSION.CHANGE will be performed on the reference connection.
+
+        - Note  the attribute names should be separated from each other by comma(,).
+        -
+        - Used by: UserAttributesObservable.java
+      -->
+	<KeyValue key="ObservedUserAttributes"  type="String"  value="BU_ID,DEALER_ID"/>
+
+</Node>
+</ComponentRegistry>

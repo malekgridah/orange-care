@@ -1,0 +1,35 @@
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    path:  "/swagger-ui.html"
+
+management:
+  endpoint:
+    metrics:
+      enabled:  true
+  endpoints:
+    web:
+      exposure:
+        include:  *
+
+app:
+  name: "@project.artifactId@"
+  version:  "@project.version@"
+  description:  "@project.description@"
+
+spring:
+  output:
+    ansi:
+      enabled:  always
+
+modulename: PaymentApi
+
+module: "${AnsiColor.MAGENTA} :: ${AnsiStyle.BOLD}${modulename} ::${AnsiColor.CYAN}"
+title1: "${AnsiColor.BLUE}${AnsiStyle.BOLD}    App Info    ${AnsiStyle.NORMAL}${AnsiColor.CYAN}"
+txt1: "${AnsiColor.YELLOW}Project:${AnsiStyle.NORMAL} ${app.name}${AnsiColor.CYAN}"
+txt2: "${AnsiColor.YELLOW}Version:${AnsiStyle.NORMAL} ${app.version}${AnsiColor.CYAN}"
+txt3: "${AnsiColor.YELLOW}Description:${AnsiStyle.NORMAL} ${app.description}${AnsiColor.CYAN}"
+
+
+
+

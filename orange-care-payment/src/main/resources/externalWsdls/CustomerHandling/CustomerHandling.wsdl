@@ -1,0 +1,696 @@
+<wsdl:definitions xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://alu.services.ws.lhs.com" xmlns:intf="http://alu.services.ws.lhs.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://alu.services.ws.lhs.com">
+ <!-- WSDL created by Apache Axis version: 1.4
+ Built on Apr 09, 2009 (02:08:07 CEST) -->
+ <wsdl:types>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://alu.services.ws.lhs.com">
+   <complexType name="BaseSOIBean">
+    <sequence/>
+   </complexType>
+   <complexType name="DateBean">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="date" nillable="true" type="xsd:dateTime"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="DateTimeBean">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="date" nillable="true" type="xsd:dateTime"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Address">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="adrBirthdt" nillable="true" type="impl:DateBean"/>
+       <element name="adrCheck" nillable="true" type="xsd:boolean"/>
+       <element name="adrCity" nillable="true" type="xsd:string"/>
+       <element name="adrCompno" nillable="true" type="xsd:string"/>
+       <element name="adrCounty" nillable="true" type="xsd:string"/>
+       <element name="adrCusttype" nillable="true" type="xsd:string"/>
+       <element name="adrDeleted" nillable="true" type="xsd:boolean"/>
+       <element name="adrDrivelicence" nillable="true" type="xsd:string"/>
+       <element name="adrEmail" nillable="true" type="xsd:string"/>
+       <element name="adrEmployee" nillable="true" type="xsd:boolean"/>
+       <element name="adrEmployer" nillable="true" type="xsd:string"/>
+       <element name="adrFax" nillable="true" type="xsd:string"/>
+       <element name="adrFaxArea" nillable="true" type="xsd:string"/>
+       <element name="adrFname" nillable="true" type="xsd:string"/>
+       <element name="adrForward" nillable="true" type="xsd:boolean"/>
+       <element name="adrIdno" nillable="true" type="xsd:string"/>
+       <element name="adrInccode" nillable="true" type="xsd:string"/>
+       <element name="adrJbdes" nillable="true" type="xsd:string"/>
+       <element name="adrLname" nillable="true" type="xsd:string"/>
+       <element name="adrLocation1" nillable="true" type="xsd:string"/>
+       <element name="adrLocation2" nillable="true" type="xsd:string"/>
+       <element name="adrMname" nillable="true" type="xsd:string"/>
+       <element name="adrName" nillable="true" type="xsd:string"/>
+       <element name="adrNationality" nillable="true" type="xsd:long"/>
+       <element name="adrNationalityPub" nillable="true" type="xsd:string"/>
+       <element name="adrNote1" nillable="true" type="xsd:string"/>
+       <element name="adrNote2" nillable="true" type="xsd:string"/>
+       <element name="adrNote3" nillable="true" type="xsd:string"/>
+       <element name="adrPhn1" nillable="true" type="xsd:string"/>
+       <element name="adrPhn1Area" nillable="true" type="xsd:string"/>
+       <element name="adrPhn2" nillable="true" type="xsd:string"/>
+       <element name="adrPhn2Area" nillable="true" type="xsd:string"/>
+       <element name="adrRemark" nillable="true" type="xsd:string"/>
+       <element name="adrRoles" nillable="true" type="xsd:string"/>
+       <element name="adrSeq" nillable="true" type="xsd:long"/>
+       <element name="adrSex" nillable="true" type="xsd:string"/>
+       <element name="adrSmsno" nillable="true" type="xsd:string"/>
+       <element name="adrSocialseno" nillable="true" type="xsd:string"/>
+       <element name="adrState" nillable="true" type="xsd:string"/>
+       <element name="adrStreet" nillable="true" type="xsd:string"/>
+       <element name="adrStreetno" nillable="true" type="xsd:string"/>
+       <element name="adrTaxno" nillable="true" type="xsd:string"/>
+       <element name="adrUrgent" nillable="true" type="xsd:boolean"/>
+       <element name="adrValiddate" nillable="true" type="impl:DateTimeBean"/>
+       <element name="adrWriteOnReq" nillable="true" type="xsd:boolean"/>
+       <element name="adrYears" nillable="true" type="xsd:int"/>
+       <element name="adrZip" nillable="true" type="xsd:string"/>
+       <element name="countryId" nillable="true" type="xsd:long"/>
+       <element name="countryIdPub" nillable="true" type="xsd:string"/>
+       <element name="idtypeCode" nillable="true" type="xsd:long"/>
+       <element name="lngCode" nillable="true" type="xsd:long"/>
+       <element name="lngCodePub" nillable="true" type="xsd:string"/>
+       <element name="masCode" nillable="true" type="xsd:long"/>
+       <element name="masCodePub" nillable="true" type="xsd:string"/>
+       <element name="ttlId" nillable="true" type="xsd:long"/>
+       <element name="ttlIdPub" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="AdditionalAddress">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="address" nillable="true" type="impl:Address"/>
+       <element name="operation" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOfAdditionalAddress">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="impl:AdditionalAddress"/>
+    </sequence>
+   </complexType>
+   <complexType name="AdditionalInfo">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="check01" nillable="true" type="xsd:boolean"/>
+       <element name="check02" nillable="true" type="xsd:boolean"/>
+       <element name="check03" nillable="true" type="xsd:boolean"/>
+       <element name="check04" nillable="true" type="xsd:boolean"/>
+       <element name="check05" nillable="true" type="xsd:boolean"/>
+       <element name="check06" nillable="true" type="xsd:boolean"/>
+       <element name="check07" nillable="true" type="xsd:boolean"/>
+       <element name="check08" nillable="true" type="xsd:boolean"/>
+       <element name="check09" nillable="true" type="xsd:boolean"/>
+       <element name="check10" nillable="true" type="xsd:boolean"/>
+       <element name="check11" nillable="true" type="xsd:boolean"/>
+       <element name="check12" nillable="true" type="xsd:boolean"/>
+       <element name="check13" nillable="true" type="xsd:boolean"/>
+       <element name="check14" nillable="true" type="xsd:boolean"/>
+       <element name="check15" nillable="true" type="xsd:boolean"/>
+       <element name="check16" nillable="true" type="xsd:boolean"/>
+       <element name="check17" nillable="true" type="xsd:boolean"/>
+       <element name="check18" nillable="true" type="xsd:boolean"/>
+       <element name="check19" nillable="true" type="xsd:boolean"/>
+       <element name="check20" nillable="true" type="xsd:boolean"/>
+       <element name="combo01" nillable="true" type="xsd:string"/>
+       <element name="combo02" nillable="true" type="xsd:string"/>
+       <element name="combo03" nillable="true" type="xsd:string"/>
+       <element name="combo04" nillable="true" type="xsd:string"/>
+       <element name="combo05" nillable="true" type="xsd:string"/>
+       <element name="combo06" nillable="true" type="xsd:string"/>
+       <element name="combo07" nillable="true" type="xsd:string"/>
+       <element name="combo08" nillable="true" type="xsd:string"/>
+       <element name="combo09" nillable="true" type="xsd:string"/>
+       <element name="combo10" nillable="true" type="xsd:string"/>
+       <element name="combo11" nillable="true" type="xsd:string"/>
+       <element name="combo12" nillable="true" type="xsd:string"/>
+       <element name="combo13" nillable="true" type="xsd:string"/>
+       <element name="combo14" nillable="true" type="xsd:string"/>
+       <element name="combo15" nillable="true" type="xsd:string"/>
+       <element name="combo16" nillable="true" type="xsd:string"/>
+       <element name="combo17" nillable="true" type="xsd:string"/>
+       <element name="combo18" nillable="true" type="xsd:string"/>
+       <element name="combo19" nillable="true" type="xsd:string"/>
+       <element name="combo20" nillable="true" type="xsd:string"/>
+       <element name="text01" nillable="true" type="xsd:string"/>
+       <element name="text02" nillable="true" type="xsd:string"/>
+       <element name="text03" nillable="true" type="xsd:string"/>
+       <element name="text04" nillable="true" type="xsd:string"/>
+       <element name="text05" nillable="true" type="xsd:string"/>
+       <element name="text06" nillable="true" type="xsd:string"/>
+       <element name="text07" nillable="true" type="xsd:string"/>
+       <element name="text08" nillable="true" type="xsd:string"/>
+       <element name="text09" nillable="true" type="xsd:string"/>
+       <element name="text10" nillable="true" type="xsd:string"/>
+       <element name="text11" nillable="true" type="xsd:string"/>
+       <element name="text12" nillable="true" type="xsd:string"/>
+       <element name="text13" nillable="true" type="xsd:string"/>
+       <element name="text14" nillable="true" type="xsd:string"/>
+       <element name="text15" nillable="true" type="xsd:string"/>
+       <element name="text16" nillable="true" type="xsd:string"/>
+       <element name="text17" nillable="true" type="xsd:string"/>
+       <element name="text18" nillable="true" type="xsd:string"/>
+       <element name="text19" nillable="true" type="xsd:string"/>
+       <element name="text20" nillable="true" type="xsd:string"/>
+       <element name="text21" nillable="true" type="xsd:string"/>
+       <element name="text22" nillable="true" type="xsd:string"/>
+       <element name="text23" nillable="true" type="xsd:string"/>
+       <element name="text24" nillable="true" type="xsd:string"/>
+       <element name="text25" nillable="true" type="xsd:string"/>
+       <element name="text26" nillable="true" type="xsd:string"/>
+       <element name="text27" nillable="true" type="xsd:string"/>
+       <element name="text28" nillable="true" type="xsd:string"/>
+       <element name="text29" nillable="true" type="xsd:string"/>
+       <element name="text30" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="MoneyBean">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="amount" nillable="true" type="xsd:double"/>
+       <element name="currency" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="PartyRoleAssignment">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="partyRoleId" nillable="true" type="xsd:long"/>
+       <element name="partyRoleShname" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOfPartyRoleAssignment">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="impl:PartyRoleAssignment"/>
+    </sequence>
+   </complexType>
+   <complexType name="PaymentArrangement">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="authInd" nillable="true" type="xsd:boolean"/>
+       <element name="authRemark" nillable="true" type="xsd:string"/>
+       <element name="cspAccno" nillable="true" type="xsd:string"/>
+       <element name="cspAccowner" nillable="true" type="xsd:string"/>
+       <element name="cspActUsed" nillable="true" type="xsd:boolean"/>
+       <element name="cspBankcity" nillable="true" type="xsd:string"/>
+       <element name="cspBankcode" nillable="true" type="xsd:string"/>
+       <element name="cspBankcountry" nillable="true" type="xsd:long"/>
+       <element name="cspBankcountryPub" nillable="true" type="xsd:string"/>
+       <element name="cspBankcounty" nillable="true" type="xsd:string"/>
+       <element name="cspBankname" nillable="true" type="xsd:string"/>
+       <element name="cspBankstate" nillable="true" type="xsd:string"/>
+       <element name="cspBankstreet" nillable="true" type="xsd:string"/>
+       <element name="cspBankstreetno" nillable="true" type="xsd:string"/>
+       <element name="cspBankzip" nillable="true" type="xsd:string"/>
+       <element name="cspCcagCode" nillable="true" type="xsd:long"/>
+       <element name="cspCcagCodePub" nillable="true" type="xsd:string"/>
+       <element name="cspCcvaliddt" nillable="true" type="xsd:string"/>
+       <element name="cspCeiling" nillable="true" type="impl:MoneyBean"/>
+       <element name="cspDeleted" nillable="true" type="xsd:boolean"/>
+       <element name="cspOrdernumber" nillable="true" type="xsd:string"/>
+       <element name="cspPmntId" nillable="true" type="xsd:long"/>
+       <element name="cspPmntIdPub" nillable="true" type="xsd:string"/>
+       <element name="cspSeqno" nillable="true" type="xsd:long"/>
+       <element name="cspSwiftcode" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Customer">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="additionalAddresses" nillable="true" type="impl:ArrayOfAdditionalAddress"/>
+       <element name="additionalInfo" nillable="true" type="impl:AdditionalInfo"/>
+       <element name="address" nillable="true" type="impl:Address"/>
+       <element name="areaCode" nillable="true" type="xsd:long"/>
+       <element name="bcComment" nillable="true" type="xsd:string"/>
+       <element name="costCodePub" nillable="true" type="xsd:string"/>
+       <element name="costId" nillable="true" type="xsd:long"/>
+       <element name="csBillInformation" nillable="true" type="xsd:boolean"/>
+       <element name="csBillcycle" nillable="true" type="xsd:string"/>
+       <element name="csClimit" nillable="true" type="impl:MoneyBean"/>
+       <element name="csCollector" nillable="true" type="xsd:string"/>
+       <element name="csConvratetypePayment" nillable="true" type="xsd:long"/>
+       <element name="csConvratetypePaymentPub" nillable="true" type="xsd:string"/>
+       <element name="csConvratetypeRefund" nillable="true" type="xsd:long"/>
+       <element name="csConvratetypeRefundPub" nillable="true" type="xsd:string"/>
+       <element name="csCrcheckAgreed" nillable="true" type="xsd:boolean"/>
+       <element name="csCreationDate" nillable="true" type="impl:DateTimeBean"/>
+       <element name="csCscreditRemark" nillable="true" type="xsd:string"/>
+       <element name="csDealerid" nillable="true" type="xsd:long"/>
+       <element name="csDealeridPub" nillable="true" type="xsd:string"/>
+       <element name="csDeposit" nillable="true" type="impl:MoneyBean"/>
+       <element name="csDunning" nillable="true" type="xsd:boolean"/>
+       <element name="csId" nillable="true" type="xsd:long"/>
+       <element name="csIdPub" nillable="true" type="xsd:string"/>
+       <element name="csIncorporatedInd" nillable="true" type="xsd:boolean"/>
+       <element name="csJurisdictionCode" nillable="true" type="xsd:string"/>
+       <element name="csJurisdictionId" nillable="true" type="xsd:long"/>
+       <element name="csLimitTr1" nillable="true" type="xsd:long"/>
+       <element name="csLimitTr1Pub" nillable="true" type="xsd:string"/>
+       <element name="csLimitTr2" nillable="true" type="xsd:long"/>
+       <element name="csLimitTr2Pub" nillable="true" type="xsd:string"/>
+       <element name="csLimitTr3" nillable="true" type="xsd:long"/>
+       <element name="csLimitTr3Pub" nillable="true" type="xsd:string"/>
+       <element name="csPassword" nillable="true" type="xsd:string"/>
+       <element name="csPrepayment" nillable="true" type="xsd:boolean"/>
+       <element name="csRemark1" nillable="true" type="xsd:string"/>
+       <element name="csRemark2" nillable="true" type="xsd:string"/>
+       <element name="csStatus" nillable="true" type="xsd:string"/>
+       <element name="csStatusDate" nillable="true" type="impl:DateTimeBean"/>
+       <element name="custcatCode" nillable="true" type="xsd:long"/>
+       <element name="custcatCodePub" nillable="true" type="xsd:string"/>
+       <element name="expectPayCurrencyId" nillable="true" type="xsd:long"/>
+       <element name="expectPayCurrencyIdPub" nillable="true" type="xsd:string"/>
+       <element name="externalCustomerId" nillable="true" type="xsd:string"/>
+       <element name="externalCustomerSetId" nillable="true" type="xsd:string"/>
+       <element name="familyId" nillable="true" type="xsd:long"/>
+       <element name="isIndividualOverdiscDisabled" nillable="true" type="xsd:boolean"/>
+       <element name="lastModificationUser" nillable="true" type="xsd:string"/>
+       <element name="partyRoleAssignments" nillable="true" type="impl:ArrayOfPartyRoleAssignment"/>
+       <element name="partyType" nillable="true" type="xsd:string"/>
+       <element name="paymentArrangement" nillable="true" type="impl:PaymentArrangement"/>
+       <element name="paymentResp" nillable="true" type="xsd:boolean"/>
+       <element name="prgCode" nillable="true" type="xsd:string"/>
+       <element name="refundCurrencyId" nillable="true" type="xsd:long"/>
+       <element name="refundCurrencyIdPub" nillable="true" type="xsd:string"/>
+       <element name="rpcode" nillable="true" type="xsd:long"/>
+       <element name="rpcodePub" nillable="true" type="xsd:string"/>
+       <element name="rsCode" nillable="true" type="xsd:long"/>
+       <element name="srCode" nillable="true" type="xsd:long"/>
+       <element name="tbAmount" nillable="true" type="xsd:double"/>
+       <element name="tbCurrencyId" nillable="true" type="xsd:long"/>
+       <element name="tbCurrencyIdPub" nillable="true" type="xsd:string"/>
+       <element name="tbMode" nillable="true" type="xsd:string"/>
+       <element name="tbPurpose" nillable="true" type="xsd:string"/>
+       <element name="tradeCode" nillable="true" type="xsd:string"/>
+       <element name="wpCode" nillable="true" type="xsd:long"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="LargeAccountMember">
+    <complexContent>
+     <extension base="impl:Customer">
+      <sequence>
+       <element name="csContresp" nillable="true" type="xsd:boolean"/>
+       <element name="csIdHigh" nillable="true" type="xsd:long"/>
+       <element name="csIdHighPub" nillable="true" type="xsd:string"/>
+       <element name="csLevelCode" nillable="true" type="xsd:string"/>
+       <element name="parentFamilyInd" nillable="true" type="xsd:boolean"/>
+       <element name="toDetach" nillable="true" type="xsd:boolean"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="Value">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="key" nillable="true" type="xsd:string"/>
+       <element name="value" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOfValue">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="impl:Value"/>
+    </sequence>
+   </complexType>
+   <complexType name="SessionChange">
+    <complexContent>
+     <extension base="impl:BaseSOIBean">
+      <sequence>
+       <element name="values" nillable="true" type="impl:ArrayOfValue"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <complexType name="LargeAccountMemberRequest">
+    <sequence>
+     <element name="largeAccountMember" nillable="true" type="impl:LargeAccountMember"/>
+     <element name="sessionChange" nillable="true" type="impl:SessionChange"/>
+    </sequence>
+   </complexType>
+   <element name="createLargeAccountMemberRequest" type="impl:LargeAccountMemberRequest"/>
+   <complexType name="OperationResponse">
+    <sequence>
+     <element name="bscsErrorCode" nillable="true" type="xsd:string"/>
+     <element name="comment" nillable="true" type="xsd:string"/>
+     <element name="isSuccessful" nillable="true" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <complexType name="EntityResponse">
+    <complexContent>
+     <extension base="impl:OperationResponse">
+      <sequence>
+       <element name="id" nillable="true" type="xsd:long"/>
+       <element name="idPub" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="createLargeAccountMemberReturn" type="impl:EntityResponse"/>
+   <complexType name="CustomerReference">
+    <sequence>
+     <element name="csId" nillable="true" type="xsd:long"/>
+     <element name="csIdPub" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="customerReference" type="impl:CustomerReference"/>
+   <complexType name="AccountBalanceResponse">
+    <complexContent>
+     <extension base="impl:OperationResponse">
+      <sequence>
+       <element name="balance" nillable="true" type="impl:MoneyBean"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="getAccountBalanceReturn" type="impl:AccountBalanceResponse"/>
+   <complexType name="ContractReference">
+    <sequence>
+     <element name="coId" nillable="true" type="xsd:long"/>
+     <element name="coIdPub" nillable="true" type="xsd:string"/>
+     <element name="dirNum" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="GetCustomerDetailsRequest">
+    <sequence>
+     <element name="contractReference" nillable="true" type="impl:ContractReference"/>
+     <element name="customerReference" nillable="true" type="impl:CustomerReference"/>
+    </sequence>
+   </complexType>
+   <element name="getCustomerDetailsRequest" type="impl:GetCustomerDetailsRequest"/>
+   <complexType name="GetCustomerDetailsResponse">
+    <complexContent>
+     <extension base="impl:OperationResponse">
+      <sequence>
+       <element name="customer" nillable="true" type="impl:Customer"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="getCustomerDetailsReturn" type="impl:GetCustomerDetailsResponse"/>
+   <element name="updateLargeAccountMemberRequest" type="impl:LargeAccountMemberRequest"/>
+   <element name="updateLargeAccountMemberReturn" type="impl:OperationResponse"/>
+   <complexType name="CustomerRequest">
+    <sequence>
+     <element name="customer" nillable="true" type="impl:Customer"/>
+     <element name="sessionChange" nillable="true" type="impl:SessionChange"/>
+    </sequence>
+   </complexType>
+   <element name="updateCustomerRequest" type="impl:CustomerRequest"/>
+   <element name="updateCustomerReturn" type="impl:OperationResponse"/>
+   <element name="directoryNumber" type="xsd:string"/>
+   <element name="getSuscriberIdReturn" type="impl:EntityResponse"/>
+   <element name="customer" type="impl:CustomerReference"/>
+   <complexType name="GetBonusPointsResponse">
+    <complexContent>
+     <extension base="impl:OperationResponse">
+      <sequence>
+       <element name="bonusPoints" nillable="true" type="xsd:long"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="getBonusPointsReturn" type="impl:GetBonusPointsResponse"/>
+   <element name="createCustomerRequest" type="impl:CustomerRequest"/>
+   <element name="createCustomerReturn" type="impl:EntityResponse"/>
+   <complexType name="AddVoucherRequest">
+    <sequence>
+     <element name="canal" nillable="true" type="xsd:string"/>
+     <element name="coCode" nillable="true" type="xsd:string"/>
+     <element name="coId" nillable="true" type="xsd:long"/>
+     <element name="customerId" nillable="true" type="xsd:long"/>
+     <element name="msisdn" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="addVoucherRequest" type="impl:AddVoucherRequest"/>
+   <complexType name="AddVoucherResponse">
+    <complexContent>
+     <extension base="impl:OperationResponse">
+      <sequence>
+       <element name="htAmount" nillable="true" type="xsd:decimal"/>
+       <element name="voucherId" nillable="true" type="xsd:long"/>
+       <element name="voucherReference" nillable="true" type="xsd:string"/>
+      </sequence>
+     </extension>
+    </complexContent>
+   </complexType>
+   <element name="addVoucherReturn" type="impl:AddVoucherResponse"/>
+   <element name="UnexpectedErrorFault" type="impl:UnexpectedErrorFault"/>
+   <complexType name="UnexpectedErrorFault">
+    <sequence>
+     <element name="faultcode" type="xsd:string"/>
+     <element name="faultstring" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+ <wsdl:message name="updateLargeAccountMemberRequest">
+  <wsdl:part element="impl:updateLargeAccountMemberRequest" name="updateLargeAccountMemberRequest"/>
+ </wsdl:message>
+ <wsdl:message name="getSuscriberIdRequest">
+  <wsdl:part element="impl:directoryNumber" name="directoryNumber"/>
+ </wsdl:message>
+ <wsdl:message name="getCustomerDetailsRequest">
+  <wsdl:part element="impl:getCustomerDetailsRequest" name="getCustomerDetailsRequest"/>
+ </wsdl:message>
+ <wsdl:message name="getBonusPointsRequest">
+  <wsdl:part element="impl:customer" name="customer"/>
+ </wsdl:message>
+ <wsdl:message name="updateCustomerRequest">
+  <wsdl:part element="impl:updateCustomerRequest" name="updateCustomerRequest"/>
+ </wsdl:message>
+ <wsdl:message name="updateCustomerResponse">
+  <wsdl:part element="impl:updateCustomerReturn" name="updateCustomerReturn"/>
+ </wsdl:message>
+ <wsdl:message name="UnexpectedError">
+  <wsdl:part element="impl:UnexpectedErrorFault" name="UnexpectedError"/>
+ </wsdl:message>
+ <wsdl:message name="getBonusPointsResponse">
+  <wsdl:part element="impl:getBonusPointsReturn" name="getBonusPointsReturn"/>
+ </wsdl:message>
+ <wsdl:message name="getSuscriberIdResponse">
+  <wsdl:part element="impl:getSuscriberIdReturn" name="getSuscriberIdReturn"/>
+ </wsdl:message>
+ <wsdl:message name="getCustomerDetailsResponse">
+  <wsdl:part element="impl:getCustomerDetailsReturn" name="getCustomerDetailsReturn"/>
+ </wsdl:message>
+ <wsdl:message name="addVoucherResponse">
+  <wsdl:part element="impl:addVoucherReturn" name="addVoucherReturn"/>
+ </wsdl:message>
+ <wsdl:message name="createLargeAccountMemberRequest">
+  <wsdl:part element="impl:createLargeAccountMemberRequest" name="createLargeAccountMemberRequest"/>
+ </wsdl:message>
+ <wsdl:message name="createCustomerRequest">
+  <wsdl:part element="impl:createCustomerRequest" name="createCustomerRequest"/>
+ </wsdl:message>
+ <wsdl:message name="createCustomerResponse">
+  <wsdl:part element="impl:createCustomerReturn" name="createCustomerReturn"/>
+ </wsdl:message>
+ <wsdl:message name="updateLargeAccountMemberResponse">
+  <wsdl:part element="impl:updateLargeAccountMemberReturn" name="updateLargeAccountMemberReturn"/>
+ </wsdl:message>
+ <wsdl:message name="createLargeAccountMemberResponse">
+  <wsdl:part element="impl:createLargeAccountMemberReturn" name="createLargeAccountMemberReturn"/>
+ </wsdl:message>
+ <wsdl:message name="getAccountBalanceRequest">
+  <wsdl:part element="impl:customerReference" name="customerReference"/>
+ </wsdl:message>
+ <wsdl:message name="getAccountBalanceResponse">
+  <wsdl:part element="impl:getAccountBalanceReturn" name="getAccountBalanceReturn"/>
+ </wsdl:message>
+ <wsdl:message name="addVoucherRequest">
+  <wsdl:part element="impl:addVoucherRequest" name="addVoucherRequest"/>
+ </wsdl:message>
+ <wsdl:portType name="CustomerHandling">
+  <wsdl:operation name="createLargeAccountMember" parameterOrder="createLargeAccountMemberRequest">
+   <wsdl:input message="impl:createLargeAccountMemberRequest" name="createLargeAccountMemberRequest"/>
+   <wsdl:output message="impl:createLargeAccountMemberResponse" name="createLargeAccountMemberResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="getAccountBalance" parameterOrder="customerReference">
+   <wsdl:input message="impl:getAccountBalanceRequest" name="getAccountBalanceRequest"/>
+   <wsdl:output message="impl:getAccountBalanceResponse" name="getAccountBalanceResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="getCustomerDetails" parameterOrder="getCustomerDetailsRequest">
+   <wsdl:input message="impl:getCustomerDetailsRequest" name="getCustomerDetailsRequest"/>
+   <wsdl:output message="impl:getCustomerDetailsResponse" name="getCustomerDetailsResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="updateLargeAccountMember" parameterOrder="updateLargeAccountMemberRequest">
+   <wsdl:input message="impl:updateLargeAccountMemberRequest" name="updateLargeAccountMemberRequest"/>
+   <wsdl:output message="impl:updateLargeAccountMemberResponse" name="updateLargeAccountMemberResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="updateCustomer" parameterOrder="updateCustomerRequest">
+   <wsdl:input message="impl:updateCustomerRequest" name="updateCustomerRequest"/>
+   <wsdl:output message="impl:updateCustomerResponse" name="updateCustomerResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="getSuscriberId" parameterOrder="directoryNumber">
+   <wsdl:input message="impl:getSuscriberIdRequest" name="getSuscriberIdRequest"/>
+   <wsdl:output message="impl:getSuscriberIdResponse" name="getSuscriberIdResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="getBonusPoints" parameterOrder="customer">
+   <wsdl:input message="impl:getBonusPointsRequest" name="getBonusPointsRequest"/>
+   <wsdl:output message="impl:getBonusPointsResponse" name="getBonusPointsResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="createCustomer" parameterOrder="createCustomerRequest">
+   <wsdl:input message="impl:createCustomerRequest" name="createCustomerRequest"/>
+   <wsdl:output message="impl:createCustomerResponse" name="createCustomerResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+  <wsdl:operation name="addVoucher" parameterOrder="addVoucherRequest">
+   <wsdl:input message="impl:addVoucherRequest" name="addVoucherRequest"/>
+   <wsdl:output message="impl:addVoucherResponse" name="addVoucherResponse"/>
+   <wsdl:fault message="impl:UnexpectedError" name="UnexpectedError"/>
+  </wsdl:operation>
+ </wsdl:portType>
+ <wsdl:binding name="CustomerHandlingSoapBinding" type="impl:CustomerHandling">
+  <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  <wsdl:operation name="createLargeAccountMember">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="createLargeAccountMemberRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="createLargeAccountMemberResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="getAccountBalance">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="getAccountBalanceRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="getAccountBalanceResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="getCustomerDetails">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="getCustomerDetailsRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="getCustomerDetailsResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="updateLargeAccountMember">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="updateLargeAccountMemberRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="updateLargeAccountMemberResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="updateCustomer">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="updateCustomerRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="updateCustomerResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="getSuscriberId">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="getSuscriberIdRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="getSuscriberIdResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="getBonusPoints">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="getBonusPointsRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="getBonusPointsResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="createCustomer">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="createCustomerRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="createCustomerResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+  <wsdl:operation name="addVoucher">
+   <wsdlsoap:operation soapAction=""/>
+   <wsdl:input name="addVoucherRequest">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:input>
+   <wsdl:output name="addVoucherResponse">
+    <wsdlsoap:body use="literal"/>
+   </wsdl:output>
+   <wsdl:fault name="UnexpectedError">
+    <wsdlsoap:fault name="UnexpectedError" use="literal"/>
+   </wsdl:fault>
+  </wsdl:operation>
+ </wsdl:binding>
+ <wsdl:service name="CustomerHandlingService">
+  <wsdl:port binding="impl:CustomerHandlingSoapBinding" name="CustomerHandling">
+   <wsdlsoap:address location="http://192.168.10.54:8080/CustomerHandling/services/CustomerHandling"/>
+  </wsdl:port>
+ </wsdl:service>
+</wsdl:definitions>

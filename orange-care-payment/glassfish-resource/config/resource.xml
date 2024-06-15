@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions //EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+
+<resources>
+  <jdbc-connection-pool datasource-classname="oracle.jdbc.pool.OracleConnectionPoolDataSource"
+    name="BscsBccPool" res-type="javax.sql.ConnectionPoolDataSource">
+    <property name="password" value="SYSADM" />
+    <property name="databaseName" value="BSCSBCC.bcs.local" />
+    <property name="serverName" value="192.168.10.90" />
+    <property name="user" value="SYSADM" />
+    <property name="portNumber" value="1521" />
+    <property name="url" value="jdbc:oracle:thin:@//192.168.10.90:1521/BSCSBCC.bcs.local" />
+  </jdbc-connection-pool>
+  <jdbc-resource pool-name="BscsBccPool" jndi-name="jdbc/BscsBCC" />
+  <jdbc-connection-pool datasource-classname="org.postgresql.ds.PGConnectionPoolDataSource"
+    name="PostgresPool" res-type="javax.sql.ConnectionPoolDataSource">
+    <property name="password" value="postgres" />
+    <property name="databaseName" value="OTNWS" />
+    <property name="portNumber" value="5432" />
+    <property name="serverName" value="192.168.10.70" />
+    <property name="user" value="postgres" />
+  </jdbc-connection-pool>
+  <jdbc-resource pool-name="PostgresPool" jndi-name="jdbc/Postgres" />
+  <custom-resource factory-class="org.glassfish.resources.custom.factory.PropertiesFactory"
+    res-type="java.util.Properties" jndi-name="paymentApi/WebServices">
+    <property name="endpoint.recharge.in.url"
+      value="http://192.168.10.16:8090/RechargeInMock/mockRechargeINPortBinding?WSDL" />
+    <property name="endpoint.recharge.in.username" value="user" />
+    <property name="endpoint.recharge.in.password" value="pass" />
+    <property name="endpoint.bscs.contract.handling.url"
+      value="http://192.168.10.54:8080/ContractHandling/services/ContractHandling?wsdl" />
+    <property name="endpoint.bscs.contract.handling.username" value="ADMX" />
+    <property name="endpoint.bscs.contract.handling.password" value="ADMX" />
+    <property name="endpoint.bscs.customer.handling.url"
+      value="http://192.168.10.54:8080/CustomerHandling/services/CustomerHandling?wsdl" />
+    <property name="endpoint.bscs.customer.handling.username" value="ADMX" />
+    <property name="endpoint.bscs.customer.handling.password" value="ADMX" />
+    <property name="endpoint.wsi.financial.document.detail.read.url"
+      value="http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialDocumentDetailReadService.wsdl" />
+    <property name="endpoint.wsi.financial.document.detail.read.username" value="ADMX" />
+    <property name="endpoint.wsi.financial.document.detail.read.password" value="ADMX" />
+    <property name="endpoint.wsi.financial.document.search.url"
+      value="http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialDocumentSearchService.wsdl" />
+    <property name="endpoint.wsi.financial.document.search.username" value="ADMX" />
+    <property name="endpoint.wsi.financial.document.search.password" value="ADMX" />
+    <property name="endpoint.wsi.financial.allocation.write.url"
+      value="http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialAllocationWriteService.wsdl" />
+    <property name="endpoint.wsi.financial.allocation.write.username" value="ADMX" />
+    <property name="endpoint.wsi.financial.allocation.write.password" value="ADMX" />
+    <property name="endpoint.wsi.financial.allocation.reverse.url"
+      value="http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialAllocationReverseService.wsdl" />
+    <property name="endpoint.wsi.financial.allocation.reverse.username" value="ADMX" />
+    <property name="endpoint.wsi.financial.allocation.reverse.password" value="ADMX" />
+    <property name="endpoint.sms.notifier.url"
+      value="http://192.168.10.16:8090/SMSNotifierMock/mockApiNotificationSMSWSServiceIpmlPortBinding?WSDL" />
+    <property name="service.rest.executor.password" value="EB23" />
+    <property name="service.rest.executor.username" value="EB23" />
+    <property name="service.rest.executor.url"
+      value="http://192.168.10.16:8080/BscsWsRestExec/execute/" />
+    <property name="endpoint.wsi.financial.document.read.password" value="ADMX" />
+    <property name="endpoint.wsi.financial.document.read.username" value="ADMX" />
+    <property name="endpoint.wsi.financial.document.read.url"
+      value="http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialDocumentReadService.wsdl" />
+  </custom-resource>
+  <custom-resource factory-class="org.glassfish.resources.custom.factory.PropertiesFactory"
+    res-type="java.util.Properties" jndi-name="paymentApi/AppSettings">
+    <property name="payment.setting.jdbc.postgres" value="jdbc/Postgres" />
+    <property name="payment.setting.jdbc.bscs" value="jdbc/BscsBCC" />
+    <property name="payment.setting.transaction.new.status" value="10" />
+    <property name="payment.setting.transaction.failed.status" value="30" />
+    <property name="payment.setting.transaction.success.status" value="20" />
+    <property name="payment.setting.prgcode.include" value="1-33-4-21" />
+    <property name="payment.setting.prgcode.exclude" value="1-2-3" />
+    <property name="payment.setting.retry.failed.job.fixed.delay" value="300000" />
+    <property name="payment.setting.rest.executor.customer.query.id" value="80" />
+    <property name="payment.setting.rest.executor.query.id" value="75" />
+    <property name="payment.setting.log.level" value="debug" />
+    <property name="payment.setting.reverse.handling.reason.pub" value="RV01" />
+    <property name="payment.setting.channel.mandatory.entitycode" value="GPS|BOUTIQUE|FRANCHISE" />
+    <property name="payment.setting.default.document.search.count" value="20" />
+    <property name="payment.setting.suppress.alloc.other.cases" value="true" />
+    <property name="payment.setting.suppress.alloc.advance.payment" value="true" />
+    <property name="payment.setting.suppress.alloc.payment" value="false" />
+  </custom-resource>
+  <custom-resource factory-class="org.glassfish.resources.custom.factory.PropertiesFactory"
+    res-type="java.util.Properties" jndi-name="paymentApi/rechargeProperties">
+    <property name="recharge.daily.max.limit" value="1000" />
+    <property name="recharge.counter" value="3" />
+    <property name="recharge.max.amount" value="2000000" />
+  </custom-resource>
+</resources>

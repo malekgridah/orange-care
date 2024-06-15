@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:sch0="http://lhsgroup.com/lhsws/money"
+                   xmlns:sch1="http://lhsgroup.com/lhsws/svlany"
+                   xmlns:sch2="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                   xmlns:sch3="http://ericsson.com/services/ws_CIL_7/financialallocationreverse"
+                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                   xmlns:tns="http://ericsson.com/services/ws_CIL_7"
+                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                   targetNamespace="http://ericsson.com/services/ws_CIL_7">
+   <wsdl:types>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/money"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/money">
+         <xs:complexType name="money">
+            <xs:sequence>
+               <xs:element name="amount" type="xs:double"/>
+               <xs:element name="currency" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/svlany"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/svlany">
+         <xs:complexType name="svlany">
+            <xs:sequence>
+               <xs:element name="content" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/sessionchange">
+         <xs:complexType name="sessionChangeResponse"/>
+         <xs:complexType name="valuesListpartRequest">
+            <xs:all>
+               <xs:element name="key" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt; Name of the value that shall be changed.
+													For details about the session parameters that can be set, refer to 'Specification of Session Parameters' in the CIL documentation.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="value" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;New value for a named value. &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="valuesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;A list of all named values that shall be changed with this command.&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" name="item" type="wsi:valuesListpartRequest"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="sessionChangeRequest">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;
+					
+					&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="values" type="wsi:valuesRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:money="http://lhsgroup.com/lhsws/money"
+                  xmlns:sessionchange="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/financialallocationreverse"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/financialallocationreverse">
+         <xs:import namespace="http://ericsson.com/services/ws_CIL_7/sessionchange"/>
+         <xs:import namespace="http://lhsgroup.com/lhsws/money"/>
+         <xs:element name="financialAllocationReverseRequest"
+                      type="wsi:financialAllocationReverseRequest"/>
+         <xs:element name="financialAllocationReverseResponse"
+                      type="wsi:financialAllocationReverseResponse"/>
+         <xs:complexType name="lineItemDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="seqno" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Sequence number of the line item&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Amount allocated to the line item&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="lineItemListResponse">
+            <xs:annotation>
+               <xs:documentation>
+																							&lt;p&gt;Line item list.&lt;/p&gt;
+																						</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="lineItemDTO"
+                            type="wsi:lineItemDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="documentReverseOutDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="documentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Internal document id.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;The reference code of the document&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="type" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Document type&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Amount allcoted to the invoice.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt; The internal Id of the billing account related to the financial document. &lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt; The public key of the billing account related to financial document. &lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="lineItems" type="wsi:lineItemListResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="documentListResponse">
+            <xs:annotation>
+               <xs:documentation>
+																	&lt;p&gt;Document list&lt;/p&gt;
+																</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="documentReverseOutDTO"
+                            type="wsi:documentReverseOutDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="transactionReverseOutDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="transactionId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Primary key of the created reversal transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="type" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Transaction type&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Amount of the created reversal transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="customerId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Internal ID of the customer.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="customerIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Public key of the customer.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documents" type="wsi:documentListResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="transactionListResponse">
+            <xs:annotation>
+               <xs:documentation>
+											&lt;p&gt;Transaction list&lt;/p&gt;
+										</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            name="transactionReverseOutDTO"
+                            type="wsi:transactionReverseOutDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationReverseOutputDTO">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0"
+                            name="transactions"
+                            type="wsi:transactionListResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationReverseResponse">
+            <xs:all>
+               <xs:element minOccurs="0"
+                            name="financialAllocationReverseOutputDTO"
+                            type="wsi:financialAllocationReverseOutputDTO"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="referenceDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Identifier of the use case.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Public key of the use case.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationReverseInputDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="useCase" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="handlingReason" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Handling reason ID.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Handling reason public key&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="originalTransactionId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Identifier of the original transaction.&lt;/p&gt;&lt;p&gt;For payment move, outgoing payment and outgoing deposit.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="originalReferenceKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Reference code of the original transaction.&lt;/p&gt;&lt;p&gt;For payment move, outgoing payment and outgoing deposit.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="simulation" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;&lt;code&gt;TRUE&lt;/code&gt; when the command is called for simulation.&lt;/p&gt;&lt;p&gt;If this flag is set to true, then the financial use case and the related financial transactions are executed only for simulation purpose, i.e. the financial transactions and documents are not made persistent in the database.&lt;/p&gt;&lt;p&gt;The command output returns the transaction amount and the allocated amounts to the involved documents.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="remark" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Add further information, for example a specific reason for the financial use case.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="allocationMethod" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Allocation method id&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Allocation method public key&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="bankCharge" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Amount of the bank charge&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="handlingCharge" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Amount of the handling charge&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="suspendDirectDebit" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Flag whether to suspend direct debit flag for this document&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="batchNo" type="xs:long">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="BUC803_6"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Batch number.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="postingPeriod" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="BUC803_6"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Posting period to use.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentSource" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Payment Source ID.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Payment Source public key&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="cashGLAccount" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Cash GL Account&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference11" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 11 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference12" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 12 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference13" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 13 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference14" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 14 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference15" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 15 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference16" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 16 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference17" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 17 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference18" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 18 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference19" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 19 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference20" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="PC:25149"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+										&lt;p&gt;Reference Data 20 relating to the transaction&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="inputAttributes">
+            <xs:all>
+               <xs:element minOccurs="0"
+                            name="financialAllocationReverseInputDTO"
+                            type="wsi:financialAllocationReverseInputDTO"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationReverseRequest">
+            <xs:all>
+               <xs:element minOccurs="0" name="inputAttributes" type="wsi:inputAttributes"/>
+               <xs:element minOccurs="0"
+                            name="sessionChangeRequest"
+                            type="sessionchange:sessionChangeRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="financialAllocationReverseRequest">
+      <wsdl:part element="sch3:financialAllocationReverseRequest"
+                  name="financialAllocationReverseRequest">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="financialAllocationReverseResponse">
+      <wsdl:part element="sch3:financialAllocationReverseResponse"
+                  name="financialAllocationReverseResponse">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:portType name="FinancialAllocationReverseService">
+      <wsdl:operation name="financialAllocationReverse">
+         <wsdl:documentation>
+            <since source="BUC803"/>&lt;![CDATA[&lt;p&gt;Reverse a financial allocation&lt;/p&gt;]]&gt;</wsdl:documentation>
+         <wsdl:input message="tns:financialAllocationReverseRequest"
+                      name="financialAllocationReverseRequest">
+    </wsdl:input>
+         <wsdl:output message="tns:financialAllocationReverseResponse"
+                       name="financialAllocationReverseResponse">
+    </wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="FinancialAllocationReverseServiceSoap11"
+                  type="tns:FinancialAllocationReverseService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="financialAllocationReverse">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="financialAllocationReverseRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="financialAllocationReverseResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="FinancialAllocationReverseService">
+      <wsdl:port binding="tns:FinancialAllocationReverseServiceSoap11"
+                  name="FinancialAllocationReverseServiceSoap11">
+         <soap:address location="/services"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bundle PUBLIC "bundle.dtd"
+        "bundle.dtd">
+
+<bundle version="1.0">
+    <header author="Tamas Deak" creationdate="31-07-2006"/>
+    <body>
+		<setting key="id001" value="Missing authentication from header" state="new" />
+		<setting key="id002" value="Wrong user or password" state="new" />
+		<setting key="id010" value="Error in executing service:{0}" state="new" />
+    </body>
+</bundle>

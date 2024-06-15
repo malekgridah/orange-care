@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:sch0="http://lhsgroup.com/lhsws/money"
+                   xmlns:sch1="http://lhsgroup.com/lhsws/svlany"
+                   xmlns:sch2="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                   xmlns:sch3="http://ericsson.com/services/ws_CIL_7/financialallocationwrite"
+                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                   xmlns:tns="http://ericsson.com/services/ws_CIL_7"
+                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                   targetNamespace="http://ericsson.com/services/ws_CIL_7">
+   <wsdl:types>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/money"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/money">
+         <xs:complexType name="money">
+            <xs:sequence>
+               <xs:element name="amount" type="xs:double"/>
+               <xs:element name="currency" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/svlany"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/svlany">
+         <xs:complexType name="svlany">
+            <xs:sequence>
+               <xs:element name="content" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/sessionchange">
+         <xs:complexType name="sessionChangeResponse"/>
+         <xs:complexType name="valuesListpartRequest">
+            <xs:all>
+               <xs:element name="key" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt; Name of the value that shall be changed.
+													For details about the session parameters that can be set, refer to 'Specification of Session Parameters' in the CIL documentation.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="value" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;New value for a named value. &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="valuesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;A list of all named values that shall be changed with this command.&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" name="item" type="wsi:valuesListpartRequest"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="sessionChangeRequest">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;
+					
+					&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="values" type="wsi:valuesRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:money="http://lhsgroup.com/lhsws/money"
+                  xmlns:sessionchange="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/financialallocationwrite"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/financialallocationwrite">
+         <xs:import namespace="http://ericsson.com/services/ws_CIL_7/sessionchange"/>
+         <xs:import namespace="http://lhsgroup.com/lhsws/money"/>
+         <xs:element name="financialAllocationWriteRequest"
+                      type="wsi:financialAllocationWriteRequest"/>
+         <xs:element name="financialAllocationWriteResponse"
+                      type="wsi:financialAllocationWriteResponse"/>
+         <xs:complexType name="categoryTaxItemListResponse">
+            <xs:annotation>
+               <xs:documentation>
+																							&lt;p&gt;Amount of the tax item&lt;/p&gt;
+																						</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="taxItemDTO"
+                            type="wsi:taxItemDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="lineItemListResponse">
+            <xs:annotation>
+               <xs:appinfo>
+                  <ericsson:since source="BUC803_2"/>
+               </xs:appinfo>
+               <xs:documentation>
+																							&lt;p&gt;Net amount allocated to the line item.&lt;/p&gt;
+																							&lt;p&gt;Merged DTO element: this element might be invalid for SOI command FINANCIAL_ALLOCATION.WRITE depending on which area it is set. Please verify CDF for that command.&lt;/p&gt;
+																						</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="lineItemDTO"
+                            type="wsi:lineItemDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="documentWriteOutDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="documentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Internal document id.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Document code&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="type" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Document type&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Amount allocated to the invoice.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amountNet" type="money:money">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="BUC803_2"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+																						&lt;p&gt;Net amount allocated to the invoice.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="grantedDiscountAmountDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Granted discount amount applied to the document in the document currency.&lt;/p&gt;&lt;p&gt;Returned only if license LHS_BSCS_RULEBASEDPYMNT2 is activated.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt; The internal Id of the billing account related to the financial document. &lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccountIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt; The public key of the billing account related to financial document. &lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="lineItems" type="wsi:lineItemListResponse"/>
+               <xs:element minOccurs="0"
+                            name="taxItems"
+                            type="wsi:categoryTaxItemListResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="documentListResponse">
+            <xs:annotation>
+               <xs:documentation>
+																	&lt;p&gt;Document list&lt;/p&gt;
+																</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="documentWriteOutDTO"
+                            type="wsi:documentWriteOutDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="transactionWriteOutDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="transactionId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Primary key of the created financial transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="type" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Transaction type&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Amount of the created financial transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="customerId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Internal ID of the business partner.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="customerIdPub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Public key of the business partner.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documents" type="wsi:documentListResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="transactionListResponse">
+            <xs:annotation>
+               <xs:documentation>
+											&lt;p&gt;Transaction list&lt;/p&gt;
+										</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            name="transactionWriteOutDTO"
+                            type="wsi:transactionWriteOutDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationWriteOutputDTO">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0"
+                            name="transactions"
+                            type="wsi:transactionListResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationWriteResponse">
+            <xs:all>
+               <xs:element minOccurs="0"
+                            name="financialAllocationWriteOutputDTO"
+                            type="wsi:financialAllocationWriteOutputDTO"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="aggregationCriteriaDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="UDSMember" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;UDS field identifier.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Public key of the UDS field.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="UDSElement" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;UDS attribute identifier.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Public key of the UDS attribute.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="value" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Value of the aggregation criterion.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="aggregationCriteriaListRequest">
+            <xs:annotation>
+               <xs:documentation>
+																	&lt;p&gt;Aggregation criteria list.&lt;/p&gt;
+																</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="aggregationCriteriaDTO"
+                            type="wsi:aggregationCriteriaDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="taxItemDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="seqno" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Sequence number of the transaction tax item&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Amount of the tax item&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="categoryTaxItemListRequest">
+            <xs:annotation>
+               <xs:documentation>
+																							&lt;p&gt;Tax item list.&lt;/p&gt;
+																						</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="taxItemDTO"
+                            type="wsi:taxItemDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="lineItemDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="seqno" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Public key of the transaction line item&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Amount of the line item&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="percentage" type="xs:double">
+                  <xs:annotation>
+                     <xs:documentation>
+																												&lt;p&gt;Percentage. Use either &lt;code&gt;AMOUNT&lt;/code&gt; for absolute amount or &lt;code&gt;PERCENTAGE&lt;/code&gt; for percentage.&lt;/p&gt;
+																												&lt;p&gt;Merged DTO element: this element might be invalid for SOI command FINANCIAL_ALLOCATION.WRITE depending on which area it is set. Please verify CDF for that command.&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amountNet" type="money:money">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="BUC803_2"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+																												&lt;p&gt;Net amount allocated to the line item.&lt;/p&gt;
+																												&lt;p&gt;Merged DTO element: this element might be invalid for SOI command FINANCIAL_ALLOCATION.WRITE depending on which area it is set. Please verify CDF for that command.&lt;/p&gt;
+																											</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="lineItemListRequest">
+            <xs:annotation>
+               <xs:documentation>
+																							&lt;p&gt;Line item list.&lt;/p&gt;
+																						</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="lineItemDTO"
+                            type="wsi:lineItemDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="documentDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="documentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Internal document id.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="code" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;The reference code of the document.&lt;/p&gt;&lt;p&gt;In case several reference codes with same name exist then the latest entry, identified by the entry date, will be taken.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Amount of the invoice.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="discountAmount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Cash discount amount in payment currency.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="percentage" type="xs:double">
+                  <xs:annotation>
+                     <xs:documentation>
+																						&lt;p&gt;Percentage. Use either &lt;code&gt;AMOUNT&lt;/code&gt; for absolute amount or &lt;code&gt;PERCENTAGE&lt;/code&gt; for percentage.&lt;/p&gt;
+																					</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="lineItems" type="wsi:lineItemListRequest"/>
+               <xs:element minOccurs="0" name="taxItems" type="wsi:categoryTaxItemListRequest"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="documentListRequest">
+            <xs:annotation>
+               <xs:documentation>
+																	&lt;p&gt;Document list&lt;/p&gt;
+																</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="documentDTO"
+                            type="wsi:documentDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="transactionWriteInDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="customer" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Customer id.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Public key of the &lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="billingAccount" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Billing account identifier&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Billing account code&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentMethod" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Payment method id&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Public key of the payment method&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amount" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Amount.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="largeAccountClearing" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Applicable for clearing transactions only. Depend on license LHS_BSCS_PC21526.&lt;/p&gt;&lt;p&gt;May be set to true if specified customer is a large account member and clearing has to be done for whole sub tree.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="referenceKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Reference code of the transaction for a possible reversal or refund.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference1" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference2" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference3" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference4" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference5" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference6" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference7" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference8" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference9" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference10" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference11" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference12" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference13" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference14" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference15" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference16" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference17" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference18" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference19" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="reference20" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;reference-field further describing the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refGLAccountCash" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Reference cash GL Account&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="referenceDate" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Date of the reference of the entry.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refBankCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Reference Bank Code.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refBankAccount" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Reference Bank Account.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refBankName" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Reference Bank Name.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refValidThrough" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Reference (Credit Card) Valid Through Date.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="entryDate" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Entry date of the payment. This is the payment date the user enters for the payment. Date of the transaction.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="dueDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Date the entry should be used.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="releaseDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Date the entry should be released.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="permanentTokenId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Token ID in case of tokenized payment method.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="oneTimeToken" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;One-time token.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="oneTimeTokenExpiration" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;One-time token expiration date.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="bic" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Business Identifier Code.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="iban" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;International Bank Account Number.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="batchNo" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Created batch number.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="postingPeriod" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Posting period to use.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documents" type="wsi:documentListRequest"/>
+               <xs:element minOccurs="0"
+                            name="aggregationCriteria"
+                            type="wsi:aggregationCriteriaListRequest"/>
+               <xs:element minOccurs="0" name="allocationTerms" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Allocation term identifier.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Public key of the allocation terms.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentChannel" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Payment channel identifier.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Public key of the payment channel.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="paymentSource" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Payment Source Id. Requires license LHS_BSCS_PC25149.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+																&lt;p&gt;Payment Source public key. Requires license LHS_BSCS_PC25149.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="debitDueDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="NIP 185"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+																&lt;p&gt;Debit due date.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="firstDebitInformation" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="NIP 185"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+																&lt;p&gt;First debit information.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="secondDebitInformation" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="NIP 185"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+																&lt;p&gt;Second debit information.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="glAccountForDiscounts" type="xs:string">
+                  <xs:annotation>
+                     <xs:appinfo>
+                        <ericsson:since source="NIP-185"/>
+                     </xs:appinfo>
+                     <xs:documentation>
+																&lt;p&gt;The general ledger account for discounts.&lt;/p&gt;
+															</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="transactionListRequest">
+            <xs:annotation>
+               <xs:documentation>
+											&lt;p&gt;Transaction list&lt;/p&gt;&lt;p&gt;Transactions list is processed based on the transactions configured for the given use case in the database.&lt;/p&gt;
+										</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            name="transactionWriteInDTO"
+                            type="wsi:transactionWriteInDTO"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="referenceDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Identifier of the use case.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Public key of the use case.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationWriteInputDTO">
+            <xs:all>
+               <xs:element minOccurs="0" name="useCase" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="suppressAlloc" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Applicable for payment transaction only. Requires license LHS_BSCS_RULEBASEDPYMNT4.&lt;/p&gt;&lt;p&gt;May be set to true if performed payment, balance deposit or transfered payment must be used to create advanced payment and must not be allocated for any open debit document.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="handlingReason" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Handling reason Id&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Handling reason public key&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="originalTransactionId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Identifier of the original transaction.&lt;/p&gt;&lt;p&gt;For payment move, outgoing payment and outgoing deposit.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="originalReferenceKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Reference code of the original transaction.&lt;/p&gt;&lt;p&gt;For payment move, outgoing payment and outgoing deposit.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="simulation" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;&lt;code&gt;TRUE&lt;/code&gt; when the command is called for simulation.&lt;/p&gt;&lt;p&gt;If this flag is set to true, then the financial use case and the related financial transactions are executed only for simulation purpose, i.e. the financial transactions and documents are not made persistent in the database.&lt;/p&gt;&lt;p&gt;The command output returns the transaction amount and the allocated amounts to the involved documents.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="remark" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Add further information, for example a specific reason for the financial use case.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="allocationMethod" type="wsi:referenceDTO"/>
+               <xs:element minOccurs="0" name="privateKey" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Allocation method id&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="publicKey" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Allocation method public key&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="externalSystem" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Identifier of the external system that is triggering updates over external documents previously created by them.&lt;/p&gt;&lt;p&gt;Requires license LHS_BSCS_RULEBASEDPYMNT2.&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="transactions" type="wsi:transactionListRequest"/>
+               <xs:element minOccurs="0" name="bankCharge" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Amount of the bank charge&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="handlingCharge" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Amount of the handling charge&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="suspendDirectDebit" type="xs:boolean">
+                  <xs:annotation>
+                     <xs:documentation>
+										&lt;p&gt;Flag whether to suspend direct debit flag for this document&lt;/p&gt;
+									</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="inputAttributes">
+            <xs:all>
+               <xs:element minOccurs="0"
+                            name="financialAllocationWriteInputDTO"
+                            type="wsi:financialAllocationWriteInputDTO"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialAllocationWriteRequest">
+            <xs:all>
+               <xs:element minOccurs="0" name="inputAttributes" type="wsi:inputAttributes"/>
+               <xs:element minOccurs="0"
+                            name="sessionChangeRequest"
+                            type="sessionchange:sessionChangeRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="financialAllocationWriteRequest">
+      <wsdl:part element="sch3:financialAllocationWriteRequest"
+                  name="financialAllocationWriteRequest">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="financialAllocationWriteResponse">
+      <wsdl:part element="sch3:financialAllocationWriteResponse"
+                  name="financialAllocationWriteResponse">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:portType name="FinancialAllocationWriteService">
+      <wsdl:operation name="financialAllocationWrite">
+         <wsdl:documentation>
+            <since source="BUC803"/>&lt;![CDATA[&lt;p&gt;Write a financial allocation.&lt;/p&gt;&lt;p&gt;The &lt;code&gt;AMOUNT&lt;/code&gt; arguments specified to transaction, document and line item levels&lt;/p&gt;&lt;p&gt;can be gross or net amounts depending on &lt;code&gt;ALLOCATION_METHOD&lt;/code&gt; allocation method.&lt;/p&gt;&lt;p&gt;If optional &lt;code&gt;ALLOCATION_METHOD&lt;/code&gt; is not specified &lt;code&gt;AMOUNT&lt;/code&gt; is gross.&lt;/p&gt;&lt;p&gt;Allocation method:
+        &lt;ul&gt;&lt;li&gt;'GROSS' - gross&lt;/li&gt;&lt;li&gt;'NET' - net&lt;/li&gt;&lt;li&gt;'NETTAX' - gross&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;]]&gt;</wsdl:documentation>
+         <wsdl:input message="tns:financialAllocationWriteRequest"
+                      name="financialAllocationWriteRequest">
+    </wsdl:input>
+         <wsdl:output message="tns:financialAllocationWriteResponse"
+                       name="financialAllocationWriteResponse">
+    </wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="FinancialAllocationWriteServiceSoap11"
+                  type="tns:FinancialAllocationWriteService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="financialAllocationWrite">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="financialAllocationWriteRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="financialAllocationWriteResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="FinancialAllocationWriteService">
+      <wsdl:port binding="tns:FinancialAllocationWriteServiceSoap11"
+                  name="FinancialAllocationWriteServiceSoap11">
+         <soap:address location="/services"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

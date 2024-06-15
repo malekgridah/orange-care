@@ -1,0 +1,32 @@
+###############################################################
+#                 Web Services Configuration                  #
+###############################################################
+
+
+#############################
+#                           #
+#  Endpoints Configuration  #
+#                           #
+#############################
+
+######  Web Services Endpoints  ######
+endpoint:
+  service:
+    ######  WSI Web Services Endpoint  ######
+    wsi-url: http://192.168.10.95:13001/wsi/services/
+    wsi-user: ADMX
+    wsi-pass: ADMX
+
+    ### ContractHandling Web Service Endpoint ######
+    contract-handling-url: http://192.168.10.54:8080/ContractHandling/services/ContractHandling?wsdl
+    contract-handling-user: ADMX
+    contract-handling-pass: ADMX
+
+    ### CustomerHandling Web Service Endpoint ######
+    customer-handling-url: http://192.168.10.54:8080/CustomerHandling/services/CustomerHandling?wsdl
+    customer-handling-user: ADMX
+    customer-handling-pass: ADMX
+
+
+
+

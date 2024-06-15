@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ComponentRegistry PUBLIC "ComponentRegistry.dtd"
+        "ComponentRegistry.dtd" >
+
+<!--
+The registry of the FUNC_FRMWK_SRV component.
+SECURITY-related settings are not included, see SECURITY_Registry.xml
+Database-related settings are not included, see FUNC_FRMWK_SRV_DB_Registry.xml
+Setting of Federated Factory are not included, see FED_FACTORY-Registry.xml
+
+Note: this registry also serves as template for component registries
+(components should copy this file in own resource directory and fill as required)
+-->
+<ComponentRegistry>
+
+    <Node name="FUNC_FRMWK_SRV">
+
+        <KeyValue key="SOINamingRoot" value="com/lhs/private/soi" comment="Root context of ServiceRoots of SOI servers in CORBA Naming Service."/>
+        <!--
+        List of SOI definition files.
+        Ignored if empty.
+        Filenames must be entered as "key" attribute, the "value" attribute remains empty.
+        -->
+        <Node name="SOIDefinitions">
+        </Node>
+
+        <!--
+        List of alternative components, whose CDF directories are also searched for specified SOI.
+        Ignored if empty.
+        -->
+        <Node name="CDFAltComponents">
+        </Node>
+
+        <KeyValue key="ValidationRootDirectory" value="val" comment="Root directory for the validation definition files. Case sensitive entry."/>
+        <!--
+        List of validation definitions. These files are searched in ValidationRootDirectory
+        Filenames should be entered as "key" attributes, "value" attributes remains empty.
+        -->
+        <Node name="ValidationDefinitions" >
+        </Node>
+
+        <!-- SessionTimeout=60 minutes -->
+        <KeyValue key="SessionTimeout" type="Integer" value="3600"
+                  comment="Defines the timeout interval for all sessions
+            (ServiceFactoryI's) created for this server. The
+            timeout must be specified in seconds.
+            If the timeout equals 0, the session will never time out."/>
+
+        <!-- ValidationTimeout = 30 seconds -->
+        <KeyValue key="ValidationTimeout" type="Integer" value="30"
+                  comment="Defines the validation timeout after validation took place.
+            Validation is started by calling validateI() on the service object.
+            After this, only commitI() or rollbackI() are allowed. In order to prevent database locks
+            the time between validateI() and commitI() or rollbackI() is limited by this validation timeout.
+            The timeout value must be specified in seconds. If the timeout is 0 then there will be no time out."/>
+
+        <!-- ClientCallbackInterval=0 DISABLED -->
+        <KeyValue key="ClientCallbackInterval" type="Integer" value="0"
+                  comment="Defines how often server calls ClientCallback::areYouAliveI method
+            (CORBA method which could be implemented by the client)
+            to ensure that client still exists. The specified time interval
+            must be in seconds. The 0 value used to disable client callbacks"/>
+
+        <!-- Flag indicates whether to validate the input-SVLObjects against the  command definitions. Allowed values are 'true' and 'false'. -->
+        <KeyValue key="ValidateInput" value="false" type="Boolean"/>
+
+        <!-- This node holds the names of all DomainServiceAdapter classes. -->
+        <Node name="ServiceLayerAdapterNames" >
+        </Node>
+
+        <!--
+        List of listeners implementing ServerStartupListener interface.
+        Each listener entered here will be instantiated using default constructor without parameters and
+        corresponding before- and after- methods will be called during server initialization process
+        -->
+        <Node name="StartupListeners" >
+        </Node>
+
+        <!--
+        List of listeners implementing ServerShutdown interface.
+        Each listener entered here will be instantiated using default constructor without parameters and
+        corresponding before- and after- methods will be called during server shutdown
+        -->
+        <Node name="ShutdownListeners" >
+        </Node>
+
+        <!-- Contains class to subclass mappings. It can be used to customize an
+             implementation class by subclassing. Each customized class needs a KeyValue
+             entry here mapping the parent class name of the core implementation to a
+             customized class name.
+        -->
+        <Node name="ClassLookupTable">
+        </Node>
+
+        <!-- Settings to al to contact Security server -->
+        <KeyValue key="SecurityNaming" value="com/lhs/public/soi/fedfactory1"
+                  comment="Points to the ServiceRootI in the naming service.
+        This ServiceRootI could be a FederatedFactory (default) or a security service"/>
+
+        <!--
+        This node should be defined in the component's part of the registry
+
+        <KeyValue key="SecurityArea" value=""
+        comment="See 'PERMISSION' argument of 'USER_RIGHT.CHECK' command. Usually this is a top-element in the permission hierarchy"/>
+        -->
+
+        <KeyValue key="SecuritySOIName" value="SECURITY"/>
+        <KeyValue key="SecuritySOIVersion" value="3"/>
+        <KeyValue key="SecurityCommand" value="USER_RIGHT.CHECK"/>
+        <!--
+        This user used by SOI servers to perform login into security server
+        -->
+        <KeyValue key="SoiSystemUser" value="SOIUSER"/>
+        <KeyValue key="SoiSystemPassword" value="SOI" comment=""/>
+        <!--
+        Specify command line options supported by any SOI server.
+        The final node is merged from native FRMWK parameters and additional domain stuff.
+        Example:
+            <KeyValue key="option" value="description"/>
+        -->
+        <Node name="HelpScreen">
+        </Node>
+
+        <!--
+        Setting related to license management
+        -->
+
+    </Node><!-- FUNC_FRMWK_SRV -->
+</ComponentRegistry>

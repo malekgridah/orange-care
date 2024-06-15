@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:sch0="http://lhsgroup.com/lhsws/money"
+                   xmlns:sch1="http://lhsgroup.com/lhsws/svlany"
+                   xmlns:sch2="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                   xmlns:sch3="http://ericsson.com/services/ws_CIL_7/financialdocumentdetailread"
+                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                   xmlns:tns="http://ericsson.com/services/ws_CIL_7"
+                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                   targetNamespace="http://ericsson.com/services/ws_CIL_7">
+   <wsdl:types>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/money"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/money">
+         <xs:complexType name="money">
+            <xs:sequence>
+               <xs:element name="amount" type="xs:double"/>
+               <xs:element name="currency" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:lhsws="http://lhsgroup.com/lhsws/svlany"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://lhsgroup.com/lhsws/svlany">
+         <xs:complexType name="svlany">
+            <xs:sequence>
+               <xs:element name="content" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/sessionchange">
+         <xs:complexType name="sessionChangeResponse"/>
+         <xs:complexType name="valuesListpartRequest">
+            <xs:all>
+               <xs:element name="key" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt; Name of the value that shall be changed.
+													For details about the session parameters that can be set, refer to 'Specification of Session Parameters' in the CIL documentation.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element name="value" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;New value for a named value. &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="valuesRequest">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;A list of all named values that shall be changed with this command.&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" name="item" type="wsi:valuesListpartRequest"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="sessionChangeRequest">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;
+					
+					&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="values" type="wsi:valuesRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ericsson="http://ericsson.com/schemas"
+                  xmlns:money="http://lhsgroup.com/lhsws/money"
+                  xmlns:sessionchange="http://ericsson.com/services/ws_CIL_7/sessionchange"
+                  xmlns:wsi="http://ericsson.com/services/ws_CIL_7/financialdocumentdetailread"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  attributeFormDefault="unqualified"
+                  elementFormDefault="qualified"
+                  targetNamespace="http://ericsson.com/services/ws_CIL_7/financialdocumentdetailread">
+         <xs:import namespace="http://ericsson.com/services/ws_CIL_7/sessionchange"/>
+         <xs:import namespace="http://lhsgroup.com/lhsws/money"/>
+         <xs:element name="financialDocumentDetailReadRequest"
+                      type="wsi:financialDocumentDetailReadRequest"/>
+         <xs:element name="financialDocumentDetailReadResponse"
+                      type="wsi:financialDocumentDetailReadResponse"/>
+         <xs:complexType name="itemsListpartResponse">
+            <xs:all>
+               <xs:element minOccurs="0" name="transactionId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Internal transaction id&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="transactionRefnum" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Reference code of the transaction&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amountCashPay" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Cash amount in payment currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amountDiscountPay" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Discount amount in payment currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amountCurrentPay" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Current payment amount in payment currency&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="amountCurrentDoc" type="money:money">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Current amount in document currency.&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="glAccount" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;GL-account to post the assigned amount&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="useCaseCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;The unique use case code.  (for internal use only)&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="transCodePub" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;The unique transaction code.  (for internal use only)&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="entryDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;entry date of the payment &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="refDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;reference date of the payment &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="convDate" type="xs:date">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Conversion date&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="postingDate" type="xs:dateTime">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;posting date of the payment &lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="transactionDocumentNo" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;transaction document number&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="itemCreditDebitType" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+													&lt;p&gt;Item credit and debit type.
+													&lt;ul&gt;&lt;li&gt;"C" Credit. In this case, a positive amount in interface means a credit, and a negative amount debit.&lt;/li&gt;&lt;li&gt;"D" Debit. In this case, a positive amount in interface means a debit, and a negative amount credit.&lt;/li&gt;&lt;/ul&gt;
+													&lt;/p&gt;
+												</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="itemsResponse">
+            <xs:annotation>
+               <xs:documentation>
+								&lt;p&gt;Assigned items&lt;/p&gt;
+							</xs:documentation>
+            </xs:annotation>
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded"
+                            minOccurs="0"
+                            name="item"
+                            type="wsi:itemsListpartResponse"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="financialDocumentDetailReadResponse">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;Assigned items.&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="documentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Internal document id&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="documentCode" type="xs:string">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt; Document code&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+               <xs:element minOccurs="0" name="items" type="wsi:itemsResponse"/>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="inputAttributes">
+            <xs:annotation>
+               <xs:documentation>
+					&lt;p&gt;Privateid.&lt;/p&gt;
+				</xs:documentation>
+            </xs:annotation>
+            <xs:all>
+               <xs:element minOccurs="0" name="documentId" type="xs:long">
+                  <xs:annotation>
+                     <xs:documentation>
+							&lt;p&gt;Internal document id&lt;/p&gt;
+						</xs:documentation>
+                  </xs:annotation>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         <xs:complexType name="financialDocumentDetailReadRequest">
+            <xs:all>
+               <xs:element minOccurs="0" name="inputAttributes" type="wsi:inputAttributes"/>
+               <xs:element minOccurs="0"
+                            name="sessionChangeRequest"
+                            type="sessionchange:sessionChangeRequest"/>
+            </xs:all>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="financialDocumentDetailReadResponse">
+      <wsdl:part element="sch3:financialDocumentDetailReadResponse"
+                  name="financialDocumentDetailReadResponse">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="financialDocumentDetailReadRequest">
+      <wsdl:part element="sch3:financialDocumentDetailReadRequest"
+                  name="financialDocumentDetailReadRequest">
+    </wsdl:part>
+   </wsdl:message>
+   <wsdl:portType name="FinancialDocumentDetailReadService">
+      <wsdl:operation name="financialDocumentDetailRead">
+         <wsdl:documentation>&lt;![CDATA[&lt;p&gt;Reads the assignement of payment to a document(cashdetail)&lt;/p&gt;]]&gt;</wsdl:documentation>
+         <wsdl:input message="tns:financialDocumentDetailReadRequest"
+                      name="financialDocumentDetailReadRequest">
+    </wsdl:input>
+         <wsdl:output message="tns:financialDocumentDetailReadResponse"
+                       name="financialDocumentDetailReadResponse">
+    </wsdl:output>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="FinancialDocumentDetailReadServiceSoap11"
+                  type="tns:FinancialDocumentDetailReadService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="financialDocumentDetailRead">
+         <soap:operation soapAction=""/>
+         <wsdl:input name="financialDocumentDetailReadRequest">
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="financialDocumentDetailReadResponse">
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="FinancialDocumentDetailReadService">
+      <wsdl:port binding="tns:FinancialDocumentDetailReadServiceSoap11"
+                  name="FinancialDocumentDetailReadServiceSoap11">
+         <soap:address location="/services"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

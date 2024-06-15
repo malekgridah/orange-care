@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_FILE_NAME">BscsKernelWs</Property>
+        <property name="PATH_LOGS" value="../logs"/>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd' 'HH:mm:ss.SSS</Property>
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${sys:LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${sys:LOG_LEVEL_PATTERN}} %clr{%pid}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <Property name="FILE_LOG_PATTERN">%d{${sys:LOG_DATEFORMAT_PATTERN}} ${sys:LOG_LEVEL_PATTERN} %pid --- [%t] %-40.40c{1.} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+    </Properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" charset="${sys:CONSOLE_LOG_CHARSET}" />
+        </Console>
+        <RollingFile name="RollingFile" fileName="${PATH_LOGS}/${LOG_FILE_NAME}.log" filePattern="${PATH_LOGS}/$${date:yyyy-MM}/${LOG_FILE_NAME}-%d{yyyy-MM-dd}.log">
+            <PatternLayout disableAnsi="false" pattern="${sys:FILE_LOG_PATTERN}" charset="${sys:FILE_LOG_CHARSET}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+
+        <!-- ######################################## -->
+        <!-- #    Root Logger for all components    # -->
+        <!-- ######################################## -->
+        <Root level="info">
+            <AppenderRef ref="RollingFile" />
+            <AppenderRef ref="console"/>
+        </Root>
+        <!-- ######################################## -->
+        <!-- #         Bscs Default Loggers         # -->
+        <!-- ######################################## -->
+        <Logger name="SystemLog" level="DEBUG" />
+        <Logger name="gateway" level="DEBUG" />
+        <Logger name="CFW" level="DEBUG" />
+        <Logger name="org.jacorb.orb" level="info"/>
+        <Logger name="org.jacorb" level="info"/>
+        <!-- ######################################## -->
+        <!-- #  Tomcat Loggers and other components  # -->
+        <!-- ######################################## -->
+        <Logger name="org.apache.catalina.startup.DigesterFactory" level="error" />
+        <Logger name="org.apache.catalina.util.LifecycleBase" level="error" />
+        <Logger name="org.apache.coyote.http11.Http11NioProtocol" level="warn" />
+        <Logger name="org.apache.sshd.common.util.SecurityUtils" level="warn"/>
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="warn" />
+        <Logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="error" />
+        <Logger name="org.hibernate.validator.internal.util.Version" level="warn" />
+        <Logger name="org.springframework.boot.actuate.endpoint.jmx" level="warn"/>
+    </Loggers>
+</Configuration>

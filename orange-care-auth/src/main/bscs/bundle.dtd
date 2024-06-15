@@ -1,0 +1,134 @@
+<!--
+  - CCC XML Resource Bundle DTD
+  -
+  - author: Ralf Westbrock
+  - author: Gerd Langer
+  -
+  - version: 1.0
+-->
+
+<!--
+    The DTD describes the structure used for XML based resource bundles.
+    XML resource bundles are the resource bundle type generally used in CCC.
+    The resource bundle is capable to replace properties files resource bundles.
+    They not only provide a key/value pair per entry, but also allow external
+    translators to differentiate between translation relevant texts,
+    locale-sensitive settings and locale-independent configurations.
+
+    The body of a bundle contains several translation units. A translation
+    unit has a specific type and is identified by a key. Possible types are:
+    <ul>
+    <li><i>label</i></li>
+    <li><i>message</i></li>
+    <li><i>setting</i></li>
+    <li><i>configuration</i></li>
+    </ul>
+    The following elements of a XML based resource bundle have to translated:
+    <ul>
+    <li>each content</li>
+    <li>values of the attributes
+        <ul>
+        <li><i>mnemonic</i></li>
+        <li><i>accelerator</i></li>
+        <li><i>tooltip</i></li>
+        </ul>
+    </li>
+    </ul>
+-->
+
+<!-- stateattr -->
+<!--
+  - The stateattr entity is used to define the 'state' attribute.
+  - The 'state' attribute on the other hand is used to mark new
+  - entries.
+-->
+<!ENTITY % stateattr "state (new|approved) #IMPLIED">
+
+<!-- root element -->
+<!--
+  - the version specifies the bundle version which currently is "1.0"
+-->
+    <!ELEMENT bundle            (header, body) >
+    <!ATTLIST bundle
+            version             CDATA               #REQUIRED >
+            
+    
+    <!ELEMENT include            (label
+                                 |message)* >
+    <!ATTLIST include>
+
+<!-- header of a resource bundle document -->
+<!--
+  - The header contains some meta information about the bundle.
+  -
+  - author        defines the developer that wrote the file
+  - creationdate  date when the bundle was created YY-MM-DD
+  - changedate    date of last change YY-MM-DD
+-->
+    <!ELEMENT header            EMPTY >
+    <!ATTLIST header
+            author              CDATA               #IMPLIED
+            creationdate        CDATA               #IMPLIED
+            changedate          CDATA               #IMPLIED >
+
+<!-- body of a resource bundle document -->
+<!--
+  - The body contains all elements defined by the bundle.
+-->
+    <!ELEMENT body              (include
+    							|label
+                                |message
+                                |setting
+                                |configuration)* >
+                                
+                                 
+    <!-- not attributes -->
+
+<!-- label -->
+<!--
+  - labels are used to translate screen elements that include
+  - a mnemonic (underlined character) and are typically used
+  - as captions of a data field (e.g. a text field).
+-->
+    <!ELEMENT label             (#PCDATA) >
+    <!ATTLIST label
+            key                 ID                  #REQUIRED
+            helpID              CDATA               #IMPLIED
+            mnemonic            CDATA               #IMPLIED
+            %stateattr; >
+
+<!-- message -->
+<!--
+  - messages are used for screen elements that simply display a text,
+  - but do not need a help key or a mnemonic.
+-->
+    <!ELEMENT message           (#PCDATA) >
+    <!ATTLIST message
+            key                 ID                  #REQUIRED
+            %stateattr; >
+
+<!-- setting -->
+<!--
+  - settings are used to specify elements that might be localized
+  - but are normally not displayed as text on the screen directly.
+  - E.g. a path to an icon file.
+-->
+    <!ELEMENT setting           EMPTY >
+    <!ATTLIST setting
+            key                 ID                  #REQUIRED
+            value               CDATA               #REQUIRED
+            %stateattr; >
+
+<!-- configuration -->
+<!--
+  - configurations are used to mark elements that are not localized
+  - and are typically used for technical purposes.
+  - E.g. a classname or a link to a file.
+-->
+    <!ELEMENT configuration     EMPTY >
+    <!ATTLIST configuration
+            key                 ID                  #REQUIRED
+            constant            CDATA               #REQUIRED >
+
+
+<!-- EOF -->
