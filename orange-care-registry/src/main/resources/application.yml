@@ -2,7 +2,7 @@ server:
   port: 8761
 spring:
   application: # Application-Info for the Info-Actuator
-    name: "@pom.artifactId@"
+    name: "@project.artifactId@"
 eureka:
   client:
     registerWithEureka: true

@@ -7,32 +7,63 @@ services:
     environment:
       - EUREKA_INSTANCE_PREFERIPADDRESS=true
 
-  bscs:
-    container_name: orange-care-bscs
-    image: orange-care-bscs
+  config:
+    image: orange-care-config
+    container_name: orange-care-config
+    ports:
+      - "8888:8888"
     environment:
       - EUREKA_INSTANCE_PREFERIPADDRESS=true
-      - EUREKA_SERVICE_URL=http://registry:8761
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+    healthcheck:
+      test: [ "CMD", "curl", "http://config:8888" ]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+
+  gateway:
+    image: orange-care-gateway
+    container_name: orange-care-gateway
+    ports:
+      - "8480:8080"
+      - "8481:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      config:
+        condition: service_healthy
+        restart: true
+
+  bscs:
+    image: orange-care-bscs
+    container_name: orange-care-bscs
     ports:
       - "8180:8080"
       - "8181:8081"
-
-  admin:
-    container_name: orange-care-admin
-    image: orange-care-admin
     environment:
       - EUREKA_INSTANCE_PREFERIPADDRESS=true
-      - EUREKA_SERVICE_URL=http://eureka:8761
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      config:
+        condition: service_healthy
+        restart: true
+
+  admin:
+    image: orange-care-admin
+    container_name: orange-care-admin
     ports:
       - "8080:8080"
       - "8081:8081"
-
-  payment:
-    container_name: orange-care-payment
-    image: orange-care-payment
     environment:
       - EUREKA_INSTANCE_PREFERIPADDRESS=true
-      - EUREKA_SERVICE_URL=http://eureka:8761
-    ports:
-      - "8280:8080"
-      - "8281:8081"
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      config:
+        condition: service_healthy
+        restart: true

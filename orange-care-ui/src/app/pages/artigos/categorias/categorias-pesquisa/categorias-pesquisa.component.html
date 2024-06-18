@@ -1,0 +1,47 @@
+<app-content-header 
+    [icon]="'format_line_spacing'" 
+    [title]="'Categorias'" 
+    [hideBreadcrumb]="false"
+    [hasBgImage]="true" 
+    [class]="'pb-4'">
+</app-content-header>
+
+<div fxLayout="column" class="p-2">
+    <div class="p-2"> 
+        <div fxLayout="column" class="mat-elevation-z8">           
+            <mat-form-field class="px-3 py-1">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Digita para filtrar">
+            </mat-form-field> 
+        </div>
+        <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">       
+            <ng-container matColumnDef="codigo">
+                <mat-header-cell *matHeaderCellDef> Codigo </mat-header-cell>
+                <mat-cell *matCellDef="let categoria"> {{ categoria.codigo }} </mat-cell>
+            </ng-container>         
+            <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let categoria"> {{categoria.nome}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>   Acções</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                  <button mat-icon-button><mat-icon>launch</mat-icon></button>
+                  <button mat-icon-button><mat-icon>edit</mat-icon></button>
+                  <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="loading">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                  Loading data...
+                </mat-footer-cell>
+              </ng-container>
+              <ng-container matColumnDef="noData">
+                <mat-footer-cell *matFooterCellDef colspan="6">
+                  No data.
+                </mat-footer-cell>
+              </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>        
+    </div>
+</div>

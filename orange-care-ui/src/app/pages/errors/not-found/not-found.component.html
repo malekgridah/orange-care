@@ -1,0 +1,28 @@
+<mat-sidenav-container class="h-100">
+  <div fxLayout="row" fxLayoutAlign="center center" class="h-100">
+       <div fxFlex="80" fxFlex.gt-sm="30" fxFlex.sm="60" class="mat-elevation-z6">
+            <app-content-header 
+                [icon]="'error'" 
+                [title]="'404'" 
+                [hideBreadcrumb]="true"
+                [hasBgImage]="true" 
+                [class]="'pt-4 pb-3'"></app-content-header>            
+            <div class="p-4 text-center">
+                <p class="pt-2">Opps, parece que esta Página não existe .</p> 
+                <p class="pt-2">Se tens a certeza de que existe, pesquisa.</p> 
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="mt-3">
+                    <mat-form-field class="w-100 py-2">
+                        <mat-icon matPrefix class="mat-icon-sm mb-2 mr-2 secondary-text-color">search</mat-icon>
+                        <input matInput formControlName="param" placeholder="Introduza palavras chaves para pesquisar...">
+                        <mat-error *ngIf="form.controls.param.errors?.required">O Texto é obrigatório</mat-error>
+                    </mat-form-field>
+                    <div class="mt-3">
+                        <button [disabled]="!form.valid" mat-raised-button color="accent" class="mat-elevation-z6 mx-1" type="submit">SEARCH</button>
+                        <button mat-raised-button color="primary" class="mat-elevation-z6 mx-1" type="button" (click)="goHome()">VOLTAR PARA PAGINA INICIAL</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+  </div>
+</mat-sidenav-container>

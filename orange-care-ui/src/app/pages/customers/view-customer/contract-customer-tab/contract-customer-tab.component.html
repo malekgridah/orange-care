@@ -1,0 +1,79 @@
+<!--<p>-->
+<!--  <strong>{{customerId}}</strong>-->
+<!--</p>-->
+
+<mat-card class="mt-1 p-0">
+    <mat-card-header>
+        <mat-card-title>Contracts</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    <mat-divider></mat-divider>
+        <table mat-table [dataSource]="dataSource">
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="#">
+                <th mat-header-cell *matHeaderCellDef width="7%">
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                                  [aria-label]="checkboxLabel()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)"
+                                  [aria-label]="checkboxLabel(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dirNum">
+                <th mat-header-cell *matHeaderCellDef height="30px" width="10%"> Directory Number </th>
+                <td mat-cell *matCellDef="let element"> {{element.dirNum}} </td>
+            </ng-container>
+            <ng-container matColumnDef="coCode">
+                <th mat-header-cell *matHeaderCellDef width="15%"> Contract Code </th>
+                <td mat-cell *matCellDef="let element"> {{element.coCode}} </td>
+            </ng-container>
+            <ng-container matColumnDef="rpCode">
+                <th mat-header-cell *matHeaderCellDef width="15%"> Rate Plan </th>
+                <td mat-cell *matCellDef="let element"> {{element.rpCode}} </td>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef width="13%"> Contract Status </th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-chip-list>
+              <span>
+                <mat-chip [class.gradient-red]="element.status == 'd'"
+                          [class.gradient-lime]="element.status == 's'"
+                          [class.gradient-gray]="element.status == 'o'"
+                          [class.gradient-green]="element.status == 'a'">{{ element.status == 'a'
+                    ? 'Active' : element.status == 'd' ? 'Deactive' : element.status == 's' ? 'Suspended' : 'Interested' }} </mat-chip>
+              </span>
+                    </mat-chip-list>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="activationDate">
+                <th mat-header-cell *matHeaderCellDef width="20%"> Activation Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.activationDate}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef width="20%">Action</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button
+                            color="primary"
+                            matTooltip="edit">
+                        <mat-icon class="icon24">visibility</mat-icon>
+                    </button>&nbsp;
+                    <button mat-icon-button
+                            color="warn"
+                            matTooltip="delete">
+                        <mat-icon class="icon24">delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+    </mat-card-content>
+</mat-card>

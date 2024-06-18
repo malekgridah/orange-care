@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 
 
 @Configuration(proxyBeanMethods = false)
@@ -20,7 +21,6 @@ import org.springframework.context.annotation.Lazy;
 @ConditionalOnBean(ConnectionPoolsConfigurationMarker.Marker.class)
 @EnableConfigurationProperties({ConnectionPoolsProperties.class})
 @ConfigurationPropertiesScan
-@AutoConfigureAfter(SpringBootServletInitializer.class)
 @Lazy(false)
 public class ConnectionPoolsAutoConfig {
 

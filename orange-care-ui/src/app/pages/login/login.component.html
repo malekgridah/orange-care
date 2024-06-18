@@ -1,0 +1,32 @@
+<mat-sidenav-container class="h-100">
+  <div fxLayout="row" fxLayoutAlign="center center" class="h-100">
+       <!-- <form [formGroup]="form"  (ngSubmit)="login()" fxFlex="90" fxFlex.gt-sm="30" fxFlex.sm="60" class="mat-elevation-z6"> -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" fxFlex.gt-sm="30" fxFlex.sm="60" class="mat-elevation-z6"> 
+          <app-content-header 
+                [icon]="'exit_to_app'" 
+                [title]="'Login'" 
+                [hideBreadcrumb]="true"
+                [hasBgImage]="true" 
+                [class]="'py-4'">
+            </app-content-header>            
+            <div class="p-3">
+                <!-- <a mat-button routerLink="/register" color="accent" class="w-100">Não tens uma conta? Registe-se!</a> -->
+                <mat-form-field class="w-100">
+                    <mat-icon matPrefix class="mat-icon-sm mb-2 mr-2 secondary-text-color">E-mail</mat-icon>
+                    <input matInput placeholder="Email" type="text" formControlName="usuario">
+                    <mat-error *ngIf="form.controls.usuario.errors?.required">O email é obrigatório</mat-error>
+                    <mat-error *ngIf="form.controls.usuario.hasError('invalidEmail')">Email invalido</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-100">
+                    <!-- <mat-icon matPrefix class="mat-icon-sm mb-2 mr-2 secondary-text-color">lock</mat-icon> -->
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <input matInput placeholder="Senha"  [type]="hide ? 'password' : 'text'" formControlName="senha" >
+                    <mat-error *ngIf="form.controls.senha.errors?.required">A senha é obrigatória</mat-error>
+                    <mat-error *ngIf="form.controls.senha.hasError('minlength')">A senha deve conter no minimo 3 caracteres</mat-error>
+                </mat-form-field>               
+                <mat-slide-toggle formControlName="rememberMe" class="my-2">Lembra-me</mat-slide-toggle>
+                <button mat-raised-button color="primary" class="mat-elevation-z6 w-100 mt-3" type="submit" [disabled]="!form.valid">Entrar</button>
+            </div>
+        </form>
+  </div>
+</mat-sidenav-container>

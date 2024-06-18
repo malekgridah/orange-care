@@ -7,7 +7,6 @@ import org.springframework.boot.context.metrics.buffering.BufferingApplicationSt
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableAdminServer
-@EnableDiscoveryClient
 @SpringBootApplication
 public class AdminApplication {
 

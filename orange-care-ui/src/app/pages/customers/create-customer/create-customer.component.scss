@@ -1,0 +1,32 @@
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  display: none !important;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  padding: 0 !important;
+}
+
+//::ng-deep .mat-vertical-content-container {
+//  display: none !important;
+//}
+
+
+.mat-expansion-panel-header-title {
+  font-size: 1rem;
+}
+
+.test-height {
+  height: 47px;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+//.mat-vertical-content {
+//  padding: 0 !important;
+//}
+
+
+

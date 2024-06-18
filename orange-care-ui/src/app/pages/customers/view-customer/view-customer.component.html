@@ -1,0 +1,82 @@
+<app-content-header
+        icon="person"
+        desc="Customer Overview - 1.11242661"
+        [hideBreadcrumb]="false"
+        [hasBgImage]="true"
+        [class]="'pb-2'"></app-content-header>
+<!--desc="User: ADMX  Customer: MALEK GRIDAH  CustomerCode: 1.11242661  Customer public key: CNT6483692"-->
+
+
+<div class="div-border p-3">
+    <mat-card class="div-border mat-elevation-z4">
+        <mat-card-header>
+            <mat-chip-list>
+                <mat-chip class="gradient-green">Active</mat-chip>
+            </mat-chip-list>
+            <mat-card-title> Customer Overview - 1.11242661</mat-card-title>
+    <!--        <mat-card-subtitle>test</mat-card-subtitle>-->
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="p-2 pt-3" fxLayout="column">
+            <div [ngClass]="appSettings.settings.theme =='pink-dark' ? 'customer-tabs-border-dark':'customer-tabs-border-light'" class="customers-tabs" fxLayoutAlign="space-between" fxLayout="row wrap">
+                <div fxFlex="30" fxLayout="column" fxLayoutAlign="center center" class="customer-block">
+                    <span class="gradient-orange">{{this.getNameAvatar('malek', 'gridah')}}</span>
+                    <h2 class="mt-2">Malek Gridah</h2>
+                </div>
+                <mat-divider [vertical]="true"></mat-divider>
+                <div fxFlex="65">
+                    <!--                <h5>Customer Info</h5>-->
+                    <ul class="mt-3" fxLayout="row wrap">
+                        <li fxFlex="60"><span fxFlex="35">Customer:</span> 	BEN AYCHA, SAMED</li>
+                        <li fxFlex="40"><span fxFlex="30">ID doc:</span> 05587591</li>
+                        <li fxFlex="60"><span fxFlex="35">Address:</span> rue Senghor Immeuble Yomen Apt 3</li>
+                        <li fxFlex="40"><span fxFlex="30">Password:</span> - </li>
+                        <li fxFlex="60"><span fxFlex="35">Status:</span> Active</li>
+                        <li fxFlex="40"><span fxFlex="30">Language:</span> French</li>
+                        <li fxFlex="60"><span fxFlex="35">Status valid from:</span> Jan 10, 2011, 12:00:00 AM</li>
+                        <li fxFlex="40"><span fxFlex="30">Nationality:</span> Tunisia</li>
+                        <li fxFlex="60"><span fxFlex="35">Customer group:</span> Grand Public</li>
+                        <li fxFlex="40"><span fxFlex="30">Birth date:</span> Jul 2, 1982</li>
+                        <li fxFlex="60"><span fxFlex="35">Billing cycle:</span> Prepaid73</li>
+                        <li fxFlex="40"><span fxFlex="30">Email:</span> - </li>
+                    </ul>
+                    <mat-card-actions>
+                        <button mat-raised-button (click)="openDialog()" color="primary">Edit</button>
+                        <button mat-raised-button (click)="openDialogChangeStatus()" color="primary">Change Status</button>
+                    </mat-card-actions>
+                </div>
+            </div>
+
+
+    <div class="mt-3" fxFlex="100">
+        <mat-tab-group [ngClass]="appSettings.settings.theme =='pink-dark' ? 'customer-tabs-border-dark':'customer-tabs-border-light'" class="customers-tabs pb-1" mat-stretch-tabs>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="mr-2">description</mat-icon>
+                    Contracts
+                </ng-template>
+                <app-contract-customer-tab [customerId]="'1.112234'"></app-contract-customer-tab>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="mr-2">payments</mat-icon>
+                    Billing
+                </ng-template>
+                <app-billing-customer-tab></app-billing-customer-tab>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="mr-2">badge</mat-icon>
+                    Customer Details
+                </ng-template>
+                <app-customer-details-customer-tab>   </app-customer-details-customer-tab> </mat-tab>
+        </mat-tab-group>
+    </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
+
+
+

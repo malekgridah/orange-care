@@ -60,4 +60,9 @@ public class BscsValuesController implements BscsBaseInfo {
     public ResponseEntity<ReasonsResponse> getReasons() {
         return ResponseEntity.ok(this.bscsValuesService.reasonsRead());
     }
+
+    @GetMapping("getTest")
+    public String getStr() {
+        return "hello";
+    }
 }

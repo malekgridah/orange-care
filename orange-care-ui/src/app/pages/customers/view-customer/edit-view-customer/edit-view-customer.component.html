@@ -1,0 +1,130 @@
+<div fxLayoutAlign="space-between">
+    <h2 mat-dialog-title>Modify Customer Information</h2>
+    <button class="close" mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [style.font-size.px]="12.5">
+    <div fxLayout="row wrap" fxFlexFill
+         fxLayoutAlign="start start" fxLayoutGap="10px grid">
+
+        <div fxFlex="50">
+            <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input maxlength="20" id="fName" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50">
+            <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input maxlength="20" id="fLame" matInput required>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+<!--        -->
+        <div fxFlex="30">
+            <mat-form-field appearance="outline">
+                <mat-label>Street No</mat-label>
+                <input maxlength="20" id="streetNumber" matInput required>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="35">
+            <mat-form-field appearance="outline">
+                <mat-label>Street Name</mat-label>
+                <input maxlength="20" id="streetName" matInput required>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="35">
+            <mat-form-field appearance="outline">
+                <mat-label>City</mat-label>
+                <input maxlength="20" id="city" matInput required>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+<!--        -->
+        <div fxFlex="33.3">
+            <mat-form-field appearance="outline">
+                <mat-label>Zip Code</mat-label>
+                <input maxlength="20" id="zip" matInput required>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="33.3">
+            <mat-form-field appearance="outline">
+                <mat-label>State</mat-label>
+                <input maxlength="20" id="state" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="33.3">
+            <mat-form-field appearance="outline">
+                <mat-label>Country</mat-label>
+                <input maxlength="20" id="country" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+<!--        -->
+        <div fxFlex="50">
+            <mat-form-field appearance="outline">
+                <mat-label>Language</mat-label>
+                <mat-select [value]="'en'">
+                    <mat-option [value]="'fr'">French</mat-option>
+                    <mat-option [value]="'en'">English</mat-option>
+                </mat-select>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50">
+            <mat-form-field appearance="outline">
+                <mat-label>Customer Group</mat-label>
+                <mat-select [value]="'grand'">
+                    <mat-option [value]="'grand'">Grand Public</mat-option>
+                    <mat-option [value]="'grand'">Customer VIP</mat-option>
+                </mat-select>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+<!--        -->
+        <div fxFlex="70">
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input maxlength="20" id="email" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="30">
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input maxlength="20" id="password" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+<!--        -->
+        <div fxFlex="50">
+            <mat-form-field appearance="outline">
+                <mat-label>Phone</mat-label>
+                <input maxlength="20" id="phone" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50">
+            <mat-form-field appearance="outline">
+                <mat-label>Fax</mat-label>
+                <input maxlength="20" id="fax" matInput>
+                <mat-icon matSuffix>face</mat-icon>
+            </mat-form-field>
+        </div>
+    </div>
+</form>
+
+
+
+<mat-dialog-actions fxLayoutGap="10px">
+    <button mat-flat-button color="primary"
+            type="submit">
+        <span>Update</span></button>
+    <button mat-flat-button (click)="close()" color="warn">Cancel</button>
+</mat-dialog-actions>

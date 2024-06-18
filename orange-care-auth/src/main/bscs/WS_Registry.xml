@@ -23,16 +23,16 @@
 
 
 	<!--
-	   - The error dictionary to be used.
-	   - Client : Translate server error messages with the ClientErrorDictionary.
-	   - Server : Display the server error messages on screen. (default)
-	   - None   : Dont translate the error messages.
-	   -          Display an generic error message as defined in the ClientErrorDictionary. (GlobalErrorMessage)
+	   - The token dictionary to be used.
+	   - Client : Translate server token messages with the ClientErrorDictionary.
+	   - Server : Display the server token messages on screen. (default)
+	   - None   : Dont translate the token messages.
+	   -          Display an generic token message as defined in the ClientErrorDictionary. (GlobalErrorMessage)
 	 -->
 
 	<KeyValue key="UseErrorDictionary" type="String"  value="client" comment=""/>
 
-	<!--  Client specific error dictionary -->
+	<!--  Client specific token dictionary -->
 
     <KeyValue key="ClientErrorDictionary" type="String"  value="WEB_SERV_ErrorDictionary" comment=""/>
 
@@ -79,11 +79,11 @@
 
 
       <!--
-        - Global Resource bundle file for general error messages.
-        - This resoucebundle file should be used to define global error messages,
+        - Global Resource bundle file for general token messages.
+        - This resoucebundle file should be used to define global token messages,
         - that can occur in several pages.
         -
-        - Used by: ErrorUtil class of CFW to obtain the error messages.
+        - Used by: ErrorUtil class of CFW to obtain the token messages.
       -->
       <KeyValue key="CommonErrorBundle" type="String"  value="com/lhs/ccb/util/resource/CommonErrorsBundle" comment=""/>
 

@@ -1,0 +1,40 @@
+<div fxLayoutAlign="space-between">
+    <h2 mat-dialog-title>Change Customer Status</h2>
+    <button class="close" mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+    <p><strong>Customer: </strong>Malek Gridah</p>
+    <p><strong>Billing Address: </strong>01 Ennasr , Cite Ennasr 3180, Kairouan Tunisia</p>
+    <p fxLayout="row "><strong>Current Status: </strong><mat-chip-list>
+        <mat-chip class="gradient-green">Active</mat-chip>
+    </mat-chip-list></p>
+    <div class="mt-2" fxLayout="column">
+        <mat-form-field [style.font-size.px]="12.5" appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-hint>New Status</mat-hint>
+            <mat-select [value]="'en'" required>
+                <mat-option [value]="'fr'">French</mat-option>
+                <mat-option [value]="'en'">English</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>face</mat-icon>
+        </mat-form-field>
+        <mat-form-field [style.font-size.px]="12.5" appearance="outline">
+            <mat-label>Reason</mat-label>
+            <mat-hint>Reason for status change</mat-hint>
+            <mat-select [value]="'grand'" required>
+                <mat-option [value]="'grand'">Grand Public</mat-option>
+                <mat-option [value]="'grand'">Customer VIP</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>face</mat-icon>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayoutGap="10px">
+
+    <button mat-flat-button color="primary">Confirm</button>
+    <button mat-flat-button mat-dialog-close color="warn">Cancel</button>
+
+</mat-dialog-actions>

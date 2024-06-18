@@ -1,0 +1,21 @@
+<mat-expansion-panel
+        class="mat-elevation-z8"
+        [class.test-black]="appSetting.settings.theme == 'red-light'"
+        [class.test-orange]="appSetting.settings.theme == 'pink-dark'"
+        hideToggle
+        [expanded]="extended"
+        (opened)="open = true"
+        (closed)="open = false"
+        #panel="matExpansionPanel">
+    <mat-expansion-panel-header expandedHeight="47px" collapsedHeight="47px">
+        <div fxFlex="90">
+            <mat-panel-title fxFlex="30">
+                <span><strong>{{title}}&nbsp;</strong></span>
+            </mat-panel-title>
+            <mat-panel-description fxFlex>{{subtitle}}</mat-panel-description>
+        </div>
+            <mat-icon *ngIf="!open" fxLayoutAlign="end center" fxFlex="10">add</mat-icon>
+            <mat-icon *ngIf="open" fxLayoutAlign="end center" fxFlex="10">remove</mat-icon>
+    </mat-expansion-panel-header>
+    <ng-content></ng-content>
+</mat-expansion-panel>

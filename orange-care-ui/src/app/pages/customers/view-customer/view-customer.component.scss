@@ -1,0 +1,76 @@
+li {
+  margin-bottom: 10px;
+  font-size: 100%;
+}
+
+mat-tab-group {
+  width: 100%;
+}
+
+li span {
+  font-weight: bold;
+  font-size: 105%;
+}
+
+.customer-block {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.customer-block span {
+  position: relative; /* Ensures the pseudo-element is positioned relative to the span */
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem; /* Adjust as needed */
+}
+
+.customer-block span::before {
+  position: absolute;
+  color: white; /* Text color */
+}
+
+.customers-tabs {
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.div-border {
+  border-radius: 12px;
+}
+
+::ng-deep.mat-divider.mat-divider.mat-divider-vertical {
+  border-right: 1px solid #c4c6d0;
+}
+
+::ng-deep.mat-divider{
+  border-right: 1px solid #c4c6d0;
+}
+
+.customer-tabs-border-light {
+  border: 1px solid #c4c6d0;
+}
+
+.full-border-light {
+  border: 1px solid #c4c6d0;
+}
+
+.customer-tabs-border-dark {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+::ng-deep.mat-tab-label.mat-tab-label-active:not(.mat-tab-disabled),
+::ng-deep.mat-tab-label.mat-tab-label-active.cdk-keyboard-focused:not(.mat-tab-disabled) {
+  color: #ff7900;
+  opacity: 1;
+}
+
+
+
+
