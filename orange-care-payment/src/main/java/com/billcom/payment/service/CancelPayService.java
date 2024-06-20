@@ -16,16 +16,15 @@ import com.billcom.payment.commons.mappers.postgres.PayMapper;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceHistRepository;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceRepository;
 import com.billcom.payment.commons.repositories.postgres.PayRepository;
+import com.billcom.payment.config.properties.SettingsProperties;
 import com.billcom.payment.utils.Constants;
 import com.billcom.payment.utils.I18nErrorMessages;
-import com.billcom.payment.utils.PaymentApiSettingProperties;
 import com.ericsson.financialallocationreverse.*;
 import com.ericsson.financialdocumentdetailread.FinancialDocumentDetailReadRequest;
 import com.ericsson.financialdocumentdetailread.FinancialDocumentDetailReadResponse;
 import com.ericsson.financialdocumentsearch.DocTypesRequest;
 import com.ericsson.financialdocumentsearch.FinancialDocumentSearchRequest;
 import com.ericsson.financialdocumentsearch.FinancialDocumentSearchResponse;
-import jakarta.annotation.Resource;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,15 +34,11 @@ import org.springframework.stereotype.Service;
 import javax.xml.datatype.DatatypeConfigurationException;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Properties;
 
 @Service
 public class CancelPayService {
 
     private static final Logger logger = LogManager.getLogger(CancelPayService.class);
-
-    @Resource(name = "appSettingsProperties")
-    private Properties properties;
 
     private final FinancialDocumentDetailReadClient financialDocumentDetailReadClient;
     private final FinancialAllocationReverseClient financialAllocationReverseClient;
@@ -51,6 +46,7 @@ public class CancelPayService {
     private final FinTrxInterfaceHistRepository interfaceHistRepository;
     private final FinTrxInterfaceRepository interfaceRepository;
     private final CommonPaymentService commonPaymentService;
+    private final SettingsProperties settingsProperties;
     private final FinTrxCommonMapper trxCommonMapper;
     private final PayRepository payRepository;
     private final PayMapper payMapper;
@@ -62,6 +58,7 @@ public class CancelPayService {
                             FinTrxInterfaceHistRepository interfaceHistRepository,
                             FinTrxInterfaceRepository interfaceRepository,
                             CommonPaymentService commonPaymentService,
+                            SettingsProperties settingsProperties,
                             FinTrxCommonMapper trxCommonMapper,
                             PayRepository payRepository,
                             PayMapper payMapper) {
@@ -71,6 +68,7 @@ public class CancelPayService {
         this.interfaceHistRepository = interfaceHistRepository;
         this.commonPaymentService = commonPaymentService;
         this.interfaceRepository = interfaceRepository;
+        this.settingsProperties = settingsProperties;
         this.trxCommonMapper = trxCommonMapper;
         this.payRepository = payRepository;
         this.payMapper = payMapper;
@@ -80,7 +78,7 @@ public class CancelPayService {
 
         Long requestId;
 
-        cancelPayRequest.setHandlingReasonIdPub(this.properties.getProperty(PaymentApiSettingProperties.REVERSE_HANDLING_REASON));
+        cancelPayRequest.setHandlingReasonIdPub(this.settingsProperties.getReasonHandlingIdPub());
         logger.info("Begin cancelPay Operation");
         this.checkCancelPayRequest(cancelPayRequest);
         logger.debug("------------------------- Transaction Details -------------------------");
@@ -211,7 +209,7 @@ public class CancelPayService {
         } catch (SOAPFaultException faultException) {
             logger.debug("Updating payment failed by requestId: {}", requestId);
             this.interfaceRepository.updatePaymentFailedById(LocalDateTime.now(),
-                    properties.getProperty(PaymentApiSettingProperties.FAILED_TRANSACTION),
+                    this.settingsProperties.getTransaction().getFailedStatus(),
                     faultException.getFault().getFaultString(),
                     requestId
             );
@@ -258,7 +256,7 @@ public class CancelPayService {
         logger.info("Updating payment success by request ID: {}", requestId);
         this.interfaceRepository.updatePaymentSuccessByRequestId(LocalDateTime.now(),
                 transactionReverseOutDTO.getTransactionId(),
-                properties.getProperty(PaymentApiSettingProperties.SUCCESS_TRANSACTION),
+                this.settingsProperties.getTransaction().getSuccessStatus(),
                 requestId);
 
         logger.debug("Retrieving financial transaction interface entity by request ID: {}", requestId);
@@ -379,7 +377,7 @@ public class CancelPayService {
                 .priority(0L)
                 .producer("PaymentApi")
                 .transactionReference("0")
-                .status(properties.getProperty(PaymentApiSettingProperties.INIT_TRANSACTION))
+                .status(this.settingsProperties.getTransaction().getNewStatus())
                 .useCaseCode(useCase)
                 .originalTransactionId(trx)
                 .build();

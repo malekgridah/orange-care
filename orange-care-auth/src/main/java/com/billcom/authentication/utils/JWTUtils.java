@@ -48,5 +48,4 @@ public class JWTUtils {
         return !getClaims(token).getExpiration()
                 .before(new Date());
     }
-
 }

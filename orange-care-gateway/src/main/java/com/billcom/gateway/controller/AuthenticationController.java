@@ -4,12 +4,14 @@ import com.billcom.gateway.domains.AuthenticationResponse;
 import com.billcom.gateway.domains.BscsUser;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+@CrossOrigin("*")
 @RestController
 public class AuthenticationController {
 
@@ -21,7 +23,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public Mono<ResponseEntity<AuthenticationResponse>> authenticate(@RequestBody BscsUser user) {
-        String baseUrl = "http://localhost:8080";
+        String baseUrl = "http://localhost:8015";
         return webClient.baseUrl(baseUrl)
                 .build()
                 .post()

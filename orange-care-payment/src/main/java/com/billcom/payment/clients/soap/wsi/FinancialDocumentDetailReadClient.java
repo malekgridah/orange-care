@@ -1,28 +1,31 @@
 package com.billcom.payment.clients.soap.wsi;
 
 import com.billcom.payment.clients.soap.commons.ClientResolver;
-import com.billcom.payment.utils.WebServicesProperties;
+import com.billcom.payment.config.properties.WebServicesProperties;
 import com.ericsson.financialdocumentdetailread.FinancialDocumentDetailReadRequest;
 import com.ericsson.financialdocumentdetailread.FinancialDocumentDetailReadResponse;
 import com.ericsson.financialdocumentdetailread.FinancialDocumentDetailReadService;
 import com.ericsson.financialdocumentdetailread.FinancialDocumentDetailReadService_Service;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 
 @Component
 public class FinancialDocumentDetailReadClient {
 
     private final static Logger log = LogManager.getLogger(FinancialDocumentDetailReadClient.class);
 
-    @Resource(name = "webServicesProperties")
-    private Properties properties;
+    private final WebServicesProperties endpointProperties;
+
+    @Autowired
+    public FinancialDocumentDetailReadClient(WebServicesProperties endpointProperties) {
+        this.endpointProperties = endpointProperties;
+    }
 
     private FinancialDocumentDetailReadService_Service service;
 
@@ -31,7 +34,11 @@ public class FinancialDocumentDetailReadClient {
     public void init() {
         try {
             log.info("Initializing FinancialDocumentDetailReadClient...");
-            String serviceUrl = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_DOCUMENT_DETAIL_READ_URL);
+            String serviceUrl = this.endpointProperties.getWsi()
+                    .getFinancialDocument()
+                    .getDetailRead()
+                    .getUrl();
+
             service = new FinancialDocumentDetailReadService_Service(new URL(serviceUrl));
             log.debug("FinancialDocumentDetailReadService URL: {}", serviceUrl);
             log.info("Initialization of FinancialDocumentDetailReadClient is successful.");
@@ -45,8 +52,15 @@ public class FinancialDocumentDetailReadClient {
         log.info("Acquiring FinancialDocumentDetailReadService port...");
         if(username == null || username.isEmpty()){
             log.debug("User credentials are not provided or Invalid");
-            username = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_DOCUMENT_DETAIL_READ_USER);
-            password = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_DOCUMENT_DETAIL_READ_PASS);
+            username = this.endpointProperties.getWsi()
+                    .getFinancialDocument()
+                    .getDetailRead()
+                    .getUsername();
+
+            password = this.endpointProperties.getWsi()
+                    .getFinancialDocument()
+                    .getDetailRead()
+                    .getPassword();
             log.debug("Using default credentials from configuration files - Username: {}, Password: {}", username, "****");
         }else {
             log.debug("Using provided user credentials - Username: {}", username);

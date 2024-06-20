@@ -38,6 +38,21 @@ services:
         condition: service_healthy
         restart: true
 
+  ui:
+    image: orange-care-ui
+    container_name: orange-care-ui
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    ports:
+      - "8580:8080"
+      - "8581:8081"
+    depends_on:
+      config:
+        condition: service_healthy
+        restart: true
+
   bscs:
     image: orange-care-bscs
     container_name: orange-care-bscs

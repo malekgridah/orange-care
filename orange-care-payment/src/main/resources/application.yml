@@ -3,14 +3,8 @@ springdoc:
   swagger-ui:
     path:  "/swagger-ui.html"
 
-management:
-  endpoint:
-    metrics:
-      enabled:  true
-  endpoints:
-    web:
-      exposure:
-        include:  *
+#cxf:
+#  path: /
 
 app:
   name: "@project.artifactId@"
@@ -30,6 +24,13 @@ txt1: "${AnsiColor.YELLOW}Project:${AnsiStyle.NORMAL} ${app.name}${AnsiColor.CYA
 txt2: "${AnsiColor.YELLOW}Version:${AnsiStyle.NORMAL} ${app.version}${AnsiColor.CYAN}"
 txt3: "${AnsiColor.YELLOW}Description:${AnsiStyle.NORMAL} ${app.description}${AnsiColor.CYAN}"
 
-
+---
+spring:
+  config:
+    import:
+      - datasource.yml
+      - webservices.yml
+      - ws.properties
+      - settings.yml
 
 

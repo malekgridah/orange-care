@@ -1,28 +1,31 @@
 package com.billcom.payment.clients.soap.wsi;
 
 import com.billcom.payment.clients.soap.commons.ClientResolver;
-import com.billcom.payment.utils.WebServicesProperties;
+import com.billcom.payment.config.properties.WebServicesProperties;
 import com.ericsson.financialallocationreverse.FinancialAllocationReverseRequest;
 import com.ericsson.financialallocationreverse.FinancialAllocationReverseResponse;
 import com.ericsson.financialallocationreverse.FinancialAllocationReverseService;
 import com.ericsson.financialallocationreverse.FinancialAllocationReverseService_Service;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 
 @Component
 public class FinancialAllocationReverseClient {
 
     private final static Logger log = LogManager.getLogger(FinancialAllocationReverseClient.class);
 
-    @Resource(name = "webServicesProperties")
-    private Properties properties;
+    private final WebServicesProperties endpointProperties;
+
+    @Autowired
+    public FinancialAllocationReverseClient(WebServicesProperties endpointProperties) {
+        this.endpointProperties = endpointProperties;
+    }
 
     private FinancialAllocationReverseService_Service service;
 
@@ -31,7 +34,11 @@ public class FinancialAllocationReverseClient {
         try {
             log.info("Initializing FinancialAllocationReverseClient...");
 
-            String serviceUrl = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_ALLOCATION_REVERSE_URL);
+            String serviceUrl = this.endpointProperties.getWsi()
+                    .getFinancialAllocation()
+                    .getReverse()
+                    .getUrl();
+
             service = new FinancialAllocationReverseService_Service(new URL(serviceUrl));
 
             log.debug("FinancialAllocationReverseService URL: {}", serviceUrl);
@@ -46,8 +53,15 @@ public class FinancialAllocationReverseClient {
         log.info("Acquiring FinancialAllocationReverseService port...");
         if(username == null || username.isEmpty()){
             log.debug("User credentials are not provided or Invalid");
-            username = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_ALLOCATION_REVERSE_USER);
-            password = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_ALLOCATION_REVERSE_PASS);
+            username = this.endpointProperties.getWsi()
+                    .getFinancialAllocation()
+                    .getReverse()
+                    .getUsername();
+
+            password = this.endpointProperties.getWsi()
+                    .getFinancialAllocation()
+                    .getReverse()
+                    .getPassword();
             log.debug("Using default credentials from properties file - Username: {}, Password: {}", username, "****");
         }else {
             log.debug("Using provided user credentials - Username: {}", username);

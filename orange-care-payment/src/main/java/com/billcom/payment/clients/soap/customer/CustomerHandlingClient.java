@@ -2,36 +2,43 @@ package com.billcom.payment.clients.soap.customer;
 
 import com.billcom.customer.handling.*;
 import com.billcom.payment.clients.soap.commons.ClientResolver;
-import com.billcom.payment.utils.WebServicesProperties;
+import com.billcom.payment.config.properties.WebServicesProperties;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import jakarta.xml.ws.BindingProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 
 @Component
 public class CustomerHandlingClient {
 
     private static final Logger log = LogManager.getLogger(CustomerHandlingClient.class);
 
-    @Resource(name = "webServicesProperties")
-    private Properties webServicesProperties;
 
     private String CUSTOMER_HANDLING_URL;
 
     private CustomerHandlingService customerHandlingService;
+
+    private final WebServicesProperties endpointProperties;
+
+    @Autowired
+    public CustomerHandlingClient(WebServicesProperties endpointProperties) {
+        this.endpointProperties = endpointProperties;
+    }
+
 
     @PostConstruct
     private void init() {
         try {
             log.info("Initializing CustomerHandling WebService Client...");
 
-            CUSTOMER_HANDLING_URL = webServicesProperties.getProperty(WebServicesProperties.CUSTOMER_HANDLING_URL);
+            CUSTOMER_HANDLING_URL = endpointProperties.getBscs()
+                    .getCustomerHandling()
+                    .getUrl();
 
             log.debug("CustomerHandling WebService Endpoint URL: {}", CUSTOMER_HANDLING_URL);
 
@@ -54,13 +61,16 @@ public class CustomerHandlingClient {
 
             GetCustomerDetailsResponse response = port.getCustomerDetails(request);
             log.debug("Response received: {}", response.toString());
-            log.info("Customer details retrieved successfully in {} ms", System.currentTimeMillis() - startTime);
+            log.info("Customer details retrieved successfully in {} ms",
+                    System.currentTimeMillis() - startTime);
             return response;
         } catch (UnexpectedError e) {
-            log.error("Unexpected error occurred after {} ms while getting customer details: {}", (System.currentTimeMillis() - startTime), e.getMessage());
+            log.error("Unexpected error occurred after {} ms while getting customer details: {}",
+                    (System.currentTimeMillis() - startTime), e.getMessage());
             throw e;
         } catch (Exception e) {
-            log.error("General error occurred after {} ms while getting customer details: {}", (System.currentTimeMillis() - startTime), e.getMessage());
+            log.error("General error occurred after {} ms while getting customer details: {}",
+                    (System.currentTimeMillis() - startTime), e.getMessage());
             throw new RuntimeException("Error getting customer details", e);
         }
     }
@@ -70,9 +80,14 @@ public class CustomerHandlingClient {
 
         if (username == null || username.isEmpty()) {
             log.debug("User credentials are not provided or invalid.");
-            username = this.webServicesProperties.getProperty(WebServicesProperties.CUSTOMER_HANDLING_USER);
-            password = this.webServicesProperties.getProperty(WebServicesProperties.CUSTOMER_HANDLING_PASS);
-            log.debug("Using default credentials from configuration files - Username: {}, Password: {}", username, "****");
+            username = this.endpointProperties.getBscs()
+                    .getCustomerHandling()
+                    .getUsername();
+
+            password = this.endpointProperties.getBscs()
+                    .getCustomerHandling()
+                    .getPassword();
+            log.debug("Using default credentials from configuration files - Username: {}, Password: ****", username);
         }
 
         try {

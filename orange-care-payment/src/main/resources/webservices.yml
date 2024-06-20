@@ -1,0 +1,49 @@
+payment:
+  endpoints:
+    bscs:
+      contract-handling:
+        url: http://192.168.10.54:8080/ContractHandling/services/ContractHandling?wsdl
+        username: ADMX
+        password: ADMX
+
+      customer-handling:
+        url: http://192.168.10.54:8080/CustomerHandling/services/CustomerHandling?wsdl
+        username: ADMX
+        password: ADMX
+
+    wsi:
+      financial-allocation:
+        write:
+          url: http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialAllocationWriteService.wsdl
+          username: ADMX
+          password: ADMX
+
+        reverse:
+          url: http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialAllocationReverseService.wsdl
+          username: ADMX
+          password: ADMX
+
+      financial-document:
+        search:
+          url: http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialDocumentSearchService.wsdl
+          username: ADMX
+          password: ADMX
+
+        read:
+          url: http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialDocumentReadService.wsdl
+          username: ADMX
+          password: ADMX
+
+        detail-read:
+          url: http://192.168.10.95:13001/wsi/services/ws_CIL_7_FinancialDocumentDetailReadService.wsdl
+          username: ADMX
+          password: ADMX
+
+    other:
+      rest-executor:
+        url: http://192.168.10.16:8080/BscsWsRestExec/execute/
+        password: EB23
+        username: EB23
+
+      sms-notifier:
+        url: http://192.168.10.16:8090/SMSNotifierMock/mockApiNotificationSMSWSServiceIpmlPortBinding?WSDL

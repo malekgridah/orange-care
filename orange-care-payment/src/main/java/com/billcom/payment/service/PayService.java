@@ -11,12 +11,11 @@ import com.billcom.payment.commons.exceptions.*;
 import com.billcom.payment.commons.mappers.bscs.FinTrxCommonMapper;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceHistRepository;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceRepository;
+import com.billcom.payment.config.properties.SettingsProperties;
 import com.billcom.payment.utils.Constants;
 import com.billcom.payment.utils.I18nErrorMessages;
-import com.billcom.payment.utils.PaymentApiSettingProperties;
 import com.ericsson.financialallocationwrite.*;
 import com.ericsson.financialallocationwrite.Money;
-import jakarta.annotation.Resource;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +27,6 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class PayService {
@@ -36,13 +34,12 @@ public class PayService {
 
     private static final Boolean SUPPRESS_ALLOC = true;
 
-    @Resource(name = "appSettingsProperties")
-    private Properties properties;
 
     private final FinTrxInterfaceHistRepository finTrxInterfaceHistRepository;
     private final FinTrxInterfaceRepository finTrxInterfaceRepository;
     private final FinancialAllocationWriteClient finAllWriteClient;
     private final CommonPaymentService commonPaymentService;
+    private final SettingsProperties settingsProperties;
     private final FinTrxCommonMapper finTrxCommonMapper;
 
     @Autowired
@@ -50,10 +47,12 @@ public class PayService {
                       FinTrxInterfaceRepository finTrxInterfaceRepository,
                       FinancialAllocationWriteClient finAllWriteClient,
                       CommonPaymentService commonPaymentService,
+                      SettingsProperties settingsProperties,
                       FinTrxCommonMapper finTrxCommonMapper) {
         this.finTrxInterfaceHistRepository = finTrxInterfaceHistRepository;
         this.finTrxInterfaceRepository = finTrxInterfaceRepository;
         this.commonPaymentService = commonPaymentService;
+        this.settingsProperties = settingsProperties;
         this.finTrxCommonMapper = finTrxCommonMapper;
         this.finAllWriteClient = finAllWriteClient;
     }
@@ -88,7 +87,7 @@ public class PayService {
             if(transactionWriteOutDTO.getTransactionId() != null) {
                 this.finTrxInterfaceRepository.updatePaymentSuccessByRequestId(LocalDateTime.now(),
                         transactionWriteOutDTO.getTransactionId(),
-                        properties.getProperty(PaymentApiSettingProperties.SUCCESS_TRANSACTION),
+                        this.settingsProperties.getTransaction().getSuccessStatus(),
                         request_id);
 
                 FinTrxInterfaceCommonDto finTrxInterface = this.finTrxCommonMapper.toDto(this.finTrxInterfaceRepository
@@ -143,7 +142,7 @@ public class PayService {
         }catch (SOAPFaultException faultException) {
             logger.error(faultException);
             this.finTrxInterfaceRepository.updatePaymentFailedById(LocalDateTime.now(),
-                    properties.getProperty(PaymentApiSettingProperties.FAILED_TRANSACTION),
+                    this.settingsProperties.getTransaction().getFailedStatus(),
                     faultException.getFault().getFaultString(),
                     request_id
                     );
@@ -419,7 +418,7 @@ public class PayService {
                 .reference1(payBean.getEntityCode() != null ? payBean.getEntityCode() : null )
                 .reference11(payBean.getEntityName())
                 .reference12(payBean.getUsernameGPS())
-                .status(properties.getProperty(PaymentApiSettingProperties.INIT_TRANSACTION))
+                .status(this.settingsProperties.getTransaction().getNewStatus())
                 .suppressAlloc(SUPPRESS_ALLOC ? "X" : null)
                 .transactionReference("0")
                 .useCaseCode(payBean.getUseCaseIdPub())

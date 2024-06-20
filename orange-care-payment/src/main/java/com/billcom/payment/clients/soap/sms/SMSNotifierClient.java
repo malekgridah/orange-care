@@ -1,29 +1,32 @@
 package com.billcom.payment.clients.soap.sms;
 
+import com.billcom.payment.config.properties.WebServicesProperties;
 import com.orange.dsi.ws.apinotificationsmsws.ApiNotificationSMS;
 import com.orange.dsi.ws.apinotificationsmsws.ApiNotificationSMSWs;
 import com.orange.dsi.ws.apinotificationsmsws.SendNotificationResponse;
 import com.sun.xml.ws.client.BindingProviderProperties;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import jakarta.xml.ws.BindingProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
-
-import static com.billcom.payment.utils.WebServicesProperties.API_NOTIFICATION_SMS_URL;
 
 @Component
 public class SMSNotifierClient {
 
 
     private static final Logger log = LogManager.getLogger(SMSNotifierClient.class);
-    @Resource(name = "webServicesProperties")
-    private Properties webServicesProperties;
+
+    private final WebServicesProperties endpointProperties;
+
+    @Autowired
+    public SMSNotifierClient(WebServicesProperties endpointProperties) {
+        this.endpointProperties = endpointProperties;
+    }
 
     private ApiNotificationSMSWs apiNotificationSMSWs;
 
@@ -32,7 +35,9 @@ public class SMSNotifierClient {
         try {
             log.info("Initializing ApiNotificationSMS WebService Client...");
 
-            String webServiceEndPoint = webServicesProperties.getProperty(API_NOTIFICATION_SMS_URL);
+            String webServiceEndPoint = this.endpointProperties
+                    .getOther()
+                    .getSmsNotifier().getUrl();
 
             log.debug("ApiNotificationSMS WebService Endpoint URL: {}", webServiceEndPoint);
             apiNotificationSMSWs = new ApiNotificationSMSWs(new URL(webServiceEndPoint));
@@ -55,14 +60,19 @@ public class SMSNotifierClient {
         log.debug("Setting timeout properties...");
         log.debug("- Request timeout: {} ms", 10000);
         log.debug("- Connect timeout: {} ms", 10000);
-        ((BindingProvider) apiNotificationSMSWs).getRequestContext().put(BindingProviderProperties.REQUEST_TIMEOUT, 10000);
-        ((BindingProvider) apiNotificationSMSWs).getRequestContext().put(BindingProviderProperties.CONNECT_TIMEOUT, 10000);
+        ((BindingProvider) apiNotificationSMSWs).getRequestContext()
+                .put(BindingProviderProperties.REQUEST_TIMEOUT, 10000);
+
+        ((BindingProvider) apiNotificationSMSWs).getRequestContext()
+                .put(BindingProviderProperties.CONNECT_TIMEOUT, 10000);
         log.info("Sending Notification...");
         log.info("- Type: {}", "SMS");
         log.info("- Canal: {}", request.getCanal());
         log.info("- Msisdn:  {}", request.getMsisdn());
         log.info("- Message: {}", request.getSmsText());
-        apiNotificationSMS.sendNotification(request.getMsisdn(), "SMS", request.getSmsText(), "", request.getCanal());
+
+        apiNotificationSMS.sendNotification(request.getMsisdn(), "SMS", request.getSmsText(),
+                "", request.getCanal());
 
         if(sendNotificationResponse.isIsSuccessful())
             log.info("SMS sent successfully.");

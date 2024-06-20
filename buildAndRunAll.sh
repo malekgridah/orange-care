@@ -20,4 +20,8 @@ cd orange-care-gateway
 ./build.sh
 cd ..
 
+cd orange-care-ui
+./build.sh
+cd ..
+
 docker-compose up -d

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import {CustomersSearch, CustomersSearchResult} from './customers.model';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {environment} from "../../../environments/environment";
+
+
 
 
 export class EditCustomer {
@@ -42,7 +45,7 @@ const contractData: Contract[] = [
     {dirNum: '52168545', coCode: 'CONTR0039815088', rpCode: 'Ghrami Net', status: 'a', activationDate: 'Feb 28, 2024'}
 ];
 
-const BASE_URL = 'http://localhost:8080/api/customers';
+const BASE_URL = `${environment.apiUrl}/bscs/api/customers`;
 
 
 @Injectable()
@@ -54,6 +57,7 @@ export class CustomersService {
   }
 
   search(searchRequest: CustomersSearch): Observable<CustomersSearchResult[]>  {
+      console.log(BASE_URL);
       return this.httpClient.post<CustomersSearchResult[]>(BASE_URL + '/search', {
           csStatus: searchRequest.csStatus,
           adrLname: searchRequest.adrLname,

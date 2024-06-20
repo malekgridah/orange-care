@@ -12,7 +12,6 @@
     </parent>
 
     <artifactId>orange-care-payment</artifactId>
-    <packaging>war</packaging>
     <name>Orange Care :: Payment</name>
 
     <properties>
@@ -32,7 +31,17 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.billcom</groupId>
@@ -63,6 +72,11 @@
             <groupId>com.ericsson</groupId>
             <artifactId>financial-allocation-reverse</artifactId>
             <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.5.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -138,6 +152,12 @@
             <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.cxf</groupId>

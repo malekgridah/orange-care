@@ -1,6 +1,8 @@
 package com.billcom.payment.commons.dtos.postgres;
 
 import com.billcom.payment.commons.domains.postgres.AuthentificationTable;
+import lombok.Builder;
+import lombok.Value;
 
 import java.io.Serializable;
 

@@ -8,12 +8,16 @@ import { NotFoundComponent } from './pages/errors/not-found/not-found.component'
 import { ErrorComponent } from './pages/errors/error/error.component';
 import { CategoriasCadastroComponent } from './pages/artigos/categorias/categorias-cadastro/categorias-cadastro.component';
 import { CategoriasPesquisaComponent } from './pages/artigos/categorias/categorias-pesquisa/categorias-pesquisa.component';
+import {AuthGuard} from "./core";
 
 
 export const routes: Routes = [
     {
         path: '',
-        component: PagesComponent, children: [
+        component: PagesComponent,
+        canActivate:[AuthGuard],
+        canActivateChild:[AuthGuard],
+        children: [
             { path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule', data: { breadcrumb: 'Dashboard' } },
             { path: 'customers', loadChildren: './pages/customers/customers.module#CustomersModule', data: { breadcrumb: 'Customers' } },
             { path: 'contracts', loadChildren: './pages/contracts/contracts.module#ContractsModule', data: { breadcrumb: 'Contracts' } },

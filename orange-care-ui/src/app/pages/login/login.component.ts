@@ -4,7 +4,9 @@ import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { emailValidator } from '../../theme/utils/app-validators';
 import { AppSettings } from '../../app.settings';
 import { Settings } from '../../app.settings.model';
-import { AuthService } from './auth.service';
+import {AuthService} from "../../core";
+import {filter} from "rxjs/operators";
+
 
 @Component({
   selector: 'app-login',
@@ -18,45 +20,52 @@ export class LoginComponent {
              private auth: AuthService) {
     this.settings = this.appSettings.settings; 
     this.form = this.fb.group({
-      'usuario': [null, Validators.compose([Validators.required, emailValidator])],
+      'usuario': [null, Validators.compose([Validators.required])],
       'senha': [null, Validators.compose([Validators.required, Validators.minLength(3)])],
       'rememberMe': false
     });
   }
 
- /*  login(usuario: string, senha: string) {
-    const val = this.form.value;
+  //  login(usuario: string, senha: string) {
+  //   const val = this.form.value;
+  //
+  //   if(this.form.valid) {
+  //   this.auth.login(val.usuario, val.senha);
+  //   this.router.navigate(['/']);
+  //   }
+  // }
 
-    if(this.form.valid) {
-    this.auth.login(val.usuario, val.senha);
-    this.router.navigate(['/']);
-    }
-  } */
+  //  login() {
+  //   const val = this.form.value;
+  //
+  //   if (this.form.valid) {
+  //     this.auth.login(val.usuario, val.senha)
+  //       .subscribe(
+  //          () => {
+  //            console.log(val.usuario);
+  //            this.router.navigate['/'];
+  //          }
+  //       )
+  //
+  //     //  this.form.reset();
+  //   }
+  // }
 
- /*  login() {
-    const val = this.form.value;
+  get email() {
+    return this.form.get('usuario');
+  }
 
-    if (this.form.valid) {
-      this.auth.login(val.usuario, val.senha)
-        .subscribe(
-           () => {
-             console.log(val.usuario);
-             this.router.navigate['/'];
-           }
-        )
-
-      //  this.form.reset();
-    }
-  } */
+  get password() {
+    return this.form.get('senha');
+  }
 
   public onSubmit(values:Object):void {
     if (this.form.valid) {
-    //  this.auth.login(val.usuario, val.senha)
-    //  .subscribe(
-    //     () => {
-           this.router.navigate['/'];
-   //      }
-   //   )
+     this.auth.login(this.email.value, this.password.value)
+         .pipe(filter(authenticated => authenticated))
+          .subscribe(
+         () => this.router.navigateByUrl('/'),
+     )
     }
   }
 

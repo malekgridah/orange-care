@@ -1,28 +1,31 @@
 package com.billcom.payment.clients.soap.wsi;
 
 import com.billcom.payment.clients.soap.commons.ClientResolver;
-import com.billcom.payment.utils.WebServicesProperties;
+import com.billcom.payment.config.properties.WebServicesProperties;
 import com.ericsson.financialallocationwrite.FinancialAllocationWriteRequest;
 import com.ericsson.financialallocationwrite.FinancialAllocationWriteResponse;
 import com.ericsson.financialallocationwrite.FinancialAllocationWriteService;
 import com.ericsson.financialallocationwrite.FinancialAllocationWriteService_Service;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 
 @Component
 public class FinancialAllocationWriteClient {
 
     private final static Logger log = LogManager.getLogger(FinancialAllocationWriteClient.class);
 
-    @Resource(name = "webServicesProperties")
-    private Properties properties;
+    private final WebServicesProperties endpointProperties;
+
+    @Autowired
+    public FinancialAllocationWriteClient(WebServicesProperties endpointProperties) {
+        this.endpointProperties = endpointProperties;
+    }
 
     private FinancialAllocationWriteService_Service service;
 
@@ -30,7 +33,11 @@ public class FinancialAllocationWriteClient {
     public void init() {
         try {
             log.info("Initializing FinancialAllocationWriteClient...");
-            String serviceUrl = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_ALLOCATION_WRITE_URL);
+            String serviceUrl = this.endpointProperties.getWsi()
+                    .getFinancialAllocation()
+                    .getWrite()
+                    .getUrl();
+
             service = new FinancialAllocationWriteService_Service(new URL(serviceUrl));
             log.debug("FinancialAllocationWriteService URL: {}", serviceUrl);
             log.info("Initialization of FinancialAllocationWriteClient is successful.");
@@ -45,8 +52,16 @@ public class FinancialAllocationWriteClient {
         log.info("Acquiring FinancialAllocationWriteService port...");
         if(username == null || username.isEmpty()){
             log.debug("User credentials are not provided or Invalid");
-            username = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_ALLOCATION_WRITE_USER);
-            password = properties.getProperty(WebServicesProperties.WSI_FINANCIAL_ALLOCATION_WRITE_PASS);
+            username = this.endpointProperties.getWsi()
+                    .getFinancialAllocation()
+                    .getWrite()
+                    .getUsername();
+
+            password = this.endpointProperties.getWsi()
+                    .getFinancialAllocation()
+                    .getWrite()
+                    .getPassword();
+
             log.debug("Using default credentials from configuration files - Username: {}, Password: {}", username, "****");
         }else {
             log.debug("Using provided user credentials - Username: {}", username);

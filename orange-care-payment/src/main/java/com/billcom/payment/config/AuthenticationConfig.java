@@ -33,7 +33,6 @@ public class AuthenticationConfig {
                             .login(userDto.getLogin())
                             .enabled(userDto.getEnabled())
                             .build();
-
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("User not found : "+username));
     }

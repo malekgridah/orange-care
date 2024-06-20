@@ -25,7 +25,7 @@
         <!-- ######################################## -->
         <!-- #    Root Logger for all components    # -->
         <!-- ######################################## -->
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="console"/>
             <AppenderRef ref="RollingFile" />
         </Root>
@@ -35,5 +35,7 @@
         <!-- #             Other Loggers            # -->
         <!-- ######################################## -->
         <Logger name="org.springframework" level="INFO" />
+        <Logger name="org.hibernate" level="INFO" />
+        <Logger name="com.billcom" level="DEBUG" />
     </Loggers>
 </Configuration>

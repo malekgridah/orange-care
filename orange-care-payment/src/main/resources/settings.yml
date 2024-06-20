@@ -1,0 +1,35 @@
+payment:
+  settings:
+    retry-failed-job-delay: 300000
+    reason-handling-id-pub: RV01
+    document-search-count: 20
+    log-level: INFO
+    transaction:
+      new-status: 10
+      success-status: 20
+      failed-status: 30
+
+    prgcode:
+      include:
+        - 1
+        - 33
+        - 4
+        - 21
+      exclude:
+        - 1
+        - 2
+        - 3
+
+    suppress-alloc:
+      payment: true
+      advance-payment: false
+      other-cases: false
+
+    rest-executor:
+      query-id: 80
+      customer-query-id: 75
+
+    entity-code-channels:
+      - GPS
+      - BOUTIQUE
+      - FRANCHISE

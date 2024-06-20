@@ -49,7 +49,7 @@ public class RestWSClient {
     String requestBody = null;
     try {
       requestBody = mapper.writeValueAsString(request);
-      logger.error("Request body: " + requestBody);
+        logger.error("Request body: {}", requestBody);
     } catch (JsonProcessingException e) {
       logger.error("Error occurred when preparing request", e);
     }
@@ -58,7 +58,7 @@ public class RestWSClient {
     RestResponse response = null;
       try {
           response = mapper.readValue(result.getBody(), RestResponse.class);
-          logger.info("web service result: response.isSuccessful " + response.isSuccessful());
+          logger.info("web service result: response.isSuccessful {}", response.isSuccessful());
       } catch (IOException e) {
           logger.error("Error occurred when mapping object", e);
       }

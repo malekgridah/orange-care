@@ -11,10 +11,9 @@ import com.billcom.payment.commons.mappers.bscs.OrderhdrAllMapper;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceHistRepository;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceRepository;
 import com.billcom.payment.commons.repositories.bscs.OrderhdrAllRepository;
+import com.billcom.payment.config.properties.SettingsProperties;
 import com.billcom.payment.utils.Constants;
-import com.billcom.payment.utils.PaymentApiSettingProperties;
 import com.ericsson.financialdocumentsearch.*;
-import jakarta.annotation.Resource;
 import jakarta.xml.ws.soap.SOAPFaultException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,10 +23,10 @@ import org.springframework.stereotype.Service;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,11 +34,9 @@ public class GetInvoicesService {
 
     private static final Logger logger = LogManager.getLogger(GetInvoicesService.class);
 
-    @Resource(name = "appSettingsProperties")
-    private Properties paymentApiproperties;
-
     private final FinancialDocumentSearchClient finDocSearchClient;
     private final RestExecutorClient restExecutorClient;
+    private final SettingsProperties settingsProperties;
     private final OrderhdrAllRepository orderhdrAllRepository;
     private final OrderhdrAllMapper orderhdrAllMapper;
     private final FinTrxInterfaceRepository finTrxInterfaceRepository;
@@ -47,11 +44,12 @@ public class GetInvoicesService {
 
     @Autowired
     public GetInvoicesService(FinancialDocumentSearchClient finDocSearchClient,
-                              RestExecutorClient restExecutorClient,
+                              RestExecutorClient restExecutorClient, SettingsProperties settingsProperties,
                               OrderhdrAllRepository orderhdrAllRepository,
                               OrderhdrAllMapper orderhdrAllMapper, FinTrxInterfaceRepository finTrxInterfaceRepository, FinTrxInterfaceHistRepository finTrxInterfaceHistRepository) {
         this.finDocSearchClient = finDocSearchClient;
         this.restExecutorClient = restExecutorClient;
+        this.settingsProperties = settingsProperties;
         this.orderhdrAllRepository = orderhdrAllRepository;
         this.orderhdrAllMapper = orderhdrAllMapper;
         this.finTrxInterfaceRepository = finTrxInterfaceRepository;
@@ -111,14 +109,14 @@ public class GetInvoicesService {
 
 
         if(prgCodeInclude != null && prgCodeInclude.equals(("1"))) {
-            if (!this.processPrgCode(paymentApiproperties.getProperty(PaymentApiSettingProperties.PRGCODE_INCLUDE),
+            if (!this.processPrgCode(this.settingsProperties.getPrgcode().getInclude(),
                     csId, csIdPub, custRef, customerDetails, cin, regNo)) {
                 invoicesBean.getCustRef().setCsId(0L);
             }
         }
 
         if(prgCodeExclude != null && prgCodeExclude.equals(("1"))) {
-            if (this.processPrgCode(paymentApiproperties.getProperty(PaymentApiSettingProperties.PRGCODE_EXCLUDE),
+            if (this.processPrgCode(this.settingsProperties.getPrgcode().getExclude(),
                     csId, csIdPub, custRef, customerDetails, cin, regNo)) {
                 invoicesBean.getCustRef().setCsId(0L);
             }
@@ -129,7 +127,7 @@ public class GetInvoicesService {
     }
 
 
-    private Boolean processPrgCode(String prgCodes, Long csId,
+    private Boolean processPrgCode(List<String> prgCodes, Long csId,
                                    String csIdPub, CustomerReference custRef,
                                    CustomerDetails customerDetails, String cin,
                                    String regno) {
@@ -141,7 +139,7 @@ public class GetInvoicesService {
             logger.error("details is null");
         }
 
-        for (String c : prgCodes.split("-")) {
+        for (String c : prgCodes) {
             if (c.equals(customerDetails.getPrgcode())) {
                 return true;
             }
@@ -155,6 +153,11 @@ public class GetInvoicesService {
         DocTypesRequest docTypesRequest = new DocTypesRequest();
         docTypesRequest.getDocType().add("IN");
         inputAttributes.setDocTypes(docTypesRequest);
+
+        if (this.settingsProperties.getDocumentSearchCount() != null) {
+            inputAttributes.setResultLimit(BigInteger.valueOf(Long
+                    .parseLong(this.settingsProperties.getDocumentSearchCount())));
+        }
 
         try {
             if(invoiceRequest.getInvoicesBean() != null) {

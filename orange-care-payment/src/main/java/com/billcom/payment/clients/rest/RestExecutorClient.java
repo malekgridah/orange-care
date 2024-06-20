@@ -2,10 +2,9 @@ package com.billcom.payment.clients.rest;
 
 import com.billcom.payment.commons.beans.CustomerDetails;
 import com.billcom.payment.commons.bscs.RestResponse;
-import com.billcom.payment.utils.PaymentApiSettingProperties;
-import com.billcom.payment.utils.WebServicesProperties;
+import com.billcom.payment.config.properties.SettingsProperties;
+import com.billcom.payment.config.properties.WebServicesProperties;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,33 +18,42 @@ public class RestExecutorClient {
 
     private static final Logger logger = LogManager.getLogger(RestExecutorClient.class);
 
-    @Resource(name = "webServicesProperties")
-    private Properties webServiceProperties;
-
-    @Resource(name = "appSettingsProperties")
-    private Properties appSettingProperties;
-
     private final RestWSClient restWSClient;
+    private final SettingsProperties settingsProperties;
+    private final WebServicesProperties webServicesProperties;
 
     @Autowired
-    public RestExecutorClient(RestWSClient restWSClient) {
+    public RestExecutorClient(RestWSClient restWSClient,
+                              SettingsProperties settingsProperties,
+                              WebServicesProperties webServicesProperties) {
         this.restWSClient = restWSClient;
+        this.settingsProperties = settingsProperties;
+        this.webServicesProperties = webServicesProperties;
     }
 
     @PostConstruct
     private void init() {
+        String restExecutorUrlLogin = this.webServicesProperties
+                .getOther()
+                .getRestExecutor()
+                .getUsername();
 
-        String restExecutorUrlLogin =webServiceProperties.getProperty(WebServicesProperties.REST_EXECUTOR_USER);
-        String restExecutorUrlPassword =webServiceProperties.getProperty(WebServicesProperties.REST_EXECUTOR_PASS);
+        String restExecutorUrlPassword = this.webServicesProperties
+                .getOther()
+                .getRestExecutor()
+                .getPassword();
 
         restWSClient.setUserName(restExecutorUrlLogin);
         restWSClient.setPassword(restExecutorUrlPassword);
-
     }
 
     public CustomerDetails getCustomerDetails(Long csId, String csIdPub, String cin, String regNo) {
-        String restExecutorUrlQueryId = appSettingProperties.getProperty(PaymentApiSettingProperties.REST_EXECUTOR_CUSTOMER_QUERY_ID);
-        String restExecutorUrl = webServiceProperties.getProperty(WebServicesProperties.REST_EXECUTOR_URL);
+        String restExecutorUrlQueryId = this.settingsProperties.getRestExecutor().getCustomerQueryId();
+        String restExecutorUrl = this.webServicesProperties
+                .getOther()
+                .getRestExecutor()
+                .getUrl();
+
         restWSClient.setWsUrl(restExecutorUrl + restExecutorUrlQueryId);
         CustomerDetails det = new CustomerDetails();
         try {
@@ -70,10 +78,7 @@ public class RestExecutorClient {
             RestResponse response = restWSClient.callRestWebService(mapRequest);
 
             if (response != null) {
-                logger.info(
-                        "RestExecutor response status: " + response.isSuccessful() + "comment = " + response.getComment());
-                System.out.println(
-                        "RestExecutor response status: " + response.isSuccessful() + "comment = " + response.getComment());
+                logger.info("RestExecutor response status: " + response.isSuccessful() + "comment = " + response.getComment());
                 if (response.isSuccessful() && !CollectionUtils.isEmpty(response.getRows())) {
                     String prgcode;
                     if (response.getRows().size() == 1) {
@@ -98,12 +103,12 @@ public class RestExecutorClient {
                         det.setCustomerIds(ids);
                         det.setPrgcode(prgcode);
 //                        det.setCustomerPrgCodes(customerPrgCodes);
-                        logger.info("customerIds" + ids);
-                        logger.info("prgcode " + prgcode);
+                        logger.info("customerIds{}", ids);
+                        logger.info("prgcode {}", prgcode);
                     }
                     return det;
                 }
-                logger.info("RestExecutor response emptyRows : " + response.getComment());
+                logger.info("RestExecutor response emptyRows : {}", response.getComment());
             }
         } catch (Exception e) {
             logger.error("getCsIdFromMsisdn - Internal error occurred ", e);
@@ -112,8 +117,12 @@ public class RestExecutorClient {
     }
 
     public Long getCsIdFromMsisdn(String msisdn) {
-        String restExecutorUrlQueryId = appSettingProperties.getProperty(PaymentApiSettingProperties.REST_EXECUTOR_QUERY_ID);
-        String restExecutorUrl = webServiceProperties.getProperty(WebServicesProperties.REST_EXECUTOR_URL);
+        String restExecutorUrlQueryId = this.settingsProperties.getRestExecutor().getQueryId();
+        String restExecutorUrl = this.webServicesProperties
+                .getOther()
+                .getRestExecutor()
+                .getUrl();
+
         restWSClient.setWsUrl(restExecutorUrl + restExecutorUrlQueryId);
         Long csId = null;
         try {
@@ -122,7 +131,7 @@ public class RestExecutorClient {
             RestResponse response = restWSClient.callRestWebService(mapRequest);
 
             if (response != null) {
-                logger.info("RestExecutor response status: " + response.isSuccessful());
+                logger.info("RestExecutor response status: {}", response.isSuccessful());
                 if (response.isSuccessful() && !CollectionUtils.isEmpty(response.getRows())) {
                     return csId = Long.parseLong(response.getRows().get(0).get("CS_ID").toString());
                 }
