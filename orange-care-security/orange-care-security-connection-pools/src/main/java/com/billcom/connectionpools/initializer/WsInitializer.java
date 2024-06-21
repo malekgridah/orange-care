@@ -4,7 +4,6 @@ import com.lhs.ccb.cfw.sgu.CDAInitializer;
 import com.lhs.ccb.common.DelayAction;
 
 import javax.servlet.ServletContextEvent;
-import javax.servlet.annotation.WebListener;
 import java.io.File;
 import java.net.URL;
 import java.util.logging.Level;

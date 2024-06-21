@@ -8,8 +8,8 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import({ConnectionPoolsConfigurationMarker.class})
-public @interface EnableConnectionPools {
+@Import({ServerConnectionPoolsConfigurationMarker.class})
+public @interface EnableServerConnectionPools {
 
 
 }

@@ -1,0 +1,47 @@
+##############################################################
+#                  ServerConnectionPools                     #
+##############################################################
+
+# Defines the server connection pools that should be used for the application.
+# Each node inside the ServerConnectionPools contains a configuration for a connection pool.
+server:
+  connection:
+    pools:
+      default:
+        pool-name: ADMX # Name of the default connection pool
+
+        # Specifies the default standard setting of pool.
+        # Note :This pool is not created maintained.
+        # If some options of connection pool is not configured then the settings of DefaultPoolSettings is used.
+        pool-settings:
+          connection-timeout: 100 #time out in seconds
+          max-num-connections: 5  # Maximum no of connection to be created for the pool
+          min-num-connections: 1 # Minimum no of connection to be created when the pool starts
+          no-of-connection-attempts: 3 # No of attempts to be done by application to get a connection from pool
+          connection-attempt-interval: 60 # Time interval in milli seconds between two successive interval
+
+      # The list of the connection pools to be used by the application.
+      # This list is only used as key postfix of node of individual connection pool configuration.
+      pool-names: # Name of the connection pools
+        - ADMX
+        - SOICS
+
+      # The configurations for individual connection pool.
+      # For every defined ConnectionPoolName a configuration node must be defined
+      pools-list:
+        - bscs-user: ADMX
+          bscs-user-password: ADMX
+          max-num-connections: 10  # Maximum no of connection to be created for the pool
+          min-num-connections: 2 # Minimum no of connection to be created when the pool starts
+          no-of-connection-attempts: 2 # No of attempts to be done by application to get a connection from pool
+
+        - bscs-user: SOICS
+          bscs-user-password: SOICS
+          connection-timeout: 100 #time out in seconds
+          max-num-connections: 5  # Maximum no of connection to be created for the pool
+          min-num-connections: 1 # Minimum no of connection to be created when the pool starts
+          no-of-connection-attempts: 3 # No of attempts to be done by application to get a connection from pool
+          connection-attempt-interval: 60 # Time interval in milli seconds between two successive interval
+
+        - bscs-user: SUPERVISOR1
+          bscs-user-password: SUPERVISOR1

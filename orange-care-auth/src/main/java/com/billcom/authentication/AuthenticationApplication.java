@@ -1,12 +1,12 @@
 package com.billcom.authentication;
 
-import com.billcom.connectionpools.config.EnableConnectionPools;
+import com.billcom.connectionpools.config.EnableServerConnectionPools;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-@EnableConnectionPools
+@EnableServerConnectionPools
 @EnableDiscoveryClient
 public class AuthenticationApplication {
 

@@ -6,7 +6,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/malek-gridah/orange-care-microservices-config
+          uri: https://github.com/malekgridah/orange-care-microservices-config
           default-label: main
         native:
           searchLocations: file:///${GIT_REPO}

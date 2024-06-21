@@ -1,0 +1,15 @@
+##############################################################
+#                   Application Settings                     #
+##############################################################
+
+---
+server:
+  connection:
+    settings:
+      application:
+        retry-attempts: 3 # This parameter indicates to automatic-retry in case the cms object failed to execute some commands
+        cache-validity-hours: 1 # duration in hours of validity for the passwords in cache
+      soi:
+        name: CIL # SOI Name
+        version: 7 # SOI Version
+        server-name: com/lhs/public/soi/fedfactory1 # SOI ServerName

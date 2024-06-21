@@ -1,6 +1,6 @@
 package com.billcom.connectionpools.config;
 
-import com.billcom.connectionpools.config.pools.ConnectionPoolsProperties;
+import com.billcom.connectionpools.config.properties.ServerConnectionSettings;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
 import org.springframework.boot.autoconfigure.condition.SpringBootCondition;
 import org.springframework.boot.context.properties.bind.Bindable;
@@ -12,18 +12,19 @@ public class ConnectionPoolsEnabledCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        ConnectionPoolsProperties poolsProperties = getClientProperties(context);
+        ServerConnectionSettings settingsProperties = getSettingsProperties(context);
 
-        if (!poolsProperties.getPools().isEnabled()) {
+        if (!settingsProperties.getConfig().isEnabled()) {
             return ConditionOutcome
-                    .noMatch("Spring Boot Connection Pools is disabled, because 'billcom.connection.enabled' is false.");
+                    .noMatch("Spring Boot Server Connection Pools is disabled," +
+                            " because 'server.connection.settings.config.enabled' is false.");
         }
         return ConditionOutcome.match();
     }
 
-    private ConnectionPoolsProperties getClientProperties(ConditionContext context) {
-        ConnectionPoolsProperties poolsProperties = new ConnectionPoolsProperties();
-        Binder.get(context.getEnvironment()).bind("billcom.connection", Bindable.ofInstance(poolsProperties));
-        return poolsProperties;
+    private ServerConnectionSettings getSettingsProperties(ConditionContext context) {
+        ServerConnectionSettings settingsProperties = new ServerConnectionSettings();
+        Binder.get(context.getEnvironment()).bind("server.connection.settings", Bindable.ofInstance(settingsProperties));
+        return settingsProperties;
     }
 }

@@ -1,8 +1,5 @@
 package com.billcom.connectionpools.pools;
 
-import com.billcom.connectionpools.beans.ConnectionPoolName;
-import com.billcom.connectionpools.config.SpringContext;
-import com.billcom.connectionpools.config.pools.ConnectionPoolConfig;
 import com.lhs.ccb.cfw.cda.servicelayer.AccessorProvider;
 import com.lhs.ccb.cfw.cda.servicelayer.SecurityRuntimeException;
 import com.lhs.ccb.cfw.cda.servicelayer.ServiceRuntimeException;
@@ -20,6 +17,7 @@ import com.lhs.ccb.common.soi.ServiceAccessor;
 import com.lhs.ccb.common.soi.UnknownComponentException;
 import com.lhs.ccb.func.ect.ComponentException;
 import com.lhs.ccb.func.ect.SystemException;
+import com.lhs.ccb.func.reg.RegistryEntry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-public class ConnectionPoolImplemnt implements ConnectionPool{
-
+public class ServerConnectionPoolImpl implements ConnectionPool {
+    public static final String WHAT_ID = "@(#)lhsj_main/bscs/batch/src/func/frmwk/clt/java/com/lhs/ccb/cfw/cda/servicelayer/connectionpool/ConnectionPoolImpl.java, , 22.15.12, 22.15.12, @@22.15.12, 28-Nov-2022";
     private int _minConnections = 1;
     private int _maxConnections = 5;
     private int _connectionAttempts = 3;
@@ -37,68 +35,58 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
     private int _connectionTimeout = 1000;
     private String _BSCSUserName;
     private String _connectionPoolName;
-    private static final Logger SYSTEM_LOGGER = LogManager.getLogger(ConnectionPoolImplemnt.class);
+    private static final Logger SYSTEM_LOGGER = LogManager.getLogger(ServerConnectionPoolImpl.class);
     private String _BSCSUserPassword;
-    private List<Connection> _freeConnections = new ArrayList<>();
-    private List<Connection> _usedConnections = new ArrayList<>();
+    private List<Connection> _freeConnections = new ArrayList();
+    private List<Connection> _usedConnections = new ArrayList();
 
-    private boolean orbIsDown = false;
-
-
-    public ConnectionPoolImplemnt(PoolOptions pConnectionPoolOptions) {
+    public ServerConnectionPoolImpl(ServerConnectionPoolOptions pConnectionPoolOptions) {
         if (pConnectionPoolOptions != null) {
-            ConnectionPoolConfig poolConfig = SpringContext.getBean(ConnectionPoolConfig.class);
-            List<ConnectionPoolName> listPools = poolConfig.getPools();
-            ConnectionPoolName poolConnect = new ConnectionPoolName();
-            for (ConnectionPoolName pool : listPools) {
-                if(pConnectionPoolOptions.getConnectionPoolName().equals(pool.getBscsUser())){
-                    poolConnect = pool;
-                    break;
-                }
-            }
             this._connectionPoolName = pConnectionPoolOptions.getConnectionPoolName();
-
-            if (poolConnect.getMinNumConnections() != null) {
-                this._minConnections = poolConnect.getMinNumConnections();
+            RegistryEntry tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("MinimumNumberOfConnections");
+            if (tmpEntry != null) {
+                this._minConnections = tmpEntry.intValue();
             }
 
-            if (poolConnect.getMaxNumConnections() != null) {
-                this._maxConnections = poolConnect.getMaxNumConnections();
+            tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("MaximumNumberOfConnections");
+            if (tmpEntry != null) {
+                this._maxConnections = tmpEntry.intValue();
             }
 
-            if (poolConnect.getNoOfConnectionAttempts() != null) {
-                this._connectionAttempts = poolConnect.getNoOfConnectionAttempts();
+            tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("NoOfConnectionAttempts");
+            if (tmpEntry != null) {
+                this._connectionAttempts = tmpEntry.intValue();
             }
 
-            if (poolConnect.getConnectionAttemptInterval() != null) {
-                this._connectionAttemptTimeInterval = poolConnect.getConnectionAttemptInterval();
+            tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("ConnectionAttemptInterval");
+            if (tmpEntry != null) {
+                this._connectionAttemptTimeInterval = tmpEntry.intValue();
             }
 
-            if (poolConnect.getConnectionTimeout() != null) {
-                this._connectionTimeout = poolConnect.getConnectionTimeout();
+            tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("ConnectionTimeOut");
+            if (tmpEntry != null) {
+                this._connectionTimeout = tmpEntry.intValue();
             }
 
-            if (poolConnect.getBscsUser() != null) {
-                this._BSCSUserName = poolConnect.getBscsUser();
+            tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("BscsUser");
+            if (tmpEntry != null) {
+                this._BSCSUserName = tmpEntry.getValue();
             }
 
-            if (poolConnect.getBscsUserPassword() != null) {
-                this._BSCSUserPassword = poolConnect.getBscsUserPassword();
+            tmpEntry = (RegistryEntry)pConnectionPoolOptions.getOptionValue("BscsUserPassword");
+            if (tmpEntry != null) {
+                this._BSCSUserPassword = tmpEntry.getValue();
             }
         }
 
     }
 
-    @Override
     public synchronized Connection getConnection() throws ServiceRuntimeException {
         Connection con;
         for(int attemptCounter = 0; (con = this.getConnectionFromPool()) == null && attemptCounter < this._connectionAttempts; ++attemptCounter) {
             try {
-                if(this.orbIsDown){
-                    throw new ServiceRuntimeException("Connection failed");
-                }
-                this.wait(this._connectionAttemptTimeInterval);
-            } catch (InterruptedException ignored) {
+                this.wait((long)this._connectionAttemptTimeInterval);
+            } catch (InterruptedException var4) {
             }
         }
 
@@ -111,28 +99,23 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
 
     protected Connection getConnectionFromPool() throws ServiceRuntimeException {
         Connection con = null;
-        orbIsDown = false;
-        if (!this._freeConnections.isEmpty()) {
+        if (this._freeConnections.size() > 0) {
             for(int i = 0; i < this._freeConnections.size(); ++i) {
-                con = this._freeConnections.get(0);
+                con = (Connection)this._freeConnections.get(0);
                 this._freeConnections.remove(0);
                 if (con.isConnectionValid()) {
                     break;
                 }
-                con = null;
-                orbIsDown = true;
-            }
-        }
 
-        if(orbIsDown && con == null) {
-            return null;
+                con = null;
+            }
         }
 
         if (con == null && (this._maxConnections == 0 || this._usedConnections.size() < this._maxConnections)) {
             try {
                 con = this.createConnection();
             } catch (ConnectionFailedException var3) {
-                SYSTEM_LOGGER.warn("Connection creation failed for pool" + this.getPoolName(), var3);
+                SYSTEM_LOGGER.warn("Connection createion failed for pool{}", this.getPoolName(), var3);
                 throw new ServiceRuntimeException(var3);
             }
         }
@@ -140,12 +123,13 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
         if (con != null) {
             this._usedConnections.add(con);
         }
+
         return con;
     }
 
     protected Connection createConnection() throws ConnectionFailedException {
         ContainerFactory connection = SoiServerGateway.instance().connect(this._BSCSUserName, this._BSCSUserPassword);
-        Connection conn = new ConnectionImplemnt(connection.getServiceFactory(), this._BSCSUserName);
+        Connection conn = new ServerConnectionImpl(connection.getServiceFactory(), this._BSCSUserName);
         this.initSeviceAccessorForSecurity(conn);
         return conn;
     }
@@ -163,10 +147,10 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
                 this.disposeConnection(pConnection);
             }
 
-            Logger var10000 = SYSTEM_LOGGER;
-            String var10002 = this.getPoolName();
-            var10000.debug("After release No of connections available in pool " + var10002 + " : " + this._freeConnections.size());
-            SYSTEM_LOGGER.debug("After release No of connections in use: " + this._usedConnections.size());
+                Logger var10000 = SYSTEM_LOGGER;
+                String var10002 = this.getPoolName();
+                var10000.debug("After release No of connections available in pool {} : {}", var10002, this._freeConnections.size());
+                SYSTEM_LOGGER.debug("After release No of connections in use: {}", this._usedConnections.size());
 
             this.notifyAll();
         }
@@ -187,7 +171,7 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
 
         Connection connection;
         while(connectionsIter.hasNext()) {
-            connection = connectionsIter.next();
+            connection = (Connection)connectionsIter.next();
             connection.dispose();
         }
 
@@ -195,12 +179,12 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
         connectionsIter = this._usedConnections.iterator();
 
         while(connectionsIter.hasNext()) {
-            connection = connectionsIter.next();
+            connection = (Connection)connectionsIter.next();
             connection.dispose();
         }
 
         this._usedConnections.clear();
-        SYSTEM_LOGGER.info("Closed connections for pool " + this.getPoolName());
+        SYSTEM_LOGGER.info("Closed connections for pool {}", this.getPoolName());
 
     }
 
@@ -236,17 +220,20 @@ public class ConnectionPoolImplemnt implements ConnectionPool{
             try {
                 accessor = ((AccessorProvider)pNewConnection).fetchServiceAccessor(soiName, soiVersion);
             } catch (UnknownComponentException var7) {
-                Log.CFWLogger.log(Level.SEVERE, "Unknown Component", var7);
-                throw new ServiceRuntimeException(var7);
+                UnknownComponentException e = var7;
+                Log.CFWLogger.log(Level.SEVERE, "Unknown Component", e);
+                throw new ServiceRuntimeException(e);
             } catch (SecurityException var8) {
-                throw new SecurityRuntimeException(var8);
+                SecurityException e = var8;
+                throw new SecurityRuntimeException(e);
             }
         }
 
         try {
             ((RemotePermissionCheckerI) PermissionChecker.getInstance()).init(accessor, SoiServerGateway.instance().getApplicationName());
         } catch (ComponentException var6) {
-            Log.CFWLogger.log(Level.SEVERE, "Permission checker instaniation failed", var6);
+            ComponentException e = var6;
+            Log.CFWLogger.log(Level.SEVERE, "Permission checker instaniation failed", e);
         }
 
     }

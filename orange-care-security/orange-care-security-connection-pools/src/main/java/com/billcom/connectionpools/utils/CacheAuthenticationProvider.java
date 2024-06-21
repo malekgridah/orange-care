@@ -1,7 +1,7 @@
-package com.billcom.connectionpools.config;
+package com.billcom.connectionpools.utils;
 
 
-import com.billcom.connectionpools.config.pools.AppSetting;
+import com.billcom.connectionpools.config.properties.ServerConnectionSettings;
 import com.lhs.ccb.cfw.cda.session.ConnectionFailedException;
 import com.lhs.ccb.cfw.cda.session.ServerFacade;
 import com.lhs.ccb.cfw.cda.utility.GlobalUserProperties;
@@ -17,6 +17,7 @@ import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 import java.io.IOException;
 import java.util.*;
+
 
 public class CacheAuthenticationProvider implements LoginModule {
     private static Logger logger = LogManager.getLogger(CacheAuthenticationProvider.class);
@@ -54,14 +55,14 @@ public class CacheAuthenticationProvider implements LoginModule {
             logger.info("Trying to authenticate directly from the SOI interface");
 
             try {
-                AppSetting config = SpringContext.getBean(AppSetting.class);
+                ServerConnectionSettings config = SpringContext.getBean(ServerConnectionSettings.class);
 
                 ServerFacade.instance().login(user, pass, sessionId);
                 result = true;
-                now.add(Calendar.HOUR, Integer.parseInt(config.getCacheValidityHours()));
+                now.add(Calendar.HOUR, config.getApplication().getCacheValidityHours());
                 dp = new DatedPassword(pass, now);
                 cache.put(user, dp);
-                logger.info("Autentication successful, password stored (valid for " + config.getCacheValidityHours() + " hour(s))");
+                logger.info("Autentication successful, password stored (valid for " + config.getApplication().getCacheValidityHours() + " hour(s))");
             } catch (ConnectionFailedException var7) {
                 throw new FailedLoginException(var7.getLocalizedMessage());
             }

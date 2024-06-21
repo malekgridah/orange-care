@@ -1,9 +1,6 @@
 package com.billcom.connectionpools.pools;
 
-
-import com.billcom.connectionpools.config.SpringContext;
-import com.billcom.connectionpools.config.pools.ConfiguredPoolNames;
-import com.billcom.connectionpools.config.pools.DefaultUserPool;
+import com.billcom.connectionpools.config.properties.ServerConnectionPools;
 import com.lhs.ccb.cfw.cda.servicelayer.connectionpool.Connection;
 import com.lhs.ccb.cfw.cda.servicelayer.connectionpool.ConnectionPool;
 import com.lhs.ccb.cfw.cda.utility.CFWConfigurationException;
@@ -12,22 +9,23 @@ import com.lhs.ccb.cfw.cda.utility.Log;
 import com.lhs.ccb.cfw.cda.utility.UserPropertiesFacade;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
-public class PoolManager {
-    Map<String, Object> _connectionPoolMap = new HashMap<>();
-    protected static PoolManager _instance = null;
+public class ServerConnectionPoolManager {
 
-    public static PoolManager getInstance() {
-        if (_instance == null) {
-            _instance = new PoolManager();
-        }
+    private final ServerConnectionPools serverConnectionPools;
+    private final ServerConnectionPoolOptions serverConnectionPoolOptions;
 
-        return _instance;
+    public ServerConnectionPoolManager(ServerConnectionPools serverConnectionPools,
+                                       ServerConnectionPoolOptions serverConnectionPoolOptions) {
+        this.serverConnectionPools = serverConnectionPools;
+        this.serverConnectionPoolOptions = serverConnectionPoolOptions;
     }
+
+    Map _connectionPoolMap = new HashMap();
+    protected static ServerConnectionPoolManager _instance = null;
 
     public void releaseConnection(Connection pConnection) {
         if (pConnection != null) {
@@ -48,8 +46,8 @@ public class PoolManager {
     public Connection getConnection(String pBSCSUserName) {
         ConnectionPool pool = (ConnectionPool)this._connectionPoolMap.get(pBSCSUserName);
         if (pool == null) {
-            DefaultUserPool defaultPoolUser = SpringContext.getBean(DefaultUserPool.class);
-            pool = (ConnectionPool)this._connectionPoolMap.get(defaultPoolUser.getDefaultConnectionUser());
+            String defaultPoolUser = this.serverConnectionPools.getDefault().getPoolName();
+            pool = (ConnectionPool)this._connectionPoolMap.get(defaultPoolUser);
         }
 
         if (pool == null) {
@@ -60,8 +58,8 @@ public class PoolManager {
     }
 
     public void startPools() {
-        ConfiguredPoolNames configuredPoolNames = SpringContext.getBean(ConfiguredPoolNames.class);
-        StringTokenizer tokenizer = new StringTokenizer(configuredPoolNames.getConnectionPoolNames(), ",");
+        String configuredPoolNames = String.join(",", this.serverConnectionPools.getPoolNames());
+        StringTokenizer tokenizer = new StringTokenizer(configuredPoolNames, ",");
 
         while(tokenizer.hasMoreTokens()) {
             String element = tokenizer.nextToken();
@@ -69,11 +67,13 @@ public class PoolManager {
                 element = element.trim();
                 if (null == this._connectionPoolMap.get(element)) {
                     try {
-                        PoolOptions poolOptions = new PoolOptions(element);
-                        ConnectionPool pool = new ConnectionPoolImplemnt(poolOptions);
+
+                        serverConnectionPoolOptions.setPoolName(element);
+                        ConnectionPool pool = new ServerConnectionPoolImpl(serverConnectionPoolOptions);
                         this._connectionPoolMap.put(element, pool);
                     } catch (CFWConfigurationException var6) {
-                        Log.SystemLogger.log(Level.SEVERE, "Configuration problem : ", var6);
+                        CFWConfigurationException e = var6;
+                        Log.SystemLogger.log(Level.SEVERE, "Configuration problem : ", e);
                     }
                 }
             }
@@ -82,17 +82,12 @@ public class PoolManager {
     }
 
     public void stopConnectionPools() {
-        Iterator iter = this._connectionPoolMap.keySet().iterator();
-
-        while(iter.hasNext()) {
-            String key = (String)iter.next();
-            ConnectionPool connPool = (ConnectionPool)this._connectionPoolMap.get(key);
+        for (Object o : this._connectionPoolMap.keySet()) {
+            String key = (String) o;
+            ConnectionPool connPool = (ConnectionPool) this._connectionPoolMap.get(key);
             connPool.disposeConnectionPool();
         }
 
         this._connectionPoolMap.clear();
-    }
-
-    protected PoolManager() {
     }
 }
