@@ -1,4 +1,4 @@
-package com.billcom.bscs.services;
+package com.billcom.bscs.services.bscs;
 
 import com.billcom.bscs.clients.wsi.*;
 import com.billcom.bscs.commons.beans.bscs.*;

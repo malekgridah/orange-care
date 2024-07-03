@@ -42,7 +42,7 @@ import { ProdutosComponent } from './pages/artigos/produtos/produtos.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoriasPesquisaComponent } from './pages/artigos/categorias/categorias-pesquisa/categorias-pesquisa.component';
 import { CategoriasCadastroComponent } from './pages/artigos/categorias/categorias-cadastro/categorias-cadastro.component';
-import { SearchContractComponent } from './pages/contracts/search-contract/search-contract.component';
+
 
 
 
@@ -86,7 +86,7 @@ import { SearchContractComponent } from './pages/contracts/search-contract/searc
     SubcategoriasComponent,
     ProdutosComponent,
     CategoriasCadastroComponent,
-    CategoriasPesquisaComponent,
+    CategoriasPesquisaComponent
   ],
   providers: [
     AppSettings,

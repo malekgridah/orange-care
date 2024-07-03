@@ -14,4 +14,9 @@ public interface BaseWsWebService {
     String TITLES_READ = "ws_CIL_7_TitlesReadService.wsdl";
     String CURRENCIES_READ = "ws_CIL_7_CurrenciesReadService.wsdl";
     String REASONS_READ = "ws_CIL_7_ReasonsReadService.wsdl";
+    String ADDRESSES_READ = "ws_CIL_7_AddressesReadService.wsdl";
+    String CONTRACT_SERVICES_READ = "ws_CIL_7_ContractServicesReadService.wsdl";
+    String CONTRACT_SERVICE_PARAMETERS_READ = "ws_CIL_7_ContractServiceParametersReadService.wsdl";
+    String SERVICES_READ = "ws_CIL_7_ServicesReadService.wsdl";
+    String SERVICE_PACKAGES_READ = "ws_CIL_7_ServicePackagesReadService.wsdl";
 }

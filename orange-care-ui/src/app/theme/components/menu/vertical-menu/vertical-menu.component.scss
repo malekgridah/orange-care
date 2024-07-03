@@ -1,25 +1,24 @@
 @import "../../../styles/mixins";
 
-.menu-expand-icon{
-    position: absolute;
+.menu-expand-icon{position: absolute;
     right: 10px;
     top: 13px;
 }
 
-.menu-item{    
+.menu-item{
     .mat-button{
-        padding: 0;    
-        padding-top: 6px;
-        padding-bottom: 6px; 
+        padding: 6px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
         width: 100%;
         font-weight: 400;
-        border-radius: 0;
         .menu-icon{
             margin-right: 12px;
             padding: 7px;
             border-radius: 50%; 
         }
         &.expanded{
+            background: #101010;
             .menu-expand-icon{
                 -webkit-transform: rotate(180deg);
                 -moz-transform: rotate(180deg);
@@ -35,6 +34,9 @@
 .sub-menu{
     @include menu-level-padding('ltr');
     max-height: 0;
+    background: #101010;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     overflow: hidden;
     -webkit-transition: max-height 0.25s ease-out;  
     -moz-transition: max-height 0.25s ease-out;  
@@ -49,3 +51,15 @@
         transition: max-height 0.25s ease-in;
     }    
 }
+
+.menu-item .mat-button.active-link {
+    border-radius: 12px;
+    background: #101010 !important;
+}
+
+.menu-item .mat-button.hover {
+    border-radius: 12px;
+    background: #101010 !important;
+}
+
+

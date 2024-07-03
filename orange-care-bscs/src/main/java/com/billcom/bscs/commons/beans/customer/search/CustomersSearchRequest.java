@@ -1,4 +1,4 @@
-package com.billcom.bscs.commons.beans.customer;
+package com.billcom.bscs.commons.beans.customer.search;
 
 
 import lombok.Data;

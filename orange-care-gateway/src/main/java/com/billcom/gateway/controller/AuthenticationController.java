@@ -4,14 +4,10 @@ import com.billcom.gateway.domains.AuthenticationResponse;
 import com.billcom.gateway.domains.BscsUser;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-@CrossOrigin("*")
 @RestController
 public class AuthenticationController {
 
@@ -32,6 +28,22 @@ public class AuthenticationController {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(AuthenticationResponse.class)
+                .flatMap(data -> Mono.just(ResponseEntity.ok()
+                        .body(data)))
+                .onErrorResume(error -> Mono.just(ResponseEntity.badRequest()
+                        .build()));
+    }
+
+    @GetMapping("/validate/{token}")
+    public Mono<ResponseEntity<Boolean>> validate(@PathVariable String token) {
+        String baseUrl = "http://localhost:8015";
+        return webClient.baseUrl(baseUrl)
+                .build()
+                .get()
+                .uri("auth/validate/"+token)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Boolean.class)
                 .flatMap(data -> Mono.just(ResponseEntity.ok()
                         .body(data)))
                 .onErrorResume(error -> Mono.just(ResponseEntity.badRequest()

@@ -1,5 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatHorizontalStepper} from '@angular/material';
+import {MatTableDataSource} from "@angular/material/table";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {Settings} from "../../../app.settings.model";
+import {AppSettings} from "../../../app.settings";
+import {Router} from "@angular/router";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {ContractsService} from "../contracts.service";
+import {ContractsSearchRequest, ContractsSearchResponse, Rateplan} from "../conntracts.model";
+import {EccodingUriPipe} from "../../../shared/services/EncodingUri.pipe";
 
 @Component({
   selector: 'app-search-contract',
@@ -8,48 +17,145 @@ import {MatHorizontalStepper} from '@angular/material';
 })
 export class SearchContractComponent implements OnInit {
 
-  completed = false;
-  isEditable = false;
-  isOptional = false;
-  state: string;
-  pageName = 'Contacts';
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  @ViewChild('stepper1') private myStepper: MatHorizontalStepper;
+  selectForm: FormGroup;
+  networksForm: FormGroup;
+  searchForm: FormGroup;
+  optionForm: FormGroup;
+  contractsSearch: ContractsSearchRequest;
 
-  constructor() { }
+  dataSource = new MatTableDataSource<ContractsSearchResponse>([]);
+  show = false;
+  loading = false;
+
+  public displayedColumns = ['coCode','rateplan', 'coStatus', 'csIdPub','csCode', 'market', 'network', 'customer', 'street', 'city', 'action'];
+  public settings: Settings;
+  constructor(public appSettings: AppSettings,
+              private contractsService: ContractsService,
+              private router: Router,
+              private fb: FormBuilder) {
+    this.settings = this.appSettings.settings;
+    this.setInitialForm();
+  }
+
+  searchFormRequest(): ContractsSearchRequest {
+    let contractSearch: ContractsSearchRequest = new ContractsSearchRequest();
+
+    contractSearch.srchCount = this.optionForm.value.srchCount;
+    contractSearch.flagCase = this.optionForm.value.flagCase;
+    contractSearch.includeResHist = this.optionForm.value.includeResHist;
+
+    if (this.selectForm.value.resType != 'all')
+      contractSearch.resType = this.selectForm.value.resType;
+    if (this.selectForm.value.coRpCode != 'all')
+      contractSearch.coRpCode = this.selectForm.value.coRpCode;
+    if (this.selectForm.value.coPaymentOption != 'all')
+      contractSearch.coPaymentOption = this.selectForm.value.coPaymentOption;
+    if (this.selectForm.value.coStatus != 'all')
+      contractSearch.coStatus = this.selectForm.value.coStatus;
+
+    contractSearch.coCode = this.searchForm.value.coCode;
+    contractSearch.resNo = this.searchForm.value.resNo;
+    contractSearch.csFName = this.searchForm.value.csFName;
+    contractSearch.csLName = this.searchForm.value.csLName;
+    contractSearch.csIdPub = this.searchForm.value.csIdPub;
+    contractSearch.csCode = this.searchForm.value.csCode;
+
+    if (this.networksForm.value.market != 'all')
+      contractSearch.market = this.networksForm.value.market;
+    if (this.networksForm.value.subMarket != 'all')
+      contractSearch.subMarket = this.networksForm.value.subMarket;
+    if (this.networksForm.value.network != 'all')
+      contractSearch.network = this.networksForm.value.network;
+
+    return contractSearch;
+}
+
+  searchContracts() {
+    this.dataSource.data = [];
+    this.show = true;
+    this.loading = true;
+    this.contractsService.search(this.searchFormRequest()).subscribe(res => {
+      console.log(res);
+      if (res != null) {
+        this.dataSource.data = res;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      } else {
+        this.dataSource.data = [];
+      }
+      this.loading = false;
+    });
+  }
+
+
+  contractOverview(coId: number, coCode: string) {
+    const encodedId = new EccodingUriPipe().transform(coId.toString(), true);
+    const encodedCoCode = new EccodingUriPipe().transform(coCode, true);
+    this.router.navigate(['contracts', 'overview'], {queryParams:{ contract: encodedCoCode, token:encodedId} }).then((success) => {
+      if (success) {
+        console.log('Navigation successful!');
+      } else {
+        console.error('Navigation failed!');
+      }
+    }).catch((error) => {
+      console.error('Error occurred during navigation:', error);
+    });
+  }
+
+
+
+  resetForm () {
+    this.show = false;
+    this.loading = false;
+    this.setInitialForm();
+    this.dataSource.data = [];
+  }
+
+  setInitialForm() {
+    this.selectForm = this.fb.group({
+      resType: ['dirNum', []],
+      coPaymentOption: ['all', []],
+      coRpCode: ['all', []],
+      coStatus: ['all', []]
+    });
+
+    this.searchForm = this.fb.group({
+      resNo: [null, []],
+      coCode:[null,[]],
+      csLName: [null, []],
+      csFName: [null, []],
+      csCode: [null, []],
+      csIdPub: [null, []]
+    });
+
+    this.networksForm = this.fb.group({
+      market: ['all', []],
+      subMarket: ['all', []],
+      network: ['all', []]
+    });
+
+    this.optionForm = this.fb.group({
+      srchCount: [null, []],
+      flagCase: [false, []],
+      includeResHist: [false, []],
+    });
+  }
+
+
+rateplans: Rateplan[];
+
+  getRateplans() {
+    this.contractsService.getRateplans().subscribe(data => {
+      console.log(this.rateplans)
+      this.rateplans = data.rateplans;
+    })
+  }
 
   ngOnInit() {
-  }
-
-  goBack() {
-    switch (this.myStepper._getFocusIndex()) {
-      case 1 : this.pageName = 'Contacts'; break;
-      case 2 : this.pageName = 'Billing and payment information\n'; break;
-      case 3 : this.pageName = 'Payment arrangement\n'; break;
-      case 4 : this.pageName = 'Additional information\n'; break;
-      case 5 : this.pageName = 'Confirm\n'; break;
-    }
-    this.myStepper.previous();
-  }
-
-  goForward() {
-    this.myStepper.next();
-  }
-
-  done() {
-    this.state = 'done';
-    this.completed = true;
-  }
-
-  getPageName() {
-    console.log(this.myStepper._getFocusIndex());
-    switch (this.myStepper._getFocusIndex() + 1) {
-      case 0 : this.pageName = 'Contacts'; break;
-      case 1 : this.pageName = 'Billing and payment information'; break;
-      case 2 : this.pageName = 'Payment arrangement'; break;
-      case 3 : this.pageName = 'Additional information'; break;
-      case 4 : this.pageName = 'Confirm'; break;
-    }
+    this.getRateplans();
   }
 
 }

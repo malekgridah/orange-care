@@ -50,7 +50,6 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
         Boolean isOutbound = (Boolean) smc.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY);
         log.debug("{} SOAP Message :\n{}",isOutbound ? "Outbound" : "Inbound",
                 getFormattedMessageAsString(smc.getMessage()));
-
     }
 
     private String getFormattedMessageAsString(SOAPMessage message) throws SOAPException {

@@ -3,7 +3,7 @@
     <header class="header" [class.over]="showInfoContent">
         <app-top-info-content [showInfoContent]="showInfoContent" (onCloseInfoContent)="closeInfoContent(showInfoContent)"></app-top-info-content>
         
-        <mat-toolbar class="top-toolbar" [class.mat-elevation-z2]="settings.fixedHeader">
+        <mat-toolbar class="top-toolbar" [class.mat-elevation-z0]="settings.fixedHeader">
             <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>           
                 <div fxLayout="row" fxLayoutAlign="center center">               
                     <a routerLink="/" fxLayout="row" fxLayoutAlign="start center" class="logo" ngClass.xs="mobile" (click)="closeSubMenus()">
@@ -47,14 +47,14 @@
 
     <mat-drawer-container class="page-wrapper">
 
-        <mat-drawer #sidenav *ngIf="settings.menu == 'vertical'" [opened]="settings.sidenavIsOpened" [mode]="(settings.sidenavIsPinned) ? 'side' : 'over'" (openedStart)="showSidenav = !showSidenav" (closedStart)="showSidenav = !showSidenav" class="sidenav mat-elevation-z6" autoFocus="false">
+        <mat-drawer #sidenav *ngIf="settings.menu == 'vertical'" [opened]="settings.sidenavIsOpened" [mode]="(settings.sidenavIsPinned) ? 'side' : 'over'" (openedStart)="showSidenav = !showSidenav" (closedStart)="showSidenav = !showSidenav" class="sidenav mat-elevation-z0" autoFocus="false">
             <mat-toolbar *ngIf="settings.fixedSidenav" class="top-toolbar">
                 <a routerLink="/" fxLayout="row" fxLayoutAlign="start center" class="logo">
                     <img src="assets/img/logo.png" alt="logo" [@rotate]="showSidenav">
                     <span class="mx-2">Orange Care</span>
                 </a>
             </mat-toolbar>            
-            <app-sidenav></app-sidenav>
+            <app-sidenav class="bg-primary"></app-sidenav>
         </mat-drawer>
 
         <mat-drawer-content>
@@ -64,7 +64,7 @@
                     <app-horizontal-menu [menuParentId]="0" [class.w-100]="(settings.menuType!='mini')"></app-horizontal-menu>
                 </div>            
             </mat-toolbar>
-            <router-outlet></router-outlet> 
+            <router-outlet></router-outlet>
 
         </mat-drawer-content>    
         

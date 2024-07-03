@@ -1,11 +1,10 @@
-package com.billcom.bscs.services;
+package com.billcom.bscs.services.customer;
 
 import com.billcom.bscs.clients.wsi.ContractsSearchClient;
 import com.billcom.bscs.clients.wsi.CustomersSearchClient;
-import com.billcom.bscs.commons.BaseCommonsOperations;
-import com.billcom.bscs.commons.beans.contract.ContractRequest;
-import com.billcom.bscs.commons.beans.contract.ContractResponse;
-import com.billcom.bscs.commons.beans.customer.*;
+import com.billcom.bscs.commons.beans.customer.search.CustomersSearch;
+import com.billcom.bscs.commons.beans.customer.search.CustomersSearchRequest;
+import com.billcom.bscs.commons.beans.customer.search.CustomersSearchResponse;
 import com.ericsson.contractssearch.ContractsListpartResponse;
 import com.ericsson.contractssearch.ContractsSearchRequest;
 import com.ericsson.contractssearch.ContractsSearchResponse;
@@ -19,29 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CustomerService implements BaseCommonsOperations {
+public class CustomersSearchService {
 
     private final CustomersSearchClient customersSearchClient;
     private final ContractsSearchClient contractsSearchClient;
 
     @Autowired
-    public CustomerService(CustomersSearchClient customersSearchClient,
-                           ContractsSearchClient contractsSearchClient) {
+    public CustomersSearchService(CustomersSearchClient customersSearchClient,
+                                  ContractsSearchClient contractsSearchClient) {
         this.customersSearchClient = customersSearchClient;
         this.contractsSearchClient = contractsSearchClient;
     }
 
-    @Override
-    public ContractResponse contractRead(ContractRequest contractRequest) {
-        return null;
-    }
-
-    @Override
-    public CustomerResponse customerRead(CustomerResponse customerResponse) {
-        return null;
-    }
-
-    @Override
     public CustomersSearchResponse searchCustomers(CustomersSearchRequest request) {
         com.ericsson.customerssearch.CustomersSearchRequest customersSearchRequest = new com.ericsson.customerssearch.CustomersSearchRequest();
         ContractsSearchRequest contractsSearchRequest = new ContractsSearchRequest();
@@ -62,12 +50,6 @@ public class CustomerService implements BaseCommonsOperations {
         customersSearchResponse= this.customersSearchClient.execute(customersSearchRequest,"ADMX", "ADMX");
         return this.prepareCustomersSearchResponse(customersSearchResponse);
     }
-
-    @Override
-    public CreateCustomerResponse createCustomer(CreateCustomerRequest request) {
-        return null;
-    }
-
 
     private com.ericsson.contractssearch.InputAttributes prepareContractsSearchRequest(CustomersSearchRequest request) {
         com.ericsson.contractssearch.InputAttributes inputAttributes = new com.ericsson.contractssearch.InputAttributes();
@@ -118,11 +100,11 @@ public class CustomerService implements BaseCommonsOperations {
         }
 
         if (request.getCsCode() != null && !request.getCsCode().isBlank() ) {
-            inputAttributes.setCsStatus(request.getCsCode());
+            inputAttributes.setCsCode(request.getCsCode());
         }
 
         if (request.getCsIdPub() != null && !request.getCsIdPub().isBlank() ) {
-            inputAttributes.setCsStatus(request.getCsIdPub());
+            inputAttributes.setCsIdPub(request.getCsIdPub());
         }
 
         if (request.getStartIndex() != null) {

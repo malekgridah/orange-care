@@ -1,6 +1,5 @@
 @import "../theme/styles/variables";
 
-
 .top-toolbar{
     position: relative;
     height: $top-toolbar-height;
@@ -15,6 +14,8 @@
 }
 
 .sidenav{
+    background: #101010 !important;
+    border-radius: 12px;
     width: $sidenav-width;
     overflow: hidden;
     border: none !important;

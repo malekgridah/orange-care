@@ -36,6 +36,7 @@ import { MatAutocompleteModule,
 import { ContentHeaderComponent } from './content-header/content-header.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { CustomPanelComponent } from './custom-panel/custom-panel.component';
+import {EccodingUriPipe} from "./services/EncodingUri.pipe";
 
 @NgModule({
   imports: [
@@ -109,11 +110,13 @@ import { CustomPanelComponent } from './custom-panel/custom-panel.component';
     MatStepperModule,
     ContentHeaderComponent,
     BreadcrumbComponent,
+      EccodingUriPipe,
       CustomPanelComponent
   ],
   declarations: [
     ContentHeaderComponent,
-    BreadcrumbComponent,
+      EccodingUriPipe,
+      BreadcrumbComponent,
       CustomPanelComponent
   ]
 })

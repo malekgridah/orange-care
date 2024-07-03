@@ -8,6 +8,10 @@ export const verticalMenuItems = [
     new Menu (222, 'Contracts', '/contracts', null, 'description', null, true, 0),
     new Menu (2221, 'Search', '/contracts/search', null, 'plagiarism', null, false, 222),
     new Menu (2222, 'Create Contract', '/contracts/create-contract', null, 'note_add', null, false, 222),
+    new Menu (333, 'Billing', '/billing', null, 'request_quote', null, true, 0),
+    new Menu (3331, 'Invoices', '/billing/invoices', null, 'receipt', null, false, 333),
+    new Menu (3332, 'Payments', '/contracts/create-contract', null, 'payments', null, false, 333),
+
     new Menu (2, 'Users', '/users', null, 'supervisor_account', null, false, 0),
     new Menu (4, 'Buttons', '/ui/buttons', null, 'keyboard', null, false, 3),
     new Menu (5, 'Cards', '/ui/cards', null, 'card_membership', null, false, 3),

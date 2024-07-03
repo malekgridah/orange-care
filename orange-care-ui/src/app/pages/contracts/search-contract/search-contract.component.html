@@ -1,144 +1,291 @@
-<app-content-header
-        icon="person_add"
-        [title]="'Create Customer'"
-        [hideBreadcrumb]="false"
-        [hasBgImage]="true"
-        [class]="'pb-2'"></app-content-header>
+<div class="p-3">
+    <app-content-header
+            icon="plagiarism"
+            desc="Search For Contract"
+            [hideBreadcrumb]="false"
+            [hasBgImage]="true"
+            [class]="'pb-2'"></app-content-header>
+    <mat-card class="div-border mt-3 mat-elevation-z4">
+        <form [formGroup]="selectForm" [style.font-size.px]="14" class="filters" fxLayout="row wrap" fxLayoutGap="15px grid">
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Resource Type</mat-label>
+                    <mat-select formControlName="resType">
+                        <mat-option [value]="'smNum'">Device numbers</mat-option>
+                        <mat-option [value]="'devPortNum'">Device ports</mat-option>
+                        <mat-option [value]="'dirNum'">Directory numbers</mat-option>
+                        <mat-option [value]="'portNum'">Service ports</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>sort</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="coStatus">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="2">Active</mat-option>
+                        <mat-option [value]="4">Deactivated</mat-option>
+                        <mat-option [value]="1">Interested</mat-option>
+                        <mat-option [value]="3">Suspended</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>filter_list</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Rateplan</mat-label>
+                    <mat-select formControlName="coRpCode">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option *ngFor="let rateplan of rateplans" [value]="rateplan.rpCode">
+                            {{ rateplan.rpDes }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>reorder</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Payment option</mat-label>
+                    <mat-select formControlName="coPaymentOption">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="'A'"> Prepaid </mat-option>
+                        <mat-option [value]="'P'"> Postpaid </mat-option>
+                        <mat-option [value]="'H'"> Hybrid </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+                </mat-form-field>
+            </div>
+        </form>
+        <mat-divider></mat-divider>
 
-<div fxLayout="column" fxLayoutGap="14px" class="p-3">
+        <form [formGroup]="networksForm" class="mt-3 filters" [style.font-size.px]="14" fxLayout="row wrap" fxLayoutGap="15px grid" >
+            <div  fxFlex="33.33">
+                <mat-form-field appearance="outline">
+                    <mat-label>Home Network</mat-label>
+                    <mat-select formControlName="network">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="1248"> ADSLOran Tun  </mat-option>
+                        <mat-option [value]="1635"> OTN-B2B </mat-option>
+                        <mat-option [value]="1020"> Orange Tun </mat-option>
+                        <mat-option [value]="1357"> VOIPOran Tun </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div  fxFlex="33.33">
+                <mat-form-field appearance="outline">
+                    <mat-label>Market</mat-label>
+                    <mat-select formControlName="market">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="15"> Data B2B </mat-option>
+                        <mat-option [value]="6"> Fixe </mat-option>
+                        <mat-option [value]="1"> GSM </mat-option>
+                        <mat-option [value]="14"> VOIP </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div  fxFlex="33.33">
+                <mat-form-field appearance="outline">
+                    <mat-label>Sub Market</mat-label>
+                    <mat-select formControlName="subMarket">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="27"> Bulk SMS </mat-option>
+                        <mat-option [value]="26"> Data B2B </mat-option>
+                        <mat-option [value]="2"> FLYBOX </mat-option>
+                        <mat-option [value]="28"> GPON </mat-option>
+                        <mat-option [value]="1"> GSM </mat-option>
+                        <mat-option [value]="24"> GSM, ext.Number </mat-option>
+                        <mat-option [value]="3"> GSM-DCS1800 Mixed </mat-option>
+                        <mat-option [value]="8"> INTERNET </mat-option>
+                        <mat-option [value]="9"> ISDN,ext.Numbers </mat-option>
+                        <mat-option [value]="25"> VOIP B2B </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </form>
+        <mat-divider></mat-divider>
+        <!--        <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="20px grid">-->
 
-    <div fxLayoutGap="14px" fxLayoutAlign="start start">
-        <mat-card fxLayout="column" fxFlex="22" class="p-0 w-100 mat-elevation-z8">
-            <span fxLayoutAlign="center center" class="test-height bg-accent">
-                <strong>Steps</strong>
-            </span>
-            <mat-vertical-stepper (selectionChange)="getPageName()" [linear]="true" #stepper1>
-                <mat-step label="Contact information" [editable]="isEditable" [optional]="isOptional">
-                </mat-step>
-                <mat-step label="Customer information" [editable]="isEditable" [optional]="isOptional">
-                </mat-step>
-                <mat-step label="Address Types" [editable]="isEditable" [optional]="isOptional">
-                </mat-step>
-                <mat-step label="Address Types" [editable]="isEditable" [optional]="isOptional">
-                </mat-step>
-                <mat-step [completed]="completed" [state]="state">
-                    <ng-template matStepLabel>Confirm</ng-template>
-                    You are now done.
-                </mat-step>
-            </mat-vertical-stepper>
-        </mat-card>
-
-        <div>
-            <mat-horizontal-stepper class="h-100 bg-default-theme" [linear]="true" #stepper1>
-                <mat-step>
-                    <mat-accordion fxLayout="column" fxLayoutGap="14px" multi>
-                        <app-custom-panel
-                                [extended]="true"
-                                class="test-orange"
-                                title="Contact Information:"
-                                subtitle="Specify the basic information of a certain customer"
-                                theme="primary">
-                            <form [style.font-size.px]="12" fxFlexOffset="15" fxFlex="70">
-                                <div class="p-3" fxLayout="row wrap" fxLayoutGap="10px grid">
-                                    <div fxFlex="100" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Title</mat-label>
-                                            <mat-select [value]="'status'" required>
-                                                <mat-option [value]="'Mr'"> Mr</mat-option>
-                                                <mat-option [value]="'Mrs'"> Mrs</mat-option>
-                                                <mat-option [value]="'Company'"> Company</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="50" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>First Name</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="50" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Last Name</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="54" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Street</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="23" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>House No</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="23" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Zip Code</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="33.3" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>City</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="33.3" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>State</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="33.3" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Country</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="50" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Email</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                    <div fxFlex="50" fxFlex.xs="50" fxFlex.sm="25">
-                                        <mat-form-field appearance="outline">
-                                            <mat-label>Phone</mat-label>
-                                            <input matInput required>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </form>
-                        </app-custom-panel>
-                        <app-custom-panel
-                                class="test-orange"
-                                title="Unassigned:"
-                                subtitle="2 tasks"
-                                theme="primary">
-                            <p>This is the primary content of the panel.</p>
-                        </app-custom-panel>
-                        <app-custom-panel
-                                class="test-orange"
-                                title="Unassigned:"
-                                subtitle="2 tasks"
-                                theme="primary">
-                            <p>This is the primary content of the panel.</p>
-                        </app-custom-panel>
-                    </mat-accordion>
-                    <div>
-                        <div fxLayoutAlign="center center" fxLayoutGap="10px">
-                            <button (click)="goBack()" mat-raised-button color="warn" mat-button matStepperPrevious>Back</button>
-                            <button (click)="goForward()" mat-raised-button color="primary" mat-button matStepperNext>Next</button>
+        <!--            <div fxFlex="50" fxFlex.sm="50">-->
+        <!--                <div>-->
+        <!--                    <mat-form-field [style.font-size.px]="14">-->
+        <!--                        <mat-label>Search</mat-label>-->
+        <!--                        <input  type="text" matInput #input />-->
+        <!--                    </mat-form-field>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <div fxFlex="50" fxLayoutAlign="end center">-->
+        <!--                <button mat-raised-button color="primary">-->
+        <!--        <span matTooltip="Search">Search</span>-->
+        <!--                </button>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--        <mat-divider></mat-divider>-->
+        <div class="pt-1">
+            <div class="filters py-3" fxLayout="row wrap">
+                <!--                <h2 fxLayoutAlign="center center" fxFill>Customer Info</h2>-->
+                <div class=" py-1" fxFlex="68" fxLayoutGap="15px grid">
+                    <form [formGroup]="searchForm" fxLayoutAlign="space-around center" [style.font-size.px]="14">
+                        <div class="filters" fxLayout="row wrap">
+                            <mat-form-field fxFlex="49" appearance="outline">
+                                <mat-label>Resource Number</mat-label>
+                                <input matInput placeholder="50000000" formControlName="resNo">
+                                <mat-hint>Customer last name</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field fxFlexOffset="2" fxFlex="49" appearance="outline">
+                                <mat-label>Contract Code</mat-label>
+                                <input matInput placeholder="01123123" formControlName="coCode">
+                                <mat-hint>Customer last name</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field fxFlex="49" appearance="outline">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput placeholder="Doe" formControlName="csLName">
+                                <mat-hint>Customer last name</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field fxFlexOffset="2" fxFlex="49" appearance="outline">
+                                <mat-label>First Name</mat-label>
+                                <input matInput placeholder="john" formControlName="csFName">
+                                <mat-hint>Customer last name</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field fxFlex="49" appearance="outline">
+                                <mat-label>Customer Code</mat-label>
+                                <input matInput placeholder="1.10000000" formControlName="csCode">
+                                <mat-hint>Customer Code</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field fxFlexOffset="2" fxFlex="49" appearance="outline">
+                                <mat-label>Public Key</mat-label>
+                                <input matInput placeholder="CNT00000001" formControlName="csIdPub">
+                                <mat-hint>Customer public key</mat-hint>
+                            </mat-form-field>
                         </div>
+                    </form>
+                </div>
+                <form fxFlexOffset="5" [formGroup]="optionForm">
+                    <div fxLayout="column">
+                        <h3>Search Option</h3>
+                        <span class="p-1 example-list-section">
+                        <ul fxFlexOffset="15">
+                            <li>
+                                <mat-checkbox formControlName="flagCase">Match case</mat-checkbox>
+                            </li>
+                            <li>
+                                <mat-checkbox formControlName="includeResHist">Include complete resource history in search</mat-checkbox>
+                            </li>
+                        </ul>
+                    </span>
+                        <h3>Max. search results</h3>
+                        <span class="p-1 example-list-section">
+                        <mat-form-field fxFlexOffset="15">
+                            <mat-label>Search Count</mat-label>
+                            <input formControlName="srchCount" matInput>
+                        </mat-form-field>
+                    </span>
                     </div>
-                </mat-step>
-                <mat-step>
-
-                </mat-step>
-            </mat-horizontal-stepper>
+                </form>
+            </div>
         </div>
-    </div>
+
+        <mat-card-actions fxLayoutAlign="center center">
+            <button  mat-raised-button (click)="resetForm()" color="warn">Reset</button>
+            <button  mat-raised-button (click)="searchContracts()" color="primary">Search</button>
+        </mat-card-actions>
+
+    </mat-card>
+
+    <mat-card *ngIf="show" class="mt-3 div-border mat-elevation-z4">
+        <mat-card-header>
+            <mat-card-title>Search Result</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="coCode">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Contract Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.coIdPub}} </td>
+                </ng-container>
+                <ng-container matColumnDef="rateplan">
+                <th mat-header-cell *matHeaderCellDef width="10%"> Rateplan </th>
+                <td mat-cell *matCellDef="let element"> {{element.rateplan}} </td>
+                </ng-container>
+                <ng-container matColumnDef="coStatus">
+                    <th mat-header-cell *matHeaderCellDef width="8%"> Contract Status </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-chip-list>
+              <span>
+                <mat-chip [class.gradient-red]="element.status == '4'"
+                          [class.gradient-lime]="element.status == '3'"
+                          [class.gradient-gray]="element.status == '1'"
+                          [class.gradient-green]="element.status == '2'">{{ element.status == '2'
+                    ? 'Active' : element.status == '4' ? 'Deactive' : element.status == '3' ? 'Suspended' : 'On Hold' }} </mat-chip>
+              </span>
+                        </mat-chip-list>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="csIdPub">
+                    <th mat-header-cell *matHeaderCellDef width="8%"> Customer code</th>
+                    <td mat-cell *matCellDef="let element"> {{element.csCode}} </td>
+                </ng-container>
+                <ng-container matColumnDef="csCode">
+                    <th mat-header-cell *matHeaderCellDef width="8%"> Public Key</th>
+                    <td mat-cell *matCellDef="let element"> {{element.publicKey}} </td>
+                </ng-container>
+<!--                <ng-container matColumnDef="resType">-->
+<!--                    <th mat-header-cell *matHeaderCellDef width="10%"> Resource type </th>-->
+<!--                    <td mat-cell *matCellDef="let element"> {{element.resType}} </td>-->
+<!--                </ng-container>-->
+<!--                <ng-container matColumnDef="resNo">-->
+<!--                    <th mat-header-cell *matHeaderCellDef width="10%"> Resource No. </th>-->
+<!--                    <td mat-cell *matCellDef="let element"> {{element.resNo}} </td>-->
+<!--                </ng-container>-->
+                <ng-container matColumnDef="market">
+                    <th mat-header-cell *matHeaderCellDef width="10"> Market </th>
+                    <td mat-cell *matCellDef="let element"> {{element.market}}</td>
+                </ng-container>
+                <ng-container matColumnDef="network">
+                    <th mat-header-cell *matHeaderCellDef width="8%"> Home Network </th>
+                    <td mat-cell *matCellDef="let element"> {{element.homeNetwork}}</td>
+                </ng-container>
+                <ng-container matColumnDef="customer">
+                    <th mat-header-cell *matHeaderCellDef width="10%"> Customer </th>
+                    <td mat-cell *matCellDef="let element"> {{element.customer}} </td>
+                </ng-container>
+                <ng-container matColumnDef="street">
+                    <th mat-header-cell *matHeaderCellDef width="14%"> Street </th>
+                    <td mat-cell *matCellDef="let element"> {{element.street}}</td>
+                </ng-container>
+                <ng-container matColumnDef="city">
+                    <th mat-header-cell *matHeaderCellDef width="10%"> City </th>
+                    <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button
+                                color="primary"
+                                (click)="contractOverview(element.coId, element.coIdPub)"
+                                matTooltip="edit">
+                            <mat-icon class="icon24">visibility</mat-icon>
+                        </button>&nbsp;
+                        <button mat-icon-button
+                                color="accent"
+                                matTooltip="edit">
+                            <mat-icon class="icon24">create</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div *ngIf="loading" [class.mt-5]="loading" fxLayout="column" fxLayoutAlign="center center">
+                <mat-spinner strokeWidth="3" [diameter]="50" color="primary"></mat-spinner>
+            </div>
+
+            <div class="mt-5" *ngIf="!loading && (dataSource.data == null || dataSource.data?.length==0)" fxLayoutAlign="center center">
+                <h3>No Data</h3>
+            </div>
+        </mat-card-content>
+        <mat-card-footer>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+        </mat-card-footer>
+    </mat-card>
 </div>

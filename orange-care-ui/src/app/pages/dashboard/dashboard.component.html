@@ -1,15 +1,17 @@
-<app-content-header
-    icon="dashboard" 
-    desc="Welcome to Dashboard !"
-    [hideBreadcrumb]="true"
-    [hasBgImage]="true" 
-    [class]="'py-3'"></app-content-header>
+<div class="px-3 pt-1">
+    <app-content-header
+            icon="dashboard"
+            desc="Welcome to Dashboard !"
+            [hideBreadcrumb]="true"
+            [hasBgImage]="true"
+            [class]="'py-3'"></app-content-header>
+</div>
 
 <div class="p-2">
     <app-tiles></app-tiles>
     <app-info-cards></app-info-cards>
     <div fxLayout="row wrap">
-        <div fxFlex="100" fxFlex.gt-sm="45" class="p-2"> 
+        <div fxFlex="100" fxFlex.gt-sm="45" class="p-2">
             <app-disk-space></app-disk-space>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="55" class="p-2">
@@ -17,7 +19,7 @@
         </div>
     </div>
     <div fxLayout="row wrap">
-        <div fxFlex="100" fxFlex.gt-sm="70" class="p-2"> 
+        <div fxFlex="100" fxFlex.gt-sm="70" class="p-2">
             <app-analytics></app-analytics>
         </div>
         <div fxFlex="100" fxFlex.gt-sm="30" fxLayout="column">
@@ -40,7 +42,7 @@
                     <mat-progress-bar mode="determinate" value="27" color="warn"></mat-progress-bar>
                     <p class="mt-3 text-truncate">27% less than last month</p>
                 </mat-card>
-            </div>       
+            </div>
             <div fxFlex="100" class="p-2">
                 <mat-card class="secondary-text-color p-4">
                     <div fxLayout="row" fxLayoutAlign="space-between center" class="">
@@ -53,7 +55,7 @@
             </div>
         </div>
     </div>
-    
+
     <app-team></app-team>
 
 </div>

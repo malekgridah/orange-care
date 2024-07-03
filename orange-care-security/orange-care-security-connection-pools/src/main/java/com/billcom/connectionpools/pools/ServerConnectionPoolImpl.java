@@ -37,8 +37,8 @@ public class ServerConnectionPoolImpl implements ConnectionPool {
     private String _connectionPoolName;
     private static final Logger SYSTEM_LOGGER = LogManager.getLogger(ServerConnectionPoolImpl.class);
     private String _BSCSUserPassword;
-    private List<Connection> _freeConnections = new ArrayList();
-    private List<Connection> _usedConnections = new ArrayList();
+    private List<Connection> _freeConnections = new ArrayList<>();
+    private List<Connection> _usedConnections = new ArrayList<>();
 
     public ServerConnectionPoolImpl(ServerConnectionPoolOptions pConnectionPoolOptions) {
         if (pConnectionPoolOptions != null) {
@@ -86,7 +86,7 @@ public class ServerConnectionPoolImpl implements ConnectionPool {
         for(int attemptCounter = 0; (con = this.getConnectionFromPool()) == null && attemptCounter < this._connectionAttempts; ++attemptCounter) {
             try {
                 this.wait((long)this._connectionAttemptTimeInterval);
-            } catch (InterruptedException var4) {
+            } catch (InterruptedException ignored) {
             }
         }
 
@@ -99,7 +99,7 @@ public class ServerConnectionPoolImpl implements ConnectionPool {
 
     protected Connection getConnectionFromPool() throws ServiceRuntimeException {
         Connection con = null;
-        if (this._freeConnections.size() > 0) {
+        if (    !this._freeConnections.isEmpty()) {
             for(int i = 0; i < this._freeConnections.size(); ++i) {
                 con = (Connection)this._freeConnections.get(0);
                 this._freeConnections.remove(0);

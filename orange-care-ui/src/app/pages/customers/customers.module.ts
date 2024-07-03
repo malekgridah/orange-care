@@ -15,13 +15,15 @@ import { EditViewCustomerComponent } from './view-customer/edit-view-customer/ed
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserDialogComponent} from '../users/user-dialog/user-dialog.component';
 import { ChangeStatusCustomerComponent } from './view-customer/change-status-customer/change-status-customer.component';
+import { CustomerInvoicesComponent } from './view-customer/billing-customer-tab/customer-invoices/customer-invoices.component';
+import { CustomerBillingAccountsComponent } from './view-customer/billing-customer-tab/customer-billing-accounts/customer-billing-accounts.component';
 
 
 export const routes = [
   { path: '', redirectTo: 'search', pathMatch: 'full'},
   { path: 'search', component: SearchCustomerComponent, data: { breadcrumb: 'Search Customer' } },
   { path: 'create-customer', component: CreateCustomerComponent, data: { breadcrumb: 'Create Customer' } },
-  { path: 'view/:id', component: ViewCustomerComponent, data: { breadcrumb: 'View Customer' } }
+  { path: 'view', component: ViewCustomerComponent, data: { breadcrumb: 'View Customer' } }
 ];
 
 
@@ -34,7 +36,9 @@ export const routes = [
       BillingCustomerTabComponent,
       CustomerDetailsCustomerTabComponent,
       EditViewCustomerComponent,
-      ChangeStatusCustomerComponent
+      ChangeStatusCustomerComponent,
+      CustomerInvoicesComponent,
+      CustomerBillingAccountsComponent
   ],
     imports: [
         CommonModule,

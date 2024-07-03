@@ -5,8 +5,9 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.util.Collections;
 
@@ -38,19 +39,18 @@ public class GatewayDiscoveryConfiguration {
                 .build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsFilter() {
-        CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(Collections.singletonList("*"));
-        corsConfig.setAllowedMethods(Collections.singletonList("*"));
-        corsConfig.setAllowedHeaders(Collections.singletonList("*"));
-        corsConfig.setAllowCredentials(true);
-        corsConfig.setMaxAge(3600L);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/bscs/**", corsConfig);
+    @Bean
+    public CorsWebFilter corsWebFilter() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowCredentials(true);
+        corsConfig.addAllowedOriginPattern("*");
+        corsConfig.addAllowedMethod("*");
+        corsConfig.addAllowedHeader("*");
+        corsConfig.setExposedHeaders(Collections.singletonList("Authorization"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
         source.registerCorsConfiguration("/**", corsConfig);
 
-        return source;
+        return new CorsWebFilter(source);
     }
 }

@@ -1,7 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ViewCustomerComponent} from '../view-customer.component';
-import {EditCustomer} from '../../customers.service';
 
 @Component({
   selector: 'app-change-status-customer',
@@ -12,7 +11,7 @@ export class ChangeStatusCustomerComponent implements OnInit {
 
   constructor(
       public dialogRef: MatDialogRef<ViewCustomerComponent>,
-      @Inject(MAT_DIALOG_DATA) public customer: EditCustomer
+      @Inject(MAT_DIALOG_DATA) public customer: any
   ) {}
 
   close(): void {

@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {ViewCustomerComponent} from '../view-customer.component';
-import {EditCustomer} from '../../customers.service';
+// import {EditCustomer} from '../../customers.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ export class EditViewCustomerComponent implements OnInit {
 
   constructor(
       public dialogRef: MatDialogRef<ViewCustomerComponent>,
-      @Inject(MAT_DIALOG_DATA) public customer: EditCustomer
+      @Inject(MAT_DIALOG_DATA) public customer: any
   ) {}
 
 

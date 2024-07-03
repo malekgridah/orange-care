@@ -1,8 +1,10 @@
 .user-block{
+    border-radius: 12px;
+    background-color: #101010;
     img{
         border-radius: 50%;
-        width: 95px;
-        height: 95px;
+        width: 60px;
+        height: 60px;
         border: 1px solid rgba(0,0,0,.12);
     }
     h2{
@@ -14,7 +16,10 @@
     }
 }
 .sidenav-menu-outer{
-    height: 100%; 
+    background-color: #191c1c;
+    height: 100%;
+    padding: 12px;
+    border-top-right-radius: 12px !important;
 }
 #vertical-menu.ps{
     height: calc(100% - 180px);

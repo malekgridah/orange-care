@@ -1,25 +1,25 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Settings} from '../../../../app.settings.model';
 import {AppSettings} from '../../../../app.settings';
-import {Contract, CustomersService} from '../../customers.service';
 import {SelectionModel} from '@angular/cdk/collections';
+import {Contract} from "../../customers.model";
 
 @Component({
   selector: 'app-contract-customer-tab',
   templateUrl: './contract-customer-tab.component.html',
   styleUrls: ['./contract-customer-tab.component.scss']
 })
-export class ContractCustomerTabComponent implements OnInit , AfterViewInit {
-  @Input('customerId') customerId: string;
+export class ContractCustomerTabComponent implements OnChanges, AfterViewInit {
+  @Input() contracts: Contract[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public displayedColumns = ['#', 'dirNum', 'coCode', 'rpCode', 'status', 'activationDate', 'action'];
 
   public dataSource: any;
   public settings: Settings;
-  constructor(public appSettings: AppSettings, private customersService: CustomersService) {
+  constructor(public appSettings: AppSettings) {
+    console.log("3\n"+this.contracts);
     this.settings = this.appSettings.settings;
-    this.dataSource = new MatTableDataSource<Contract>(this.customersService.getContractData());
   }
 
   selection = new SelectionModel<Contract>(true, []);
@@ -47,7 +47,9 @@ export class ContractCustomerTabComponent implements OnInit , AfterViewInit {
   }
 
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes)
+    this.dataSource = new MatTableDataSource<Contract>(this.contracts);
   }
 
   ngAfterViewInit(): void {

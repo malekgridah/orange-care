@@ -32,29 +32,32 @@
             </ng-container>
             <ng-container matColumnDef="coCode">
                 <th mat-header-cell *matHeaderCellDef width="15%"> Contract Code </th>
-                <td mat-cell *matCellDef="let element"> {{element.coCode}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.coIdPub}} </td>
             </ng-container>
             <ng-container matColumnDef="rpCode">
                 <th mat-header-cell *matHeaderCellDef width="15%"> Rate Plan </th>
-                <td mat-cell *matCellDef="let element"> {{element.rpCode}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.rateplan}} </td>
             </ng-container>
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef width="13%"> Contract Status </th>
                 <td mat-cell *matCellDef="let element">
                     <mat-chip-list>
               <span>
-                <mat-chip [class.gradient-red]="element.status == 'd'"
-                          [class.gradient-lime]="element.status == 's'"
-                          [class.gradient-gray]="element.status == 'o'"
-                          [class.gradient-green]="element.status == 'a'">{{ element.status == 'a'
-                    ? 'Active' : element.status == 'd' ? 'Deactive' : element.status == 's' ? 'Suspended' : 'Interested' }} </mat-chip>
+                <mat-chip [class.gradient-red]="element.coStatus == 4"
+                          [class.gradient-lime]="element.coStatus == 3"
+                          [class.gradient-gray]="element.coStatus == 1"
+                          [class.gradient-green]="element.coStatus == 2">{{ element.coStatus == 1
+                    ? 'On hold' : element.coStatus == 2 ? 'Active' : element.coStatus == 3 ? 'Suspended' : 'Deactive' }} </mat-chip>
               </span>
                     </mat-chip-list>
                 </td>
             </ng-container>
             <ng-container matColumnDef="activationDate">
                 <th mat-header-cell *matHeaderCellDef width="20%"> Activation Date </th>
-                <td mat-cell *matCellDef="let element"> {{element.activationDate}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <span *ngIf="!element.coActDate">-</span>
+                    <span *ngIf="element.coActDate">{{element.coActDate | date : 'MMM dd, yyyy, hh:mm:ss a'}}</span>
+                </td>
             </ng-container>
             <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef width="20%">Action</th>

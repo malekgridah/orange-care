@@ -5,6 +5,8 @@ import {AppSettings} from '../../../app.settings';
 import {CustomersService} from '../customers.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CustomersSearch, CustomersSearchResult} from '../customers.model';
+import {Router} from "@angular/router";
+import {EccodingUriPipe} from "../../../shared/services/EncodingUri.pipe";
 
 @Component({
   selector: 'app-search-customer',
@@ -26,7 +28,10 @@ export class SearchCustomerComponent implements OnInit {
 
   public displayedColumns = ['custCode', 'public', 'customer', 'city', 'street', 'status', 'action'];
   public settings: Settings;
-  constructor(public appSettings: AppSettings, private customersService: CustomersService, private fb: FormBuilder) {
+  constructor(public appSettings: AppSettings,
+              private customersService: CustomersService,
+              private router: Router,
+              private fb: FormBuilder) {
     this.settings = this.appSettings.settings;
     this.setInitialForm();
   }
@@ -104,6 +109,21 @@ export class SearchCustomerComponent implements OnInit {
       flagCase: [false, []],
       flagMatchcode: [true, []],
     });
+  }
+
+
+  customerOverview(csId: number, csCode: string) {
+    const encodedId = new EccodingUriPipe().transform(csId.toString(), true);
+    const encodedCsCode = new EccodingUriPipe().transform(csCode, true);
+    this.router.navigate(['customers', 'view'], {queryParams:{ customer: encodedCsCode, token:encodedId} }).then((success) => {
+      if (success) {
+        console.log('Navigation successful!');
+      } else {
+        console.error('Navigation failed!');
+      }
+    }).catch((error) => {
+          console.error('Error occurred during navigation:', error);
+        });
   }
 
 

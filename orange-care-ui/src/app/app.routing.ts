@@ -21,6 +21,7 @@ export const routes: Routes = [
             { path: '', loadChildren: './pages/dashboard/dashboard.module#DashboardModule', data: { breadcrumb: 'Dashboard' } },
             { path: 'customers', loadChildren: './pages/customers/customers.module#CustomersModule', data: { breadcrumb: 'Customers' } },
             { path: 'contracts', loadChildren: './pages/contracts/contracts.module#ContractsModule', data: { breadcrumb: 'Contracts' } },
+            { path: 'billing', loadChildren: './pages/billing/billing.module#BillingModule', data: { breadcrumb: 'Billing' } },
             { path: 'users', loadChildren: './pages/users/users.module#UsersModule', data: { breadcrumb: 'Users' } },
             { path: 'dynamic-menu', loadChildren: './pages/dynamic-menu/dynamic-menu.module#DynamicMenuModule', data: { breadcrumb: 'Dynamic Menu' }  },
             { path: 'ui', loadChildren: './pages/ui/ui.module#UiModule', data: { breadcrumb: 'UI' } },

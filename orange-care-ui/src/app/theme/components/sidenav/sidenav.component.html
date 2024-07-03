@@ -1,11 +1,15 @@
-<div class="sidenav-menu-outer" [perfectScrollbar]="psConfig" [disabled]="settings.fixedSidenavUserContent">    
-    <div fxLayout="column" fxLayoutAlign="center center" class="user-block" [class.py-3]="settings.menuType != 'mini'" [class.py-2]="settings.menuType == 'mini'">
-        <img src="assets/img/users/default-avatar.png" alt="user-image">
-        <h2 *ngIf="settings.menuType != 'mini'" class="mt-2">ADMX</h2>
-        <p *ngIf="settings.menuType == 'default'" class="secondary-text-color">ADMX EB23</p>
+<div class="sidenav-menu-outer" [perfectScrollbar]="psConfig" [disabled]="settings.fixedSidenavUserContent">
+    <div fxLayout="row" fxLayoutAlign="start start" class="user-block mb-2" [class.py-3]="settings.menuType != 'mini'" [class.py-2]="settings.menuType == 'mini'">
+        <div fxFlexOffset="5">
+            <img src="assets/img/users/default-avatar.png" alt="user-image">
+        </div>
+        <div fxFlexOffset="5" fxLayout="column">
+            <h2 *ngIf="settings.menuType != 'mini'" class="mt-2">ADMX</h2>
+            <p *ngIf="settings.menuType == 'default'" class="secondary-text-color">Administrator</p>
+        </div>
     </div>
-    <mat-divider></mat-divider>
     <div id="vertical-menu" [perfectScrollbar]="psConfig" [disabled]="!settings.fixedSidenavUserContent">
         <app-vertical-menu [menuItems]="menuItems" [menuParentId]="0"></app-vertical-menu> 
     </div>
 </div>
+
