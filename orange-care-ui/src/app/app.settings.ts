@@ -8,7 +8,7 @@ export class AppSettings {
         true,       //loadingSpinner
         true,      //fixedHeader
         true,      //fixedSidenav
-        false,      //fixedSidenavUserContent
+        true,      //fixedSidenavUserContent
         false,      //fixedFooter
         true,       //sidenavIsOpened
         true,       //sidenavIsPinned  

@@ -23,6 +23,11 @@ public class GatewayDiscoveryConfiguration {
                         .uri("lb://orange-care-bscs")
                 )
                 .route(p -> p
+                        .path("/payment/**")
+                        .filters(fm -> fm.stripPrefix(1))
+                        .uri("lb://orange-care-payment")
+                )
+                .route(p -> p
                         .path("/**")
                         .uri("lb://orange-care-ui")
                 )

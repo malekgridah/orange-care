@@ -63,6 +63,7 @@
                 <th mat-header-cell *matHeaderCellDef width="20%">Action</th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-icon-button
+                            (click)="contractOverview(element.coId, element.coIdPub)"
                             color="primary"
                             matTooltip="edit">
                         <mat-icon class="icon24">visibility</mat-icon>

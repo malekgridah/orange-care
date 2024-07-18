@@ -1,13 +1,14 @@
-<app-content-header
-        icon="person_add"
-        desc="Create Customer"
-        [hideBreadcrumb]="false"
-        [hasBgImage]="true"
-        [class]="'pb-2'"></app-content-header>
 
-<div fxLayout="column" fxLayoutGap="14px" class="p-3">
+
+<div fxLayout="column" fxLayoutGap="14px" class="px-3">
+    <app-content-header
+            icon="person_add"
+            desc="Create Customer"
+            [hideBreadcrumb]="false"
+            [hasBgImage]="true"
+            [class]="'pb-2'"></app-content-header>
         <div *ngIf="appSettings.settings.theme == 'pink-dark'" class="w-100">
-            <mat-card fxFlex="100" [class.bg-accent]="appSettings.settings.theme =='pink-dark'" class="w-100  mat-elevation-z8">
+            <mat-card fxFlex="100" [class.bg-accent]="appSettings.settings.theme =='pink-dark'" class="w-100  mat-elevation-z0">
                 <h2 fxLayoutAlign="center center">{{ pageName }}</h2>
             </mat-card>
         </div>

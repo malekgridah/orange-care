@@ -57,6 +57,32 @@ export class Contract {
     coEntDate: Date;
     coActivatedDate: Date;
     coSignedDate: Date;
-
+    resources: ContractResources;
     contractServiceNode : ContractServiceNode[];
 }
+
+
+export class ContractResources{
+    smSerialNum: string;
+    portNum: string;
+    dirNums: ContractDirectoryNumbers[];
+}
+
+export class ContractDirectoryNumbers{
+    snCode: number;
+    snCodePub: string;
+    snCodeDes: string;
+
+    spCode: number;
+    spCodePub: string;
+    spCodeDes: string;
+
+    profileId: number;
+    dirNum: string;
+    dnStatus: string;
+    dnStatusDes: string;
+
+    mainDirNum: boolean;
+    dirNumOnBill: boolean;
+}
+

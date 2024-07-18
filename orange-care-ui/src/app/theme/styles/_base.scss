@@ -1,5 +1,6 @@
 @import "variables";
 
+
 html, body{
     height: 100%;
 }
@@ -8,6 +9,10 @@ body {
     font-size: 14px;
     line-height: 1.5;
     overflow-x: hidden;
+}
+
+body.pink-dark {
+    background-color: #101010;
 }
 *{
     margin: 0;
@@ -436,7 +441,7 @@ body {
   height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-    background: #e1e1e1;
+    //background: #e1e1e1;
     border: 0px none #ffffff;
     border-radius: 0px;
     &:hover{

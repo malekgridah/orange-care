@@ -29,7 +29,7 @@
                 <div fxLayout="row" fxLayoutAlign="end center">
                     <div fxLayout="row" fxLayoutAlign="start center" fxShow="false" fxShow.gt-xs class="search-bar">
                         <form method="get">
-                            <input type="text" placeholder="Digita para pesquisar..." class="mat-elevation-z3"  [class.show]="toggleSearchBar">
+                            <input type="text" placeholder="Digita para pesquisar..." class="mat-elevation-z0"  [class.show]="toggleSearchBar">
                             <button mat-icon-button (click)="toggleSearchBar = !toggleSearchBar" type="button">
                                 <mat-icon>search</mat-icon>
                             </button> 
@@ -47,7 +47,7 @@
 
     <mat-drawer-container class="page-wrapper">
 
-        <mat-drawer #sidenav *ngIf="settings.menu == 'vertical'" [opened]="settings.sidenavIsOpened" [mode]="(settings.sidenavIsPinned) ? 'side' : 'over'" (openedStart)="showSidenav = !showSidenav" (closedStart)="showSidenav = !showSidenav" class="sidenav mat-elevation-z0" autoFocus="false">
+        <mat-drawer #sidenav *ngIf="settings.menu == 'vertical'" [opened]="settings.sidenavIsOpened" [mode]="(settings.sidenavIsPinned) ? 'side' : 'over'" (openedStart)="showSidenav = !showSidenav" (closedStart)="showSidenav = !showSidenav" [class.sidenav-dark]="settings.theme =='pink-dark'" class="sidenav mat-elevation-z0" autoFocus="false">
             <mat-toolbar *ngIf="settings.fixedSidenav" class="top-toolbar">
                 <a routerLink="/" fxLayout="row" fxLayoutAlign="start center" class="logo">
                     <img src="assets/img/logo.png" alt="logo" [@rotate]="showSidenav">
@@ -69,7 +69,7 @@
         </mat-drawer-content>    
         
         <mat-drawer #options position="end" class="options">
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="op-header mat-elevation-z1">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="op-header mat-elevation-z0">
                 <h2>Settings</h2>
                 <button mat-icon-button (click)="options.toggle()" class="ml-2">
                     <mat-icon>close</mat-icon>

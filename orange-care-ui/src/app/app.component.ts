@@ -14,4 +14,6 @@ export class AppComponent {
   } 
 
   ngOnInit() { }
+
+    protected readonly getComputedStyle = getComputedStyle;
 }

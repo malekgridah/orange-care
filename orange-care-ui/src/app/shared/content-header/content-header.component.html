@@ -1,4 +1,4 @@
-<div class="div-border content-header bg-primary" [class.bg-image]="hasBgImage" [ngClass]="class">
+<div class="div-border content-header bg-primary" [class.bg-image]="!hasBgImage" [ngClass]="class">
   
   <app-breadcrumb [hidden]="hideBreadcrumb"></app-breadcrumb>
   <mat-icon *ngIf="icon" class="mat-icon-lg">{{icon}}</mat-icon>

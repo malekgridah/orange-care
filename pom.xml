@@ -32,7 +32,7 @@
     </scm>
 
     <properties>
-        <revision>1.0.1</revision>
+        <revision>2.0.0</revision>
 
         <cxf.version>4.0.4</cxf.version>
         <springdoc.version>2.3.0</springdoc.version>

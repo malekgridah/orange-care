@@ -1,13 +1,13 @@
 package com.billcom.bscs.services.contract;
 
 import com.billcom.bscs.clients.wsi.*;
-import com.billcom.bscs.commons.beans.contract.overview.Contract;
-import com.billcom.bscs.commons.beans.contract.overview.ContractOverViewRequest;
-import com.billcom.bscs.commons.beans.contract.overview.ContractOverviewResponse;
-import com.billcom.bscs.commons.beans.contract.overview.ContractServiceNode;
+import com.billcom.bscs.commons.beans.contract.overview.*;
+import com.ericsson.contractdevicesread.ContractDevicesReadRequest;
 import com.ericsson.contractread.ContractReadRequest;
 import com.ericsson.contractread.ContractReadResponse;
 import com.ericsson.contractread.InputAttributes;
+import com.ericsson.contractresourcesread.ContractResourcesReadRequest;
+import com.ericsson.contractresourcesread.ContractResourcesReadResponse;
 import com.ericsson.contractservice.parametersread.ContractServiceParametersReadRequest;
 import com.ericsson.contractservice.parametersread.ContractServiceParametersReadResponse;
 import com.ericsson.contractservice.parametersread.NumParamsResponse;
@@ -16,10 +16,7 @@ import com.ericsson.contractservicesread.ContractServicesReadResponse;
 import com.ericsson.contractservicesread.ServicesListpartResponse;
 import com.ericsson.servicepackagesread.NumSpListpartResponse;
 import com.ericsson.servicepackagesread.ServicePackagesReadRequest;
-import com.ericsson.servicepackagesread.ServicePackagesReadResponse;
-import com.ericsson.servicesread.NumSvListpartResponse;
 import com.ericsson.servicesread.ServicesReadRequest;
-import com.ericsson.servicesread.ServicesReadResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,18 +37,24 @@ public class ContractOverviewService {
     private final ServicePackagesReadClient servicePackagesReadClient;
     private final ServicesReadClient servicesReadClient;
     private final ContractServiceParametersReadClient serviceParametersReadClient;
+    private final ContractDevicesReadClient contractDevicesReadClient;
+    private final ContractResourcesReadClient contractResourcesReadClient;
 
     @Autowired
     public ContractOverviewService(ContractReadClient contractReadClient,
                                    ContractServicesReadClient contractServicesReadClient,
                                    ServicePackagesReadClient servicePackagesReadClient,
                                    ServicesReadClient servicesReadClient,
-                                   ContractServiceParametersReadClient serviceParametersReadClient) {
+                                   ContractServiceParametersReadClient serviceParametersReadClient,
+                                   ContractDevicesReadClient contractDevicesReadClient,
+                                   ContractResourcesReadClient contractResourcesReadClient) {
         this.contractReadClient = contractReadClient;
         this.contractServicesReadClient = contractServicesReadClient;
         this.servicePackagesReadClient = servicePackagesReadClient;
         this.servicesReadClient = servicesReadClient;
         this.serviceParametersReadClient = serviceParametersReadClient;
+        this.contractDevicesReadClient = contractDevicesReadClient;
+        this.contractResourcesReadClient = contractResourcesReadClient;
     }
 
     public ContractOverviewResponse contractOverview(ContractOverViewRequest overViewRequest) {
@@ -96,6 +99,7 @@ public class ContractOverviewService {
 
             contract.setScCodePub(readResponse.getSccodePub());
             contract.setScCodePub(readResponse.getSccodePub());
+            contract.setResources(this.contractResourcesRead(readResponse.getCoId(), readResponse.getRpcode()));
 
             if (readResponse.getCoActivated() != null) {
                 contract.setCoActivatedDate(readResponse.getCoActivated().toGregorianCalendar().toZonedDateTime().toLocalDateTime());
@@ -254,5 +258,92 @@ public class ContractOverviewService {
         return this.servicePackagesReadClient.execute(packagesReadRequest, "ADMX","ADMX")
                 .getNumSp()
                 .getItem();
+    }
+
+    private ContractDevices contractDevicesRead(Long coId) {
+        ContractDevicesReadRequest contractDevicesReadRequest = new ContractDevicesReadRequest();
+        com.ericsson.contractdevicesread.InputAttributes inputAttributes = new com.ericsson.contractdevicesread.InputAttributes();
+
+        inputAttributes.setCoId(coId);
+        return null;
+    }
+
+    private ServicesListpartResponse contractServiceRead(Long coId, Long profileId, String snCodePub) {
+        ContractServicesReadRequest request = new ContractServicesReadRequest();
+        com.ericsson.contractservicesread.InputAttributes inputAttributes = new com.ericsson.contractservicesread.InputAttributes();
+
+        inputAttributes.setCoId(coId);
+        inputAttributes.setProfileId(profileId);
+        inputAttributes.setSncodePub(snCodePub);
+        request.setInputAttributes(inputAttributes);
+
+        ContractServicesReadResponse response = this.contractServicesReadClient.execute(request, "ADMX", "ADMX");
+        if (response != null && response.getServices().getItem() != null) return response.getServices().getItem().get(0);
+
+        return null;
+    }
+
+    private String getBaseSpCodeDes(Long rateplan, Long spCode) {
+        ServicePackagesReadRequest packagesReadRequest = new ServicePackagesReadRequest();
+        com.ericsson.servicepackagesread.InputAttributes inputAttributes = new com.ericsson.servicepackagesread.InputAttributes();
+
+        inputAttributes.setRpcode(rateplan);
+        packagesReadRequest.setInputAttributes(inputAttributes);
+        return this.servicePackagesReadClient.execute(packagesReadRequest, "ADMX","ADMX")
+                .getNumSp()
+                .getItem()
+                .stream()
+                .filter(num -> num.getSpcode().equals(spCode))
+                .toList()
+                .get(0)
+                .getSpDes();
+    }
+
+    private ContractResources contractResourcesRead(Long coId, Long rateplan) {
+        ContractResources resources = new ContractResources();
+        ContractResourcesReadRequest request = new ContractResourcesReadRequest();
+        com.ericsson.contractresourcesread.InputAttributes inputAttributes = new com.ericsson.contractresourcesread.InputAttributes();
+
+        inputAttributes.setCoId(coId);
+        request.setInputAttributes(inputAttributes);
+
+        ContractResourcesReadResponse response = this.contractResourcesReadClient.execute(request, "ADMX", "ADMX");
+        if (response != null) {
+            if (response.getPortNum() != null) resources.setPortNum(response.getPortNum());
+            if (response.getSmSerialnum() != null) resources.setSmSerialNum(response.getSmSerialnum());
+
+            List<ContractDirectoryNumbers> dirNums = new ArrayList<>();
+
+            if (response.getListOfServices() != null && response.getListOfServices().getItem() != null) {
+                response.getListOfServices().getItem().forEach(service -> {
+                    ContractDirectoryNumbers dirNum = new ContractDirectoryNumbers();
+                    if (service.getSncode() != null) dirNum.setSnCode(service.getSncode());
+                    if (service.getSncodePub() != null) dirNum.setSnCodePub(service.getSncodePub());
+                    if (service.getProfileId() != null) dirNum.setProfileId(service.getProfileId());
+
+                    if (service.getListOfDirectoryNumbers() != null && service.getListOfDirectoryNumbers().getItem() != null) {
+                        service.getListOfDirectoryNumbers().getItem().forEach(dir -> {
+                            if (dir.getDirnum() != null) dirNum.setDirNum(dir.getDirnum());
+                        });
+                    }
+                    ServicesListpartResponse contractService = this.contractServiceRead(coId, service.getProfileId(), service.getSncodePub());
+                    if (contractService != null) {
+                        dirNum.setSnCodeDes(this.servicesRead(service.getSncodePub()));
+                        contractService.getDirectoryNumbers().getItem().forEach(coService -> {
+                            if (coService.getCoscDnStatus() != null) dirNum.setDnStatus(coService.getCoscDnStatus());
+                            if (coService.isMainDirnum() != null) dirNum.setMainDirNum(coService.isMainDirnum());
+                            if (coService.isDirnumOnBill() != null) dirNum.setDirNumOnBill(coService.isDirnumOnBill());
+                        });
+                        dirNum.setSpCodeDes(this.getBaseSpCodeDes(rateplan,contractService.getSpcode()));
+                        dirNum.setSpCodePub(contractService.getSpcodePub());
+                        dirNum.setSpCode(contractService.getSpcode());
+                        dirNum.setSpCodeDes(this.getBaseSpCodeDes(rateplan,contractService.getSpcode()));
+                    }
+                    dirNums.add(dirNum);
+                });
+                resources.setDirNums(dirNums);
+            }
+        }
+        return resources;
     }
 }

@@ -4,6 +4,9 @@ import {Settings} from '../../../../app.settings.model';
 import {AppSettings} from '../../../../app.settings';
 import {SelectionModel} from '@angular/cdk/collections';
 import {Contract} from "../../customers.model";
+import {EccodingUriPipe} from "../../../../shared/services/EncodingUri.pipe";
+import {ContractsService} from "../../../contracts/contracts.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-contract-customer-tab',
@@ -17,7 +20,9 @@ export class ContractCustomerTabComponent implements OnChanges, AfterViewInit {
 
   public dataSource: any;
   public settings: Settings;
-  constructor(public appSettings: AppSettings) {
+  constructor(public appSettings: AppSettings,
+              private contractsService: ContractsService,
+              private router: Router) {
     console.log("3\n"+this.contracts);
     this.settings = this.appSettings.settings;
   }
@@ -54,6 +59,20 @@ export class ContractCustomerTabComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  contractOverview(coId: number, coCode: string) {
+    const encodedId = new EccodingUriPipe().transform(coId.toString(), true);
+    const encodedCoCode = new EccodingUriPipe().transform(coCode, true);
+    this.router.navigate(['contracts', 'overview'], {queryParams:{ contract: encodedCoCode, token:encodedId} }).then((success) => {
+      if (success) {
+        console.log('Navigation successful!');
+      } else {
+        console.error('Navigation failed!');
+      }
+    }).catch((error) => {
+      console.error('Error occurred during navigation:', error);
+    });
   }
 
 }

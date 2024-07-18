@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {CustomerOverview, CustomersSearch, CustomersSearchResult} from "../customers/customers.model";
-import {ContractsSearchRequest, ContractsSearchResponse, Rateplan, RateplanResponse} from "./conntracts.model";
+import {ContractsSearchRequest, ContractsSearchResponse, RateplanResponse} from "./conntracts.model";
 import {ContractOverviewRequest, ContractOverviewResponse} from "./contract-overview.model";
 
 

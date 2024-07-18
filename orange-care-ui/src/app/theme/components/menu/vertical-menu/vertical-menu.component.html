@@ -1,7 +1,7 @@
-<div *ngFor="let menu of parentMenu" class="menu-item">
+<div *ngFor="let menu of parentMenu" [class.menu-item-dark]="settings.theme == 'pink-dark'" class="menu-item">
     <a *ngIf="menu.routerLink && !menu.hasSubMenu" mat-button 
         fxLayout="row" [fxLayoutAlign]="(settings.menuType=='default') ? 'start center' : 'center center'"
-        [routerLink]="[menu.routerLink]" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}"
+        [routerLink]="[menu.routerLink]" routerLinkActive="active-link menu-focus" [routerLinkActiveOptions]="{exact:true}"
         [matTooltip]="menu.title" matTooltipPosition="after" [matTooltipDisabled]="(settings.menuType=='mini') ? 'false' : 'true'"
         (click)="onClick(menu.id)" [id]="'menu-item-'+menu.id">
         <mat-icon class="menu-icon">{{menu.icon}}</mat-icon>
@@ -24,7 +24,7 @@
         <mat-icon class="menu-expand-icon transition-2">arrow_drop_down</mat-icon>
     </a>
 
-    <div *ngIf="menu.hasSubMenu" class="sub-menu" [id]="'sub-menu-'+menu.id">
+    <div *ngIf="menu.hasSubMenu" [class.sub-menu-dark]="settings.theme == 'pink-dark'" class="sub-menu" [id]="'sub-menu-'+menu.id">
         <app-vertical-menu [menuItems]="menuItems" [menuParentId]="menu.id"></app-vertical-menu>
     </div>
 </div>

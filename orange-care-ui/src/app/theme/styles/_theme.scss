@@ -17,6 +17,7 @@
         @import "skins/red-light";
         @include angular-material-theme($red-light-theme);
         @include theme-reset($red-light-theme);
+        background-color: #efedf1;
     }
     &.gray-light{
         @import "skins/gray-light";
@@ -37,6 +38,7 @@
         @import "skins/pink-dark";
         @include angular-material-theme($pink-dark-theme);
         @include theme-reset($pink-dark-theme);
+        background-color: #101010;
     }
     &.gray-dark{
         @import "skins/gray-dark";

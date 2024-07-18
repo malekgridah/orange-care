@@ -22,7 +22,6 @@ import { routing } from './app.routing';
 import { AppSettings } from './app.settings';
 import { AppComponent } from './app.component';
 import { PagesComponent } from './pages/pages.component';
-import { BlankComponent } from './pages/blank/blank.component';
 import { SearchComponent } from './pages/search/search.component';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
 import { ErrorComponent } from './pages/errors/error/error.component';
@@ -37,14 +36,7 @@ import { ApplicationsComponent } from './theme/components/applications/applicati
 import { MessagesComponent } from './theme/components/messages/messages.component';
 import { UserMenuComponent } from './theme/components/user-menu/user-menu.component';
 import { FavoritesComponent } from './theme/components/favorites/favorites.component';
-import { SubcategoriasComponent } from './pages/artigos/subcategorias/subcategorias.component';
-import { ProdutosComponent } from './pages/artigos/produtos/produtos.component';
 import { HttpClientModule } from '@angular/common/http';
-import { CategoriasPesquisaComponent } from './pages/artigos/categorias/categorias-pesquisa/categorias-pesquisa.component';
-import { CategoriasCadastroComponent } from './pages/artigos/categorias/categorias-cadastro/categorias-cadastro.component';
-
-
-
 
 
 
@@ -69,7 +61,6 @@ import { CategoriasCadastroComponent } from './pages/artigos/categorias/categori
   declarations: [
     AppComponent,
     PagesComponent,
-    BlankComponent,
     SearchComponent,
     NotFoundComponent,
     ErrorComponent,
@@ -83,10 +74,6 @@ import { CategoriasCadastroComponent } from './pages/artigos/categorias/categori
     MessagesComponent,
     UserMenuComponent,
     FavoritesComponent,
-    SubcategoriasComponent,
-    ProdutosComponent,
-    CategoriasCadastroComponent,
-    CategoriasPesquisaComponent
   ],
   providers: [
     AppSettings,

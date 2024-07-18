@@ -12,14 +12,22 @@
     cursor: pointer;
     fill: currentColor;
 }
+//#44474e
 
 .sidenav{
-    background: #101010 !important;
     border-radius: 12px;
+    background: #ECEFF1 !important;
     width: $sidenav-width;
     overflow: hidden;
     border: none !important;
 }
+
+.sidenav-dark{
+    background: #101010 !important;
+
+}
+
+
 
 .header{
     position: relative;

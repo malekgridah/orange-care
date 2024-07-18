@@ -1,6 +1,9 @@
 package com.billcom.payment.rest;
 
 import com.billcom.payment.commons.beans.*;
+import com.billcom.payment.commons.beans.invoices.overview.InvoiceOverviewRequest;
+import com.billcom.payment.commons.beans.invoices.search.InvoiceRequest;
+import com.billcom.payment.commons.beans.invoices.search.InvoiceResponse;
 import com.billcom.payment.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,47 +11,36 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api")
-@CrossOrigin("*")
 public class PaymentApiController {
 
     private final GetInvoicesService getInvoicesService;
-    private final GetInvoicesV2 getInvoicesV2;
     private final PayService payService;
     private final CancelPayService cancelPayService;
     private final TraceLogService traceLogService;
+    private final InvoiceOverviewService invoiceOverviewService;
 
     @Autowired
-    public PaymentApiController(GetInvoicesService getInvoicesService, GetInvoicesV2 getInvoicesV2,
+    public PaymentApiController(GetInvoicesService getInvoicesService,
                                 PayService payService,
                                 CancelPayService cancelPayService,
-                                TraceLogService traceLogService) {
+                                TraceLogService traceLogService,
+                                InvoiceOverviewService invoiceOverviewService) {
         this.getInvoicesService = getInvoicesService;
-        this.getInvoicesV2 = getInvoicesV2;
         this.payService = payService;
         this.cancelPayService = cancelPayService;
         this.traceLogService = traceLogService;
+        this.invoiceOverviewService = invoiceOverviewService;
     }
 
 
-    @GetMapping("invoices")
-    public ResponseEntity<com.billcom.payment.commons.beans.invoices.InvoiceResponse> invoices(@RequestParam(value = "startDate", required = false) String startDate,
-                                                                                               @RequestParam(value = "endDate", required = false) String endDate,
-                                                                                               @RequestParam(value = "csId", required = false) Long csId,
-                                                                                               @RequestParam(value = "csIdPub", required = false) String csIdPub,
-                                                                                               @RequestParam(value = "billingAccountId", required = false) Long billingAccountId,
-                                                                                               @RequestParam(value = "billingAccountCode", required = false) String billingAccountCode,
-                                                                                               @RequestParam(value = "msisdn", required = false) String msisdn,
-                                                                                               @RequestParam(value = "cin", required = false) String cin,
-                                                                                               @RequestParam(value = "regNo", required = false) String regNo,
-                                                                                               @RequestParam(value = "refFacture", required = false) String refFacture,
-                                                                                               @RequestParam(value = "prgCodeInclude", required = false) String prgCodeInclude,
-                                                                                               @RequestParam(value = "prgCodeExclude", required = false) String prgCodeExclude) {
-        return ResponseEntity.ok(getInvoicesV2.getInvoices(csId, csIdPub,
-                msisdn, cin,
-                billingAccountId, billingAccountCode,
-                regNo, prgCodeInclude,
-                prgCodeExclude, startDate,
-                endDate, refFacture));
+    @PostMapping("invoices")
+    public ResponseEntity<InvoiceResponse> invoices(@RequestBody InvoiceRequest request) {
+        return ResponseEntity.ok(getInvoicesService.getInvoices(request));
+    }
+
+    @PostMapping("InvoiceOverview")
+    public void InvoiceOverview(@RequestBody InvoiceOverviewRequest request) {
+         ResponseEntity.ok(this.invoiceOverviewService.invoiceOverView(request));
     }
 
     @PostMapping("pay")
@@ -56,27 +48,6 @@ public class PaymentApiController {
                                            @RequestHeader(value = "password", required = false) String password,
                                            @RequestBody PayRequest payRequest) {
         return ResponseEntity.ok(payService.pay(username, password, payRequest));
-    }
-
-    @GetMapping("getInvoices")
-    public ResponseEntity<InvoiceResponse> getInvoices(@RequestParam(value = "startDate", required = false) String startDate,
-                                                       @RequestParam(value = "endDate", required = false) String endDate,
-                                                       @RequestParam(value = "csId", required = false) Long csId,
-                                                       @RequestParam(value = "csIdPub", required = false) String csIdPub,
-                                                       @RequestParam(value = "billingAccountId", required = false) Long billingAccountId,
-                                                       @RequestParam(value = "billingAccountCode", required = false) String billingAccountCode,
-                                                       @RequestParam(value = "msisdn", required = false) String msisdn,
-                                                       @RequestParam(value = "cin", required = false) String cin,
-                                                       @RequestParam(value = "regNo", required = false) String regNo,
-                                                       @RequestParam(value = "refFacture", required = false) String refFacture,
-                                                       @RequestParam(value = "prgCodeInclude", required = false) String prgCodeInclude,
-                                                       @RequestParam(value = "prgCodeExclude", required = false) String prgCodeExclude) {
-        return ResponseEntity.ok(this.getInvoicesService.getInvoices(csId, csIdPub,
-                msisdn, cin,
-                billingAccountId, billingAccountCode,
-                regNo, prgCodeInclude,
-                prgCodeExclude, startDate,
-                endDate, refFacture));
     }
 
     @PostMapping("traceLog")

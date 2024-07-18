@@ -8,8 +8,8 @@
 .menu-item{
     .mat-button{
         padding: 6px;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
+        //margin-top: 0.25rem;
+        border-radius:  12px;
         width: 100%;
         font-weight: 400;
         .menu-icon{
@@ -18,7 +18,9 @@
             border-radius: 50%; 
         }
         &.expanded{
-            background: #101010;
+            border-bottom-left-radius: unset;
+            border-bottom-right-radius: unset;
+            background: #efedf1;
             .menu-expand-icon{
                 -webkit-transform: rotate(180deg);
                 -moz-transform: rotate(180deg);
@@ -31,35 +33,69 @@
     }    
 }
 
+
+.menu-item-dark{
+    .mat-button{
+        .menu-icon{
+        }
+        &.expanded{
+            background: #101010;
+        }
+    }
+}
+
 .sub-menu{
     @include menu-level-padding('ltr');
     max-height: 0;
-    background: #101010;
+    background: #efedf1;
+    color: #f16e00;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     overflow: hidden;
-    -webkit-transition: max-height 0.25s ease-out;  
-    -moz-transition: max-height 0.25s ease-out;  
-    transition: max-height 0.25s ease-out;    
+    -webkit-transition: max-height 0.25s ease-out;
+    -moz-transition: max-height 0.25s ease-out;
+    transition: max-height 0.25s ease-out;
     .mat-button{
-        padding-left: 20px;      
-    } 
+        padding-left: 20px;
+    }
     &.show{
         max-height: 900px;
         -webkit-transition: max-height 0.25s ease-in;
         -moz-transition: max-height 0.25s ease-in;
         transition: max-height 0.25s ease-in;
-    }    
+    }
+}
+
+.sub-menu-dark {
+    background: #101010 !important;
+}
+
+.sub-menu.hover {
+    background: transparent;
+    color: #f16e00;
 }
 
 .menu-item .mat-button.active-link {
     border-radius: 12px;
-    background: #101010 !important;
+    background: #f16e0040 !important;
 }
 
 .menu-item .mat-button.hover {
     border-radius: 12px;
-    background: #101010 !important;
+    color: #f16e00 !important;
+    background: transparent !important;
 }
+
+.menu-focus {
+    border-radius: 12px;
+    color: #f16e00 !important;
+    background: transparent !important;
+}
+
+//.menu-item .mat-button.hover {
+//    border-radius: 12px;
+//    color: #f16e00;
+//    background: transparent !important;
+//}
 
 

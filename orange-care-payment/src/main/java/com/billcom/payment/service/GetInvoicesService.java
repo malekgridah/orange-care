@@ -3,14 +3,18 @@ package com.billcom.payment.service;
 import com.billcom.payment.clients.rest.RestExecutorClient;
 import com.billcom.payment.clients.soap.wsi.FinancialDocumentSearchClient;
 import com.billcom.payment.commons.beans.*;
-import com.billcom.payment.commons.dtos.bscs.OrderhdrAllDto;
+import com.billcom.payment.commons.beans.InvoiceRequest;
+import com.billcom.payment.commons.beans.Money;
+import com.billcom.payment.commons.beans.invoices.search.BillingAccountsByCustomer;
+import com.billcom.payment.commons.beans.invoices.search.Invoice;
+import com.billcom.payment.commons.beans.invoices.search.InvoiceResponse;
+import com.billcom.payment.commons.beans.invoices.search.InvoicesByBillingAccount;
+import com.billcom.payment.commons.enums.InvoiceStatus;
 import com.billcom.payment.commons.enums.UseCasesIdPub;
 import com.billcom.payment.commons.exceptions.DataNotFoundException;
 import com.billcom.payment.commons.exceptions.InvokeClientException;
-import com.billcom.payment.commons.mappers.bscs.OrderhdrAllMapper;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceHistRepository;
 import com.billcom.payment.commons.repositories.bscs.FinTrxInterfaceRepository;
-import com.billcom.payment.commons.repositories.bscs.OrderhdrAllRepository;
 import com.billcom.payment.config.properties.SettingsProperties;
 import com.billcom.payment.utils.Constants;
 import com.ericsson.financialdocumentsearch.*;
@@ -22,11 +26,11 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,21 +41,18 @@ public class GetInvoicesService {
     private final FinancialDocumentSearchClient finDocSearchClient;
     private final RestExecutorClient restExecutorClient;
     private final SettingsProperties settingsProperties;
-    private final OrderhdrAllRepository orderhdrAllRepository;
-    private final OrderhdrAllMapper orderhdrAllMapper;
     private final FinTrxInterfaceRepository finTrxInterfaceRepository;
     private final FinTrxInterfaceHistRepository finTrxInterfaceHistRepository;
 
     @Autowired
     public GetInvoicesService(FinancialDocumentSearchClient finDocSearchClient,
-                              RestExecutorClient restExecutorClient, SettingsProperties settingsProperties,
-                              OrderhdrAllRepository orderhdrAllRepository,
-                              OrderhdrAllMapper orderhdrAllMapper, FinTrxInterfaceRepository finTrxInterfaceRepository, FinTrxInterfaceHistRepository finTrxInterfaceHistRepository) {
+                              RestExecutorClient restExecutorClient,
+                              SettingsProperties settingsProperties,
+                              FinTrxInterfaceRepository finTrxInterfaceRepository,
+                              FinTrxInterfaceHistRepository finTrxInterfaceHistRepository) {
         this.finDocSearchClient = finDocSearchClient;
         this.restExecutorClient = restExecutorClient;
         this.settingsProperties = settingsProperties;
-        this.orderhdrAllRepository = orderhdrAllRepository;
-        this.orderhdrAllMapper = orderhdrAllMapper;
         this.finTrxInterfaceRepository = finTrxInterfaceRepository;
         this.finTrxInterfaceHistRepository = finTrxInterfaceHistRepository;
     }
@@ -60,30 +61,39 @@ public class GetInvoicesService {
         return param != null && !param.isBlank();
     }
 
-    public InvoiceResponse getInvoices(Long csId, String csIdPub, String msisdn, String cin, Long billingAccountId,
-                                       String billingAccountCode, String regNo, String prgCodeInclude,
-                                       String prgCodeExclude, String startDate, String endDate, String refFacture) {
+    public InvoiceResponse getInvoices(com.billcom.payment.commons.beans.invoices.search.InvoiceRequest request) {
 
         CustomerDetails customerDetails = null;
         InvoiceRequest invoiceRequest = new InvoiceRequest();
         InvoicesBean invoicesBean = new InvoicesBean();
+        String csIdPub = null;
+        Long csId = null;
 
         CustomerReference custRef = new CustomerReference();
 
-        if(startDate != null && !startDate.isBlank())
-            invoicesBean.setStartDate(startDate);
+        if(request.getStartDate() != null)
+            invoicesBean.setStartDate(request.getStartDate().toString());
 
-        if(startDate != null && !startDate.isBlank())
-            invoicesBean.setEndDate(endDate);
+        if(request.getEndDate() != null)
+            invoicesBean.setEndDate(request.getEndDate().toString());
 
-        if (csId != null || csIdPub != null || msisdn != null) {
-            custRef.setCsId(csId != null ? csId : this.restExecutorClient.getCsIdFromMsisdn(msisdn));
+        if (request.getCustomer() != null) {
+            csId = request.getCustomer().getCsId();
+            csIdPub = request.getCustomer().getCsIdPub();
+        }
+
+        if (request.getSearchCount() != null) {
+            invoicesBean.setSearchCount(request.getSearchCount());
+        }
+
+        if (csId != null || csIdPub != null || request.getDirNum() != null) {
+            custRef.setCsId(csId != null ? csId : this.restExecutorClient.getCsIdFromMsisdn(request.getDirNum()));
             custRef.setCsIdPub(csIdPub);
             invoicesBean.setCustRef(custRef);
         }
 
-        if (csId == null && csIdPub == null && msisdn == null) {
-            customerDetails = this.restExecutorClient.getCustomerDetails(null, null, cin, regNo);
+        if (csId == null && csIdPub == null && request.getDirNum() == null) {
+            customerDetails = this.restExecutorClient.getCustomerDetails(null, null, request.getCin(), request.getRegistryNumber());
             logger.info(" +++++ details " + customerDetails);
 
             if (customerDetails != null && customerDetails.getCustomerId() != null) {
@@ -96,28 +106,28 @@ public class GetInvoicesService {
             invoicesBean.setCustRef(custRef);
         }
 
-        if (billingAccountId != null || billingAccountCode != null) {
+        if (request.getBillingAccount() != null) {
             BillingAccount baRef = new BillingAccount();
-            baRef.setBillingAccountCode(billingAccountCode);
-            baRef.setBillingAccountId(billingAccountId);
+            baRef.setBillingAccountCode(request.getBillingAccount().getBillingAccountCode());
+            baRef.setBillingAccountId(request.getBillingAccount().getBillingAccountId());
             invoicesBean.setBaRef(baRef);
         }
 
-        if (refFacture != null && !refFacture.isEmpty()) {
-            invoicesBean.setRefFacture(refFacture);
+        if (request.getDocument() != null && request.getDocument().getDocumentCode() != null && !request.getDocument().getDocumentCode().isEmpty()) {
+            invoicesBean.setRefFacture(request.getDocument().getDocumentCode());
         }
 
 
-        if(prgCodeInclude != null && prgCodeInclude.equals(("1"))) {
+        if(request.getPrgCodeInclude() != null && request.getPrgCodeInclude().equals(("1"))) {
             if (!this.processPrgCode(this.settingsProperties.getPrgcode().getInclude(),
-                    csId, csIdPub, custRef, customerDetails, cin, regNo)) {
+                    csId, csIdPub, custRef, customerDetails, request.getCin(), request.getRegistryNumber())) {
                 invoicesBean.getCustRef().setCsId(0L);
             }
         }
 
-        if(prgCodeExclude != null && prgCodeExclude.equals(("1"))) {
+        if(request.getPrgCodeExclude() != null && request.getPrgCodeExclude().equals(("1"))) {
             if (this.processPrgCode(this.settingsProperties.getPrgcode().getExclude(),
-                    csId, csIdPub, custRef, customerDetails, cin, regNo)) {
+                    csId, csIdPub, custRef, customerDetails, request.getCin(), request.getRegistryNumber())) {
                 invoicesBean.getCustRef().setCsId(0L);
             }
         }
@@ -132,7 +142,7 @@ public class GetInvoicesService {
                                    CustomerDetails customerDetails, String cin,
                                    String regno) {
 
-        logger.error("processing prgCode");
+        logger.info("processing prgCode...");
         if (customerDetails == null) {
             customerDetails = this.restExecutorClient.getCustomerDetails(csId != null ? csId : custRef.getCsId(),
                     csIdPub != null ? csIdPub : custRef.getCsIdPub(), cin, regno);
@@ -154,7 +164,7 @@ public class GetInvoicesService {
         docTypesRequest.getDocType().add("IN");
         inputAttributes.setDocTypes(docTypesRequest);
 
-        if (this.settingsProperties.getDocumentSearchCount() != null) {
+        if (invoiceRequest.getInvoicesBean().getSearchCount() == null && this.settingsProperties.getDocumentSearchCount() != null) {
             inputAttributes.setResultLimit(BigInteger.valueOf(Long
                     .parseLong(this.settingsProperties.getDocumentSearchCount())));
         }
@@ -184,6 +194,10 @@ public class GetInvoicesService {
                 if(this.checkString(invoicesBean.getEndDate())){
                     inputAttributes.setDueDateUntil(DatatypeFactory
                             .newInstance().newXMLGregorianCalendar(invoicesBean.getEndDate()));
+                }
+
+                if (invoicesBean.getSearchCount() != null) {
+                    inputAttributes.setResultLimit(BigInteger.valueOf(invoicesBean.getSearchCount()));
                 }
 
                 if(invoicesBean.getCustRef() != null
@@ -231,63 +245,93 @@ public class GetInvoicesService {
 
     private InvoiceResponse prepareInvoicesResponse(List<DocumentsListpartResponse> documentsList) {
         InvoiceResponse invoiceResponse = new InvoiceResponse();
-        
-        Map<Long, List<DocumentsListpartResponse>> groupByBillAccId = documentsList
+        List<BillingAccountsByCustomer> byCustomerList = new ArrayList<>();
+
+//        Map<Long, List<DocumentsListpartResponse>> groupByBillAccId = documentsList
+//                .stream()
+//                .collect(Collectors.groupingBy(documentsListpartResponse -> documentsListpartResponse
+//                        .getBillingAccountId() != null ? documentsListpartResponse.getBillingAccountId() : 0L));
+
+        Map<Long, Map<Long, List<DocumentsListpartResponse>>> groupedByCustomerAndAccount = documentsList
                 .stream()
-                .collect(Collectors.groupingBy((documentsListpartResponse) -> documentsListpartResponse
-                        .getBillingAccountId() != null ? documentsListpartResponse.getBillingAccountId() : 0L));
+                .collect(Collectors.groupingBy(
+                        DocumentsListpartResponse::getCsId,
+                        Collectors.groupingBy(documentsListpartResponse -> documentsListpartResponse
+                        .getBillingAccountId() != null ? documentsListpartResponse.getBillingAccountId() : 0L)
+                ));
 
+        AtomicInteger i = new AtomicInteger();
+        groupedByCustomerAndAccount.forEach((customerId, accounts) -> {
+            i.getAndIncrement();
+            System.out.println(i+" CustomerId: " + customerId);
+            BillingAccountsByCustomer billingAccountsByCustomer = new BillingAccountsByCustomer();
+            billingAccountsByCustomer.setCustomerId(customerId);
 
-        CustomerReference customerReference = new CustomerReference();
+            List<InvoicesByBillingAccount> billingAccounts = new ArrayList<>();
 
-        InvoiceArrayOfInvoicesByBillingAccount arrayOfInvoicesByBillingAccount = new InvoiceArrayOfInvoicesByBillingAccount();
-        List<InvoiceInvoicesByBillingAccount> invoicesByBillingAccountList = new ArrayList<>();
+            accounts.forEach((accountId, accountInvoices) -> {
+                InvoicesByBillingAccount invoicesByBillingAccount = new InvoicesByBillingAccount();
+                BillingAccount billingAccount = new BillingAccount();
+                billingAccount.setBillingAccountId(accountId);
 
-        groupByBillAccId.forEach((billAccId, documentList) -> {
-            InvoiceArrayOfInvoiceDetails arrayOfInvoiceDetails = new InvoiceArrayOfInvoiceDetails();
-            InvoiceInvoicesByBillingAccount invoicesByBillingAccount = new InvoiceInvoicesByBillingAccount();
-            InvoiceBillingAccountReference billingAccountReference = new InvoiceBillingAccountReference();
-            List<InvoiceInvoiceDetails> invoiceDetailsList = new ArrayList<>();
-            documentList.forEach(document -> {
-                customerReference.setCsId(document.getCsId());
-                customerReference.setCsIdPub(document.getCsIdPub());
-                billingAccountReference.setBillingAccountCode(document.getBillingAccountCode());
-                billingAccountReference.setBillingAccountId(document.getBillingAccountId());
-                InvoiceInvoiceDetails invoiceDetails = new InvoiceInvoiceDetails();
-                OrderhdrAllDto orderHdrDto= this.orderhdrAllMapper.toDto(this.orderhdrAllRepository
-                        .findByDocumentIdAndStatus(document.getDocumentId(),"IN"));
-                invoiceDetails.setInvoiceType(orderHdrDto.getCostCenterId() == 1 ? Constants.INVOICE_MOBILE : Constants.INVOICE_DATA);
-                invoiceDetails.setStatus(this.getInvoiceStatus(document));
-                invoiceDetails.setAmountToPay(BigDecimal.valueOf(document.getOpenAmountDoc().getAmount()));
-                invoiceDetails.setSentDate(document.getRefDate().toString());
-                invoiceDetails.setExpectedPaymentDate(document.getDueDate() != null ? document.getDueDate().toString() : "");
-                invoiceDetails.setReferenceNumber(document.getDocumentCode());
-                invoiceDetails.setDocumentId(document.getDocumentId());
-                invoiceDetails.setOrderNumber(BigDecimal.valueOf(document.getDocumentId()));
-                invoiceDetails.setBilledAmount(BigDecimal.valueOf(document.getDocumentAmountDoc().getAmount()));
-                invoiceDetailsList.add(invoiceDetails);
+                System.out.println("  BillingAccountId: " + accountId);
+                List<Invoice> invoices = new ArrayList<>();
+                accountInvoices.forEach(invoice -> {
+                    billingAccount.setBillingAccountCode(invoice.getBillingAccountCode());
+                    billingAccountsByCustomer.setCustomerCode(invoice.getCsCode());
+
+                    Invoice invoiceOut = new Invoice();
+                    Money money = new Money();
+                    money.setAmount(invoice.getDocumentAmountDoc() != null ? invoice.getDocumentAmountDoc().getAmount() : null);
+                    money.setCurrency(invoice.getDocumentAmountDoc() != null ? invoice.getDocumentAmountDoc().getCurrency() : null);
+                    invoiceOut.setBilledAmount(money);
+                    if (invoice.getDueDate() != null) {
+                        invoiceOut.setDueDate(invoice.getDueDate().toGregorianCalendar().toZonedDateTime().toLocalDate());
+                    }
+
+                    if (invoice.getRefDate() != null) {
+                        invoiceOut.setRefDate(invoice.getRefDate().toGregorianCalendar().toZonedDateTime().toLocalDate());
+                    }
+
+                    if (invoice.getEntryDate() != null) {
+                        invoiceOut.setEntryDate(invoice.getEntryDate().toGregorianCalendar().toZonedDateTime().toLocalDateTime());
+                    }
+                    invoiceOut.setDocumentId(invoice.getDocumentId());
+                    invoiceOut.setDocumentCode(invoice.getDocumentCode());
+                    invoiceOut.setIsPaid(invoice.getOpenAmountDoc().getAmount() == 0);
+                    invoiceOut.setStatus(this.getInvoiceStatus(invoice));
+                    invoiceOut.setStatusId(InvoiceStatus.valueOf(invoiceOut.getStatus()).getStatusId());
+                    invoiceOut.setIsReversed(invoice.isReversed());
+                    money.setAmount(invoice.getOpenAmountDoc().getAmount());
+                    invoiceOut.setOpenAmount(money);
+                    invoices.add(invoiceOut);
+                    System.out.println("    InvoiceId: " + invoice.getDocumentId() + " DocumentCode: " + invoice.getDocumentCode());
+                });
+                invoicesByBillingAccount.setBillingAccount(billingAccount);
+                invoicesByBillingAccount.setInvoices(invoices);
+                billingAccounts.add(invoicesByBillingAccount);
+                billingAccountsByCustomer.setCustomers(billingAccounts);
             });
-            arrayOfInvoiceDetails.setItem(invoiceDetailsList);
-            invoicesByBillingAccount.setInvoices(arrayOfInvoiceDetails);
-            invoicesByBillingAccount.setBaRef(billingAccountReference);
-            invoicesByBillingAccountList.add(invoicesByBillingAccount);
-            arrayOfInvoicesByBillingAccount.setItem(invoicesByBillingAccountList);
+            byCustomerList.add(billingAccountsByCustomer);
         });
-        invoiceResponse.setCustomerRef(customerReference);
-        invoiceResponse.setInvoicesByBa(arrayOfInvoicesByBillingAccount);
+
+        invoiceResponse.setInvoices(byCustomerList);
         invoiceResponse.setIsSuccessful(true);
         invoiceResponse.setComment("Success");
+
         return invoiceResponse;
     }
 
 
     private String getInvoiceStatus(DocumentsListpartResponse document) {
-        String status = document.getOpenAmountDoc().getAmount() > 0 ? Constants.NOT_PAID : Constants.PAID;
-
-        if (!status.equalsIgnoreCase(Constants.PAID)) {
-            if (this.finTrxInterfaceHistRepository.existsByDocumentIdAndCsIdAndUseCaseCode(document.getDocumentId(), document.getCsId(), UseCasesIdPub.PAYMENT.getValue()) ||
-            this.finTrxInterfaceRepository.existsByDocumentIdAndCsIdAndUseCaseCode(document.getDocumentId(), document.getCsId(), UseCasesIdPub.PAYMENT.getValue())) {
-                return Constants.PAYMENT_IN_PROGRESS;
+        String status = null;
+        if (document.getOpenAmountDoc() != null) {
+            status = document.getOpenAmountDoc().getAmount() > 0 ? InvoiceStatus.Not_Paid.getStatus() : InvoiceStatus.Paid.getStatus();
+            if (!status.equalsIgnoreCase(Constants.PAID)) {
+                if (this.finTrxInterfaceHistRepository.existsByDocumentIdAndCsIdAndUseCaseCode(document.getDocumentId(), document.getCsId(), UseCasesIdPub.PAYMENT.getValue()) ||
+                        this.finTrxInterfaceRepository.existsByDocumentIdAndCsIdAndUseCaseCode(document.getDocumentId(), document.getCsId(), UseCasesIdPub.PAYMENT.getValue())) {
+                    return InvoiceStatus.IN_Progress.getStatus();
+                }
             }
         }
         return status;

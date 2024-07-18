@@ -3,6 +3,8 @@ package com.billcom.bscs.clients.config;
 public interface BaseWsWebService {
 
     String CONTRACT_READ = "ws_CIL_7_ContractReadService.wsdl";
+    String CONTRACT_DEVICES_READ = "ws_CIL_7_ContractDevicesReadService.wsdl";
+    String CONTRACT_RESOURCES_READ = "ws_CIL_7_ContractResourcesReadService.wsdl";
     String CONTRACTS_SEARCH = "ws_CIL_7_ContractsSearchService.wsdl";
     String COUNTRIES_READ = "ws_CIL_7_CountriesReadService.wsdl";
     String CUSTOMER_GROUPS_READ = "ws_CIL_7_CustomerGroupsReadService.wsdl";

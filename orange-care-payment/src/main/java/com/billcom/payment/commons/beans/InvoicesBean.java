@@ -10,6 +10,7 @@ public class InvoicesBean {
 	private String startDate ;
 	private String endDate;
 	private Long trsId;
+	private Long searchCount;
 	private String refFacture;
 
 }

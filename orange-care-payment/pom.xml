@@ -140,6 +140,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>financial-document-read</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
         </dependency>
@@ -169,6 +175,14 @@
             <artifactId>cxf-rt-features-logging</artifactId>
             <version>${cxf.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-config-client</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

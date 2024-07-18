@@ -6,7 +6,7 @@
             [hasBgImage]="true"
             [class]="'pb-2'"></app-content-header>
 
-    <mat-card class="div-border mt-3 mat-elevation-z4">
+    <mat-card class="div-border mt-3 mat-elevation-z0">
         <form [formGroup]="selectForm" [style.font-size.px]="13" class="filters" fxLayout="row wrap" fxLayoutGap="15px grid">
             <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
                 <mat-form-field appearance="outline" matTooltip="filter">
@@ -143,14 +143,14 @@
 
         <mat-card-actions fxLayoutAlign="center center">
             <button  mat-raised-button (click)="resetForm()" color="warn">Reset</button>
-            <button  mat-raised-button (click)="viewFormData()" color="primary">Search</button>
+            <button class="bg-primary-trs"  mat-raised-button (click)="viewFormData()" color="primary">Search</button>
         </mat-card-actions>
 
     </mat-card>
 
-    <mat-card *ngIf="show" class="mt-3 div-border mat-elevation-z4">
+    <mat-card *ngIf="show" [ngClass] ="show ? 'bg-tt':'bg-tt'" class="mt-3 div-border mat-elevation-z0">
         <mat-card-header>
-            <mat-card-title>Search Result</mat-card-title>
+            <mat-card-title [style.color]="'#f16e00'">Search Result</mat-card-title>
         </mat-card-header>
         <mat-divider></mat-divider>
         <mat-card-content>

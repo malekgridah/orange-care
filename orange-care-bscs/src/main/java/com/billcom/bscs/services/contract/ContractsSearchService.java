@@ -99,6 +99,8 @@ public class ContractsSearchService {
 
         if (searchRequest.getSrchCount() != null) {
             inputAttributes.setSrchCount(Long.valueOf(searchRequest.getSrchCount()));
+        } else {
+            inputAttributes.setSrchCount(20L);
         }
 
         if (searchRequest.getCsFName() != null && !searchRequest.getCsFName().isBlank()) {

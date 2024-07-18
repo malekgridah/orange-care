@@ -87,6 +87,9 @@ export class SearchContractComponent implements OnInit {
         this.dataSource.data = [];
       }
       this.loading = false;
+    },error => {
+      this.loading = false;
+      console.log(error)
     });
   }
 

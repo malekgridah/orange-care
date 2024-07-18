@@ -24,7 +24,7 @@
             <span class="horizontal-menu-title">{{menu.title}}</span>
         </a>
 
-        <div *ngIf="menu.hasSubMenu" class="horizontal-sub-menu mat-elevation-z1" [id]="'horizontal-sub-menu-'+menu.id">
+        <div *ngIf="menu.hasSubMenu" class="horizontal-sub-menu mat-elevation-z0" [id]="'horizontal-sub-menu-'+menu.id">
             <app-horizontal-menu [menuParentId]="menu.id"></app-horizontal-menu>
         </div>
     </div>

@@ -1,5 +1,5 @@
-<div class="sidenav-menu-outer" [perfectScrollbar]="psConfig" [disabled]="settings.fixedSidenavUserContent">
-    <div fxLayout="row" fxLayoutAlign="start start" class="user-block mb-2" [class.py-3]="settings.menuType != 'mini'" [class.py-2]="settings.menuType == 'mini'">
+<div [class.sidenav-menu-outer-dark]="settings.theme =='pink-dark'" class="sidenav-menu-outer" [perfectScrollbar]="psConfig" [disabled]="settings.fixedSidenavUserContent">
+    <div fxLayout="row" fxLayoutAlign="start start" [class.user-block-dark]="settings.theme =='pink-dark'" class="user-block mb-2" [class.py-3]="settings.menuType != 'mini'" [class.py-2]="settings.menuType == 'mini'">
         <div fxFlexOffset="5">
             <img src="assets/img/users/default-avatar.png" alt="user-image">
         </div>

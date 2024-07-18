@@ -1,26 +1,45 @@
 .user-block{
+    background-color: #efedf1;
     border-radius: 12px;
-    background-color: #101010;
     img{
         border-radius: 50%;
         width: 60px;
         height: 60px;
-        border: 1px solid rgba(0,0,0,.12);
     }
     h2{
         font-size: 16px;
+        color: black;
         font-weight: 400;
     }
     p{
         font-size: 13px;
     }
 }
+
+.user-block-dark{
+    background-color: #101010 !important;
+    h2{
+        font-size: 16px;
+        color: white;
+        font-weight: 400;
+    }
+    img{
+        border: 1px solid rgba(0,0,0,.12) !important;
+    }
+}
+
+
 .sidenav-menu-outer{
-    background-color: #191c1c;
     height: 100%;
     padding: 12px;
+    background-color: #fdfbff !important;
     border-top-right-radius: 12px !important;
 }
+
+.sidenav-menu-outer-dark{
+    background-color: #191c1c !important;
+}
+
 #vertical-menu.ps{
     height: calc(100% - 180px);
 }

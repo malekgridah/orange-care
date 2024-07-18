@@ -29,5 +29,8 @@ public class Contract {
     private LocalDateTime coActivatedDate;
     private LocalDate coSignedDate;
 
+    private ContractResources resources;
+    private ContractDevices devices;
+
     private ContractServiceNode[] contractServiceNode;
 }
