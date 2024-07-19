@@ -55,8 +55,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    // The following two methods are only required when setting a custom base-path (see
-    // 'basepath' profile in application.yml)
     private ServerLogoutSuccessHandler logoutSuccessHandler(String uri) {
         RedirectServerLogoutSuccessHandler successHandler = new RedirectServerLogoutSuccessHandler();
         successHandler.setLogoutSuccessUrl(URI.create(uri));

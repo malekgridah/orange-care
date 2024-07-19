@@ -3,13 +3,11 @@ spring:
     bscs:
       username: SYSADM
       password: SYSADM
-      url: jdbc:oracle:thin:@//192.168.10.90:1521/BSCSBCC.bcs.local
+      url: jdbc:oracle:thin:@//192.168.10.90:1521/BSCSBCC
       driver-class-name: oracle.jdbc.OracleDriver
 
     postgres:
-      username: postgres
-      password: postgres
+      username: moon_user
+      password: moon_user
       url: jdbc:postgresql://192.168.10.70:5433/OTNWS
       driver-class-name: org.postgresql.Driver
-
-    driver-class-name:

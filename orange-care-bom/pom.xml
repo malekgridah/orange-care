@@ -65,6 +65,11 @@
                 <artifactId>orange-care-security</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.billcom</groupId>
+                <artifactId>orange-care-financials</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

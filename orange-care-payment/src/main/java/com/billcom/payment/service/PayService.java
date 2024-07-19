@@ -147,7 +147,7 @@ public class PayService {
                     request_id
                     );
             PayDto.PayDtoBuilder payDto = PayDto.builder();
-            payDto.btOhxact(payRequest.getPayBean().getDocument() != null ?payRequest.getPayBean().getDocument().getDocumentId() : null)
+            payDto.btOhxact(payRequest.getPayBean().getDocument() != null ? payRequest.getPayBean().getDocument().getDocumentId() : null)
                     .rtCachknum(payRequest.getPayBean().getDocument().getDocumentCode())
                     .operationType(Constants.PAY)
                     .csId(payRequest.getPayBean().getCustomer().getCsId())

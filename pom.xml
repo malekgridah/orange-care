@@ -57,6 +57,7 @@
         <module>orange-care-gateway</module>
         <module>orange-care-parent</module>
         <module>orange-care-payment</module>
+        <module>orange-care-financials</module>
         <module>orange-care-registry</module>
         <module>orange-care-ui</module>
     </modules>
