@@ -5,24 +5,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/parent/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-bscs/pom.xml" />
         <option value="$PROJECT_DIR$/orange-care-auth/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-recharge/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/orange-care-auth/orange-care-auth-auth-server/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-auth/orange-care-auth-connection-pools/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-auth/orange-care-auth-eb-beans/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-auth/orange-care-auth-user-handling/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-dependencies/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-invoices/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-recharge/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-security/orange-care-security-connection-resources/pom.xml" />
-        <option value="$PROJECT_DIR$/orange-care-shared/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="corretto-17" project-jdk-type="JavaSDK">
