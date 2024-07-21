@@ -299,8 +299,8 @@ public class GetInvoicesService {
                     invoiceOut.setDocumentId(invoice.getDocumentId());
                     invoiceOut.setDocumentCode(invoice.getDocumentCode());
                     invoiceOut.setIsPaid(invoice.getOpenAmountDoc().getAmount() == 0);
-                    invoiceOut.setStatus(this.getInvoiceStatus(invoice));
-                    invoiceOut.setStatusId(InvoiceStatus.valueOf(invoiceOut.getStatus()).getStatusId());
+//                    invoiceOut.setStatus(this.getInvoiceStatus(invoice));
+//                    invoiceOut.setStatusId(InvoiceStatus.valueOf(invoiceOut.getStatus()).getStatusId());
                     invoiceOut.setIsReversed(invoice.isReversed());
                     money.setAmount(invoice.getOpenAmountDoc().getAmount());
                     invoiceOut.setOpenAmount(money);

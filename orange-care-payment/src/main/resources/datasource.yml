@@ -7,7 +7,7 @@ spring:
       driver-class-name: oracle.jdbc.OracleDriver
 
     postgres:
-      username: moon_user
-      password: moon_user
-      url: jdbc:postgresql://192.168.10.70:5433/OTNWS
+      username: postgres
+      password: postgres
+      url: jdbc:postgresql://192.168.10.70:5431/OTNWS
       driver-class-name: org.postgresql.Driver
