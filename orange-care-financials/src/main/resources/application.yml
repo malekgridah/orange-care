@@ -30,7 +30,7 @@ spring:
     import:
       - webservices.yml
 server:
-  port: 1508
+  port: 0
 
 ---
 eureka:
