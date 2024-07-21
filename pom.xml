@@ -50,15 +50,17 @@
 
     <modules>
         <module>orange-care-admin</module>
-        <module>orange-care-security</module>
         <module>orange-care-bom</module>
         <module>orange-care-bscs</module>
         <module>orange-care-config</module>
+        <module>orange-care-contracts</module>
+        <module>orange-care-customers</module>
+        <module>orange-care-financials</module>
         <module>orange-care-gateway</module>
         <module>orange-care-parent</module>
         <module>orange-care-payment</module>
-        <module>orange-care-financials</module>
         <module>orange-care-registry</module>
+        <module>orange-care-security</module>
         <module>orange-care-ui</module>
     </modules>
 
