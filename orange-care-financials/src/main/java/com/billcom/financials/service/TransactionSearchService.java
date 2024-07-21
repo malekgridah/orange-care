@@ -1,10 +1,10 @@
 package com.billcom.financials.service;
 
 import com.billcom.financials.clients.wsi.FinancialTransactionSearchClient;
-import com.billcom.financials.commons.Money;
 import com.billcom.financials.commons.beans.search.TransactionSearch;
 import com.billcom.financials.commons.beans.search.TransactionSearchRequest;
 import com.billcom.financials.commons.beans.search.TransactionSearchResponse;
+import com.billcom.financials.utils.FMSConvertor;
 import com.ericsson.financialtransactionsearch.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,24 +54,11 @@ public class TransactionSearchService {
             inputAttributes.setTransCodes(transCodesRequest);
         }
 
-        if (request.getDateFrom() != null) {
-            try {
-                inputAttributes.setEntryDateFrom(DatatypeFactory
-                        .newInstance().newXMLGregorianCalendar(request.getDateFrom().toGregorianCalendar()));
-            } catch (DatatypeConfigurationException e) {
-                logger.error("Error setting entry date from: {}", e.getMessage());
-                throw new RuntimeException(e);
-            }
-        }
-        if (request.getDateUntil() != null) {
-            try {
-                inputAttributes.setEntryDateUntil(DatatypeFactory
-                        .newInstance().newXMLGregorianCalendar(request.getDateFrom().toGregorianCalendar()));
-            } catch (DatatypeConfigurationException e) {
-                logger.error("Error setting entry date until: {}", e.getMessage());
-                throw new RuntimeException(e);
-            }
-        }
+        if (request.getDateFrom() != null)
+            inputAttributes.setEntryDateUntil(FMSConvertor.toXMLGregorianCalendar(request.getDateFrom()));
+
+        if (request.getDateUntil() != null)
+            inputAttributes.setEntryDateUntil(FMSConvertor.toXMLGregorianCalendar(request.getDateUntil()));
 
         transactionSearchRequest.setInputAttributes(inputAttributes);
 
@@ -102,10 +89,8 @@ public class TransactionSearchService {
                 transactionSearch.setTransactionCodePub(item.getTransCodePub());
                 transactionSearch.setTransactionType(item.getTransactionType());
                 transactionSearch.setPaymentMethodId(item.getPaymentMethodId());
-                transactionSearch.setCashPayAmount(this
-                        .getMoney(item.getAmountCashPay().getAmount(), item.getAmountCashPay().getCurrency()));
-                transactionSearch.setCurrentAmount(this
-                        .getMoney(item.getAmountCurrent().getAmount(), item.getAmountCurrent().getCurrency()));
+                transactionSearch.setCashPayAmount(FMSConvertor.toMoney(item.getAmountCashPay().getAmount(), item.getAmountCashPay().getCurrency()));
+                transactionSearch.setCurrentAmount(FMSConvertor.toMoney(item.getAmountCurrent().getAmount(), item.getAmountCurrent().getCurrency()));
                 transactionSearch.setReferenceDate(item.getRefDate()
                         .toGregorianCalendar()
                         .toZonedDateTime()
@@ -119,12 +104,5 @@ public class TransactionSearchService {
             });
         }
         return transactionSearchList;
-    }
-
-    private Money getMoney(Double amount, String currency) {
-        Money money = new Money();
-        if (amount != null) money.setAmount(amount);
-        if (currency != null) money.setCurrency(currency);
-        return money;
     }
 }

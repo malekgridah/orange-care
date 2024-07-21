@@ -4,6 +4,8 @@ import com.billcom.financials.commons.Money;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class TransactionOverview {
@@ -15,6 +17,9 @@ public class TransactionOverview {
     private Long csId;
     private String csIdPub;
 
+    private Long billingAccountId;
+    private String billingAccountCode;
+
     private Money amountCashPay;
     private Money amountCurrentPay;
 
@@ -22,7 +27,7 @@ public class TransactionOverview {
     private LocalDateTime referenceDate;
     private LocalDateTime effectiveDate;
 
-    private Long glAccount;
+    private String glAccount;
     private String user;
     private String paymentChannel;
     private String payMethodIdPub;
@@ -31,5 +36,5 @@ public class TransactionOverview {
     private Boolean reversed;
     private Long revOrigTransactionId;
 
-    private TransactionOverviewDetails details;
+    private List<TransactionOverviewDetails> transactionDetails;
 }

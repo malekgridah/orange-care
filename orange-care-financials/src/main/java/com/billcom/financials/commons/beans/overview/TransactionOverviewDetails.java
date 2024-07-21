@@ -8,7 +8,7 @@ public class TransactionOverviewDetails {
     private Long documentId;
     private String documentCode;
 
-    private Long glAccountRevenue;
+    private String glAccountRevenue;
 
     private Money amountCashPay;
     private Money amountPay;

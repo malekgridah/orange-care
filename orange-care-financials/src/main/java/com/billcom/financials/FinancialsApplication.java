@@ -6,9 +6,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class OrangeCareFinancialsApplication {
+public class FinancialsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrangeCareFinancialsApplication.class);
+        SpringApplication.run(FinancialsApplication.class);
     }
 }
