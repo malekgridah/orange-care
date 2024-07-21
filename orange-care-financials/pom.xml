@@ -48,6 +48,11 @@
             <version>${wsi.client}</version>
         </dependency>
         <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>financial-document-detail-read</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
