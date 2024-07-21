@@ -1,0 +1,215 @@
+<div class="p-3">
+    <app-content-header
+            icon="search"
+            desc="Search For Invoice"
+            [hideBreadcrumb]="false"
+            [hasBgImage]="true"
+            [class]="'pb-2'"></app-content-header>
+
+    <mat-card class="div-border mt-3 mat-elevation-z0">
+        <form [formGroup]="selectForm" [style.font-size.px]="13" class="filters" fxLayout="row wrap" fxLayoutGap="15px grid">
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Order By Date</mat-label>
+                    <mat-select formControlName="orderRefDate">
+                        <mat-option [value]="'d'">Desc</mat-option>
+                        <mat-option [value]="'a'">Asc</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>sort</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Document Type</mat-label>
+                    <mat-select formControlName="docType">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="'IN'"> Invoice </mat-option>
+                        <mat-option [value]="'CO'"> Cash On Account </mat-option>
+                        <mat-option [value]="'DP'"> Deposit </mat-option>
+                        <mat-option [value]="'RD'"> Deposit Request </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>list</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="documentStatus">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="'C'">closed documents</mat-option>
+                        <mat-option [value]="'O'">open documents</mat-option>
+                        <mat-option [value]="'P'">open and partly open documents</mat-option>
+                        <mat-option [value]="'L'">partly open and closed documents</mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>filter_list</mat-icon>
+                </mat-form-field>
+            </div>
+            <div fxFlex="25" fxFlex.xs="50" fxFlex.sm="25">
+                <mat-form-field appearance="outline" matTooltip="filter">
+                    <mat-label>Credit Debit</mat-label>
+                    <mat-select formControlName="creditDebit">
+                        <mat-option [value]="'all'"> All </mat-option>
+                        <mat-option [value]="'C'"> credit documents </mat-option>
+                        <mat-option [value]="'D'"> debit documents </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>reorder</mat-icon>
+                </mat-form-field>
+            </div>
+        </form>
+        <mat-divider></mat-divider>
+        <ng-container class="py-2" *ngIf="showFilter">
+            <h3 class="mt-2" fxLayoutAlign="center center">Filter By Date</h3>
+            <div [formGroup]="filterDateForm" class="filters py-2" fxLayout="row wrap" fxLayoutGap="15px grid">
+                <div fxFlexOffset="25" fxFlex="25">
+                    <mat-form-field appearance="outline" [style.font-size.px]="14">
+                        <mat-label>Start Date</mat-label>
+                        <input [matDatepicker]="picker1" formControlName="startDate" matInput readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker1">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div fxFlex="25">
+                    <mat-form-field appearance="outline" [style.font-size.px]="14">
+                        <mat-label>End Date</mat-label>
+                        <input [matDatepicker]="picker0" formControlName="endDate" matInput readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker0">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker0></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <mat-form-field [style.font-size.px]="14">
+                <mat-label>Document ID</mat-label>
+                <input type="text" matInput #input />
+            </mat-form-field>
+            <button (click)="showFilter = !showFilter" class="bg-primary-trs" mat-raised-button>Filter By Date</button>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="pt-3">
+            <div class=" py-1" fxFlex="68" fxLayoutGap="15px grid">
+                <form [formGroup]="searchForm" fxLayoutAlign="space-around center" [style.font-size.px]="13">
+                    <div class="filters" fxLayout="row wrap">
+                        <mat-form-field fxFlex="49" appearance="outline">
+                            <mat-label>Invoice Reference</mat-label>
+                            <input matInput placeholder="50000000" formControlName="invoiceRef">
+                            <mat-hint>Customer last name</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field fxFlexOffset="2" fxFlex="49" appearance="outline">
+                            <mat-label></mat-label>
+                            <mat-label>Directory Number</mat-label>
+                            <input matInput placeholder="01123123" formControlName="dirNum">
+                            <mat-hint>Customer last name</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="49" appearance="outline">
+                            <mat-label>Billing Account Code</mat-label>
+                            <input matInput placeholder="Doe" formControlName="billingAccountCode">
+                            <mat-hint>Customer last name</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field fxFlexOffset="2" fxFlex="49" appearance="outline">
+                            <mat-label>Customer Public Key</mat-label>
+                            <input matInput placeholder="john" formControlName="csIdPub">
+                            <mat-hint>Customer last name</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="49" appearance="outline">
+                            <mat-label>CIN</mat-label>
+                            <input matInput placeholder="1.10000000" formControlName="cin">
+                            <mat-hint>Customer Code</mat-hint>
+                        </mat-form-field>
+                        <mat-form-field fxFlexOffset="2" fxFlex="49" appearance="outline">
+                            <mat-label>Registration Number</mat-label>
+                            <input matInput placeholder="CNT00000001" formControlName="regNo">
+                            <mat-hint>Customer public key</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+            <form fxFlexOffset="5" [formGroup]="optionForm">
+                <div fxLayout="column">
+                    <h3>Search Option</h3>
+                    <span class="p-1 example-list-section">
+                        <ul fxFlexOffset="15">
+                            <li>
+                                <mat-checkbox color="primary" formControlName="flagMatchcode">Matchcode search for last name</mat-checkbox>
+                            </li>
+                            <li>
+                                <mat-checkbox color="primary" formControlName="flagCase">Match case</mat-checkbox>
+                            </li>
+                        </ul>
+                    </span>
+                    <h3>Max. search results</h3>
+                    <span class="p-1 example-list-section">
+                        <mat-form-field fxFlexOffset="15">
+                            <mat-label>Search Count</mat-label>
+                            <input formControlName="srchCount" matInput>
+                        </mat-form-field>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+        <mat-card-actions fxLayoutAlign="center center">
+            <button  mat-raised-button color="warn">Reset</button>
+            <button class="bg-primary-trs" mat-raised-button (click)="searchInvoices()" color="primary">Search</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card [ngClass]="appSetting.settings.theme === 'pink-dark' ? 'div-border-dark' : 'div-border-light'" *ngIf="show" class="mat-card-padding mt-3 mat-elevation-z0">
+        <mat-card-header class="pad-16">
+            <mat-card-title [style.color]="'#f16e00'">Search Result</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="documentCode">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Invoice Reference </th>
+                    <td mat-cell *matCellDef="let element"> {{element.documentCode}} </td>
+                </ng-container>
+                <ng-container matColumnDef="csIdPub">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Customer Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.customerCode}} </td>
+                </ng-container>
+                <ng-container matColumnDef="billedAmount">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Billed Amount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.billedAmount}} </td>
+                </ng-container>
+                <ng-container matColumnDef="openAmount">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Open Amount </th>
+                    <td mat-cell *matCellDef="let element"> {{element.openAmount}} </td>
+                </ng-container>
+                <ng-container matColumnDef="dueDate">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Due Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.dueDate | date: 'MMM dd, yyyy'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> status </th>
+                    <td mat-cell *matCellDef="let element"> {{element.statusId == 1 ? 'Paid' : element.statusId == 2 ? 'Not Paid' : 'In Progress' }} </td>
+                </ng-container>
+                <ng-container matColumnDef="billingAccountCode">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Billing Account Code </th>
+                    <td mat-cell *matCellDef="let element"> {{element.billingAccountCode}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef width="12%"> Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button
+                                color="primary"
+                                matTooltip="edit">
+                            <mat-icon class="icon24">visibility</mat-icon>
+                        </button>&nbsp;
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr [ngClass]="appSetting.settings.theme =='pink-dark' ? 'mat-row-dark':'mat-row-light'" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </mat-card-content>
+        <mat-card-footer>
+            <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+        </mat-card-footer>
+    </mat-card>
+
+</div>

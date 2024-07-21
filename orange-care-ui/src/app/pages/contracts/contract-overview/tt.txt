@@ -1,0 +1,98 @@
+<app-content-header
+        icon="description"
+        [desc]="'Contract Overview - CONTR0039815089'"
+        [hideBreadcrumb]="false"
+        [hasBgImage]="true"
+        [class]="'pb-2'"></app-content-header>
+<div class="p-3">
+    <mat-card class="div-border mat-elevation-z4">
+        <mat-card-header>
+            <mat-chip-list>
+                <mat-chip class="gradient-green"> Active </mat-chip>
+            </mat-chip-list>
+            <mat-card-title> Contract Overview - CONTR0039815089</mat-card-title>
+            <!--        <mat-card-subtitle>test</mat-card-subtitle>-->
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <div [ngClass]="'customer-tabs-border-dark'" class="customers-tabs users-wrapper">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" class="p-0">
+                    <div class="p-0 user-content">
+                        <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+                            <div class="customer-block user-img">
+                                <span class="gradient-orange transition mb-2">
+                                    {{this.getNameAvatar('U','U')}}</span>
+                            </div>
+                        </div>
+                        <mat-divider [vertical]="true"></mat-divider>
+                        <div fxFlex="80" fxFlex.xs="70" fxLayout="row wrap" fxLayout.xs="column" class="user-details">
+                            <div class="w-100">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <h4 class="user-name px-2">Malek Gridah</h4>
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </div>
+                                <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+                            <span (mouseleave)="menuTrigger.closeMenu()">
+                                <button mat-menu-item>
+                                    <mat-icon>mode_edit</mat-icon>
+                                    <span>Edit</span>
+                                </button>
+                                <button mat-menu-item>
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Delete</span>
+                                </button>
+                            </span>
+                                </mat-menu>
+                                <mat-divider></mat-divider>
+                            </div>
+                            <div fxFlex="30" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">business</mat-icon>
+                                    <span>Billcom Consulting</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">card_membership</mat-icon>
+                                    <span>Software Engineer</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">attach_money</mat-icon>
+                                    <span>5000</span>
+                                </p>
+                            </div>
+                            <div fxFlex="30" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">mail_outline</mat-icon>
+                                    <span>gridahmalek2017@gmail.com</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">call</mat-icon>
+                                    <span>25373285</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">location_on</mat-icon>
+                                    <span>Sousse Tunisia</span>
+                                </p>
+                            </div>
+                            <div fxFlex="40" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">event_available</mat-icon>
+                                    <span>Registration 15/08/1998</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">date_range</mat-icon>
+                                    <span>Joined 15/08/1999</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">person</mat-icon>
+                                    <span>Active</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

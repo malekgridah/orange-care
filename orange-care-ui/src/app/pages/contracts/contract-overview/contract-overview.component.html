@@ -1,0 +1,343 @@
+
+<div class="p-3">
+    <app-content-header
+                        icon="description"
+                        [desc]="'Contract Overview - ' + coCode"
+                        [hideBreadcrumb]="false"
+                        [hasBgImage]="true"
+                        [class]="'pb-2'"></app-content-header>
+    <mat-card class="div-border mt-3 mat-elevation-z0">
+        <mat-card-header class="pb-3 header-size" fxLayoutAlign="start center" fxLayout="row">
+            <div class="primary-text-color" fxLayout="row">
+                <p><strong> Customer Code: </strong> {{contract.csIdPub}}</p>
+                <p class="ml-4"><strong> Contract Code: </strong> {{contract.coCode}}</p>
+                <p class="ml-4"><strong>Main Directory Number: </strong> {{mainDirNum}} </p>
+            </div>
+        </mat-card-header>
+        <mat-divider class="w-100"></mat-divider>
+        <div [ngClass]="appSettings.settings.theme =='pink-dark' ? 'customer-tabs-border-dark':'customer-tabs-border-light'" class="customers-tabs users-wrapper">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" class="p-0">
+                    <div class="p-0 user-content">
+                        <div fxFlex="20" fxFlex.xs="30" fxLayout="column" fxLayoutAlign="center center">
+                            <div class="customer-block user-img">
+                                <span class="gradient-orange transition mb-2">
+                                    {{this.getNameAvatar('M','G')}}</span>
+                            </div>
+                            <div fxLayout="row" fxLayoutAlign="center center" class="social-icons">
+                                <h3>Malek Gridah</h3>
+                            </div>
+                        </div>
+                        <mat-divider [vertical]="true"></mat-divider>
+                        <div fxFlex="80" fxFlex.xs="70" fxLayout="row wrap" fxLayout.xs="column" class="user-details">
+                            <div class="w-100">
+                                <div fxLayout="row" fxLayoutAlign="space-between center">
+                                    <h4 class="user-name px-2">Malek Gridah</h4>
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger">
+                                        <mat-icon color="primary">more_vert</mat-icon>
+                                    </button>
+                                </div>
+                                <mat-menu #menu="matMenu" xPosition="before" overlapTrigger="true">
+                                <span (mouseleave)="menuTrigger.closeMenu()">
+                                    <button mat-menu-item>
+                                        <mat-icon>mode_edit</mat-icon>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button mat-menu-item>
+                                        <mat-icon>delete</mat-icon>
+                                        <span>Delete</span>
+                                    </button>
+                                </span>
+                                </mat-menu>
+                                <mat-divider></mat-divider>
+                            </div>
+                            <div fxFlex="30" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <strong fxFlex="40">Contract Status:</strong>
+                                    <strong class="secondary-text-color">{{contract.coStatus}}</strong>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <strong fxFlex="40">Signed On:</strong>
+                                    <strong class="secondary-text-color">{{contract.coSignedDate | date: 'MMM dd, yyyy'}}</strong>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <strong fxFlex="40">Rateplan:</strong>
+                                    <strong class="secondary-text-color">	Prepaid mobile </strong>
+                                </p>
+                            </div>
+                            <div fxFlex="30" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">mail_outline</mat-icon>
+                                    <span>gridahmalek2017@gmail.com</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">call</mat-icon>
+                                    <span>25373285</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">location_on</mat-icon>
+                                    <span>Sousse Tunisia</span>
+                                </p>
+                            </div>
+                            <div fxFlex="40" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">event_available</mat-icon>
+                                    <span>Registration 15/08/1998</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">date_range</mat-icon>
+                                    <span>Joined 15/08/1999</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">person</mat-icon>
+                                    <span>Active</span>
+                                </p>
+                            </div>
+                            <div class="w-100">
+                                <mat-divider></mat-divider>
+                            </div>
+                            <div fxFlex="40" fxFlex.xs="100" fxLayout="column" class="info-list px-2">
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">event_available</mat-icon>
+                                    <span>Registration 15/08/1998</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">date_range</mat-icon>
+                                    <span>Joined 15/08/1999</span>
+                                </p>
+                                <p fxLayout="row" fxLayoutAlign="start center">
+                                    <mat-icon class="secondary-text-color">person</mat-icon>
+                                    <span>Active</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        <div class="customer-tabs-border-dark mt-4 div-border">-->
+        <!--            <div class="p-1">-->
+        <!--                <h3 mat-subheader>Contracted services</h3>-->
+        <!--                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">-->
+        <!--                    &lt;!&ndash; This is the tree node template for leaf nodes &ndash;&gt;-->
+        <!--                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>-->
+        <!--                        &lt;!&ndash; use a disabled button to provide padding for tree leaf &ndash;&gt;-->
+        <!--                        <button mat-icon-button disabled></button>-->
+        <!--                        <p fxLayout="row" fxLayoutAlign="start center">-->
+        <!--                            <mat-icon class="secondary-text-color">text_snippet</mat-icon>-->
+        <!--                            <span class="ml-1">{{node.name}}</span>-->
+        <!--                        </p>-->
+        <!--                    </mat-tree-node>-->
+        <!--                    &lt;!&ndash; This is the tree node template for expandable nodes &ndash;&gt;-->
+        <!--                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>-->
+        <!--                        <button mat-icon-button matTreeNodeToggle-->
+        <!--                                [attr.aria-label]="'toggle ' + node.name">-->
+        <!--                            <mat-icon class="mat-icon-rtl-mirror">-->
+        <!--                                {{treeControl.isExpanded(node) ? 'remove' : 'add'}}-->
+        <!--                            </mat-icon>-->
+        <!--                        </button>-->
+        <!--                        <p fxLayout="row" fxLayoutAlign="start center">-->
+        <!--                            <mat-icon class="secondary-text-color">{{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}</mat-icon>-->
+        <!--                            <span class="ml-1">{{node.name}}</span>-->
+        <!--                        </p>-->
+        <!--                    </mat-tree-node>-->
+        <!--                </mat-tree>-->
+        <!--            </div>-->
+
+        <!--        </div>-->
+        <div [ngClass]="appSettings.settings.theme =='pink-dark' ? 'customer-tabs-border-dark':'customer-tabs-border-light'" class="mt-4 div-border">
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <h3 [style.color]="'#f16e00'" class="mat-orange-500" mat-subheader>Contracted services</h3>
+                <button mat-icon-button (click)="expanded = !expanded; expanded ? treeControl.expandAll() : treeControl.collapseAll()">
+                    <mat-icon color="primary">{{expanded ? 'unfold_less' : 'unfold_more'}}</mat-icon>
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-0">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 div-border">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef width="30%">
+                            <span [style.paddingLeft.px]="40"> Name </span>
+                        </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <div fxLayout="row">
+                                <button mat-icon-button
+                                        [style.visibility]="!data.expandable ? 'hidden' : ''"
+                                        [style.marginLeft.px]="data.level * 32"
+                                        (click)="treeControl.toggle(data)">
+                                    <mat-icon [style.font-size]="'1rem'" class="mat-icon-rtl-mirror">
+                                        {{treeControl.isExpanded(data) ? 'remove' : 'add'}}
+                                    </mat-icon>
+                                </button>
+
+                                <span fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon [style.color]="'#ffd740'" *ngIf="treeControl.isExpandable(data)" class="secondary-text-color">
+                                    {{treeControl.isExpanded(data) ? 'folder_open' : 'folder'}}</mat-icon>
+                                <mat-icon *ngIf="!treeControl.isExpandable(data)" class="secondary-text-color">description</mat-icon>
+                                <span class="ml-1">{{data.service}}</span>
+                            </span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="value">
+                        <th mat-header-cell *matHeaderCellDef width="10%"> Value </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.value == null"> -- </span>
+                            <span *ngIf="data.value != null">{{data.value}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef width="5%"> Status </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <!--                            <mat-chip-list *ngIf="data.status != null">-->
+                            <!--                                <span>-->
+                            <!--                                    <mat-chip [class.gradient-red]="data.status == '4'"-->
+                            <!--                                          [class.gradient-lime]="data.status == '3'"-->
+                            <!--                                          [class.gradient-gray]="data.status == '1'"-->
+                            <!--                                          [class.gradient-green]="data.status == '2'">{{ data.status == '2'-->
+                            <!--                                    ? 'Active' : data.status == '4' ? 'Deactivated' : data.status == '3' ? 'Suspended' : 'On Hold' }} </mat-chip>-->
+                            <!--                                </span>-->
+                            <!--                            </mat-chip-list>-->
+                            <mat-icon *ngIf="data.status != null" [style.font-size]="'1.6rem'" [style.color]="data.status == '2' ? '#8bc34a' : data.status == '4' ? '#F44336' : data.status == '3' ? '#FFEB3B' : 'On Hold'">
+                                {{ data.status == '2' ? 'check_circle' : data.status == '4' ? 'cancel' : data.status == '3' ? 'remove_circle' : 'remove_circle' }}
+                            </mat-icon>
+                            <span *ngIf="data.status == null && !treeControl.isExpandable(data)"> -- </span>
+                            <span *ngIf="data.status == null && !treeControl.isExpandable(data)">--</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="validFrom">
+                        <th mat-header-cell *matHeaderCellDef width="16%"> Valid From </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.validFrom == null"> -- </span>
+                            <span *ngIf="data.validFrom != null">{{data.validFrom | date: 'MMM dd, yyyy, hh:mm:ss a'}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="pendingStatus">
+                        <th mat-header-cell *matHeaderCellDef width="5%"> Pending Status </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.pendingStatus == null"> -- </span>
+                            <span *ngIf="data.value != null">{{data.pendingStatus}}</span>
+                        </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="oneTimeCharge">
+                        <th mat-header-cell *matHeaderCellDef width="8%"> One Time Charge </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.oneTimeCharge == null"> -- </span>
+                            <span *ngIf="data.oneTimeCharge != null">{{data.oneTimeCharge | number: '0.3-3'}}
+                                <span *ngIf="data.oneTimeCharge != null">TND</span></span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="recurringCharge">
+                        <th mat-header-cell *matHeaderCellDef  width="8%"> Recurring Charge </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.recurringCharge == null"> -- </span>
+                            <span *ngIf="data.recurringCharge != null">{{data.recurringCharge | number: '0.3-3'}}
+                                <span *ngIf="data.recurringCharge != null">TND</span></span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="paymentOption">
+                        <th mat-header-cell *matHeaderCellDef  width="10%"> Payment Option </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.paymentOption == null"> -- </span>
+                            <span *ngIf="data.paymentOption != null">{{data.paymentOption == 1 ? 'Postpaid' : 'Prepaid'}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="resources">
+                        <th mat-header-cell *matHeaderCellDef  width="10%"> Resources </th>
+                        <td mat-cell *matCellDef="let data" [class.unset-empty]="treeControl.isExpandable(data)">
+                            <span *ngIf="!treeControl.isExpandable(data) && data.resource == null"> -- </span>
+                            <span *ngIf="data.resource != null">{{data.resource}}</span>
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+        <div [ngClass]="appSettings.settings.theme =='pink-dark' ? 'customer-tabs-border-dark':'customer-tabs-border-light'" class="mt-4 div-border">
+            <div fxLayout="row">
+                <div fxFlex="99"  fxLayoutAlign="space-between center">
+                    <h3 [style.color]="'#f16e00'" mat-subheader>Directory Numbers</h3>
+                    <button mat-stroked-button color="primary">History</button>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-list class="p-0">
+                <mat-list-item>
+                    <div class="w-100 secondary-text-color" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <span fxFlex="15">Service</span>
+                        <span fxFlex="20">Service Package</span>
+                        <span fxFlex="25">Profile</span>
+                        <span fxFlex="15">Directory Number</span>
+                        <span fxFlex="15">Main Directory Number</span>
+                        <span fxFlex="10">Status</span>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item *ngFor="let dirNum of contract.resources.dirNums">
+                    <div class="w-100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <p fxFlex="15">{{dirNum.snCodeDes}}</p>
+                        <p fxFlex="20">{{dirNum.spCodeDes}}</p>
+                        <p fxFlex="25">Gsm: Tunisie profile</p>
+                        <p fxFlex="15">{{dirNum.dirNum}}</p>
+                        <p fxFlex="15">
+                            <mat-icon [style.color]="'#8bc34a'">check</mat-icon>
+                        </p>
+                        <p fxFlex="10">{{dirNum.dnStatusDes}}</p>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+        <div *ngIf="contract.resources.smSerialNum != null" [ngClass]="appSettings.settings.theme =='pink-dark' ? 'customer-tabs-border-dark':'customer-tabs-border-light'" class="mt-4 div-border">
+            <div fxLayout="row">
+                <div fxFlex="99"  fxLayoutAlign="space-between center">
+                    <h3 [style.color]="'#f16e00'" mat-subheader>Storage medium</h3>
+                    <button mat-stroked-button color="primary">Details</button>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <mat-list class="p-0">
+                <mat-list-item>
+                    <div class="w-100 secondary-text-color" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <span fxFlex="15">SIM</span>
+                        <span fxFlex="20">IMSI</span>
+                        <span fxFlex="15">Network</span>
+                        <span fxFlex="10">HLR</span>
+                        <span fxFlex="15">Resource Type</span>
+                        <span fxFlex="15">PUK</span>
+                        <span fxFlex="10">PUK 2</span>
+                    </div>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <div class="w-100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                        <p fxFlex="15">{{contract.resources.smSerialNum}}</p>
+                        <p fxFlex="20">{{contract.resources.portNum}}</p>
+                        <p fxFlex="15">Orange Tun</p>
+                        <p fxFlex="10">HLR1</p>
+                        <p fxFlex="15">Normal ISO SIM	</p>
+                        <p fxFlex="15">60452680</p>
+                        <p fxFlex="10">32775303</p>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </div>
+        <!--        <mat-tree>-->
+        <!--            <mat-tree-node> parent node </mat-tree-node>-->
+        <!--            <mat-tree-node> &#45;&#45; child node1 </mat-tree-node>-->
+        <!--            <mat-tree-node> &#45;&#45; child node2 </mat-tree-node>-->
+        <!--        </mat-tree>-->
+
+    </mat-card>
+</div>

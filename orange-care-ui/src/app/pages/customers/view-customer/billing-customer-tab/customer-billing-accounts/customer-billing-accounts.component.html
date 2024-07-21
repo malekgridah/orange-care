@@ -1,0 +1,83 @@
+
+<div class="mt-1 p-0">
+    <mat-divider></mat-divider>
+    <table mat-table [dataSource]="dataSource">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="#">
+            <th mat-header-cell *matHeaderCellDef width="7%">
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="csCode">
+            <th mat-header-cell *matHeaderCellDef height="30px" width="10%"> Customer Code </th>
+            <td mat-cell *matCellDef="let element"> 1.30583947 </td>
+        </ng-container>
+        <ng-container matColumnDef="billingAccount">
+            <th mat-header-cell *matHeaderCellDef width="10%"> Billing Account </th>
+            <td mat-cell *matCellDef="let element"> Compte principal </td>
+        </ng-container>
+        <ng-container matColumnDef="currentBalance">
+            <th mat-header-cell *matHeaderCellDef width="10%"> Current Balance </th>
+            <td mat-cell *matCellDef="let element"> 1000 TND </td>
+        </ng-container>
+        <ng-container matColumnDef="previousBalance">
+            <th mat-header-cell *matHeaderCellDef width="10%"> Previous Balance </th>
+            <td mat-cell *matCellDef="let element"> 1300 TND </td>
+        </ng-container>
+        <ng-container matColumnDef="splitBilling">
+            <th mat-header-cell *matHeaderCellDef width="7%"> Split Billing </th>
+            <td mat-cell *matCellDef="let element"> -- </td>
+        </ng-container>
+        <ng-container matColumnDef="billMedium">
+            <th mat-header-cell *matHeaderCellDef width="10%"> Bill Medium </th>
+            <td mat-cell *matCellDef="let element">
+                <span>May 1, 2024</span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="paymentMethod">
+            <th mat-header-cell *matHeaderCellDef width="10%"> Payment Method </th>
+            <td mat-cell *matCellDef="let element">
+                <span>May 1, 2024</span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef width="10%"> Status </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-chip-list>
+              <span>
+                <mat-chip [class.gradient-green]="0==0">Paid</mat-chip>
+              </span>
+                </mat-chip-list>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef width="10%">Action</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button
+                        color="primary"
+                        matTooltip="edit">
+                    <mat-icon class="icon24">visibility</mat-icon>
+                </button>&nbsp;
+                <button mat-icon-button
+                        color="warn"
+                        matTooltip="delete">
+                    <mat-icon class="icon24">delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator #paginatorr [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+</div>
