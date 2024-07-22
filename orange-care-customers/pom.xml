@@ -6,13 +6,134 @@
 
     <parent>
         <groupId>com.billcom</groupId>
-        <artifactId>orange-care</artifactId>
-        <version>2.0.0</version>
+        <artifactId>orange-care-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../orange-care-parent/pom.xml</relativePath>
     </parent>
 
-    <groupId>com.billcom</groupId>
     <artifactId>orange-care-customers</artifactId>
-    <version>2.0.0</version>
+    <name>Orange Care :: Customers</name>
+    <description>Bscs Customers</description>
+
+    <scm>
+        <url>${git.url}</url>
+        <connection>${git.connection}</connection>
+        <developerConnection>${git.developerConnection}</developerConnection>
+    </scm>
+
+    <properties>
+        <name>Orange Care Customers</name>
+        <main.basedir>${basedir}/..</main.basedir>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <wsi.client>1.0</wsi.client>
+        <customer-handling.version>1.0</customer-handling.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>customers-search-service</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>addresses-read-service</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>rateplans-read-service</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>contracts-search-service</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ericsson</groupId>
+            <artifactId>customer-read-service</artifactId>
+            <version>${wsi.client}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.billcom</groupId>
+            <artifactId>customer-handling</artifactId>
+            <version>${customer-handling.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>repackage</id>
+                        <goals>
+                            <goal>repackage</goal>
+                            <!-- Build-Info for Info-Actuator -->
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
+                <configuration>
+                    <offline>true</offline>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     
 </project>
