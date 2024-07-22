@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: "@project.artifactId@"
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+  output:
+    ansi:
+      enabled: always
+
+
+---
+logging:
+  level:
+    com.billcom: debug
+
+
+endpoint:
+  service:
+    wsi:
+      url: http://192.168.10.95:13001/wsi/services/
+      username: ADMX
+      password: ADMX

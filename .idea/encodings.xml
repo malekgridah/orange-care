@@ -27,6 +27,10 @@
     <file url="file://$PROJECT_DIR$/orange-care-bscs/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orange-care-config/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orange-care-config/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orange-care-contracts/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orange-care-contracts/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orange-care-customers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/orange-care-customers/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orange-care-dependencies/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orange-care-dependencies/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/orange-care-financials/src/main/java" charset="UTF-8" />
