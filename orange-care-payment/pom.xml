@@ -21,6 +21,10 @@
         <customer.handling.client>1.0</customer.handling.client>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombock-mapstruct-binding.version>0.2.0</lombock-mapstruct-binding.version>
+
+        <docker.image.exposed.port>8080</docker.image.exposed.port>
+        <docker.image.management.port>8081</docker.image.management.port>
+        <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
     </properties>
     <scm>
         <url>${git.url}</url>
@@ -198,7 +202,10 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <id>repackage</id>
                         <goals>
+                            <goal>repackage</goal>
+                            <!-- Build-Info for Info-Actuator -->
                             <goal>build-info</goal>
                         </goals>
                     </execution>
@@ -206,6 +213,31 @@
             </plugin>
         </plugins>
     </build>
-
-
+    <profiles>
+        <profile>
+            <id>springboot</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.github.git-commit-id</groupId>
+                        <artifactId>git-commit-id-maven-plugin</artifactId>
+                        <configuration>
+                            <offline>true</offline>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>buildDocker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

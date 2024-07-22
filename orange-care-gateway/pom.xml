@@ -21,6 +21,10 @@
         <webjars-angular.version>1.8.2</webjars-angular.version>
         <webjars-angular-ui-router.version>1.0.20</webjars-angular-ui-router.version>
         <wro4j.version>1.8.0</wro4j.version>
+
+        <docker.image.exposed.port>8080</docker.image.exposed.port>
+        <docker.image.management.port>8081</docker.image.management.port>
+        <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
     </properties>
     <scm>
         <url>${git.url}</url>
