@@ -37,6 +37,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.ericsson</groupId>
             <artifactId>financial-transaction-search-service</artifactId>
             <version>${wsi.client}</version>

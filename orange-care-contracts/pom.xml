@@ -122,6 +122,10 @@
             <artifactId>rateplans-read-service</artifactId>
             <version>${wsi.client}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
