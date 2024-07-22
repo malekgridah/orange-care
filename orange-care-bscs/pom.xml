@@ -35,61 +35,6 @@
     <dependencies>
         <dependency>
             <groupId>com.ericsson</groupId>
-            <artifactId>contracts-search-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>contract-resources-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>contract-devices-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>services-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>service-packages-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>contract-service-parameters-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>addresses-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>contract-services-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>customers-search-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>contract-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
-            <artifactId>customer-read-service</artifactId>
-            <version>${wsi.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ericsson</groupId>
             <artifactId>customer-groups-read-service</artifactId>
             <version>${wsi.client}</version>
         </dependency>
@@ -135,16 +80,6 @@
         </dependency>
         <dependency>
             <groupId>com.billcom</groupId>
-            <artifactId>customer-handling</artifactId>
-            <version>${bscs.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.billcom</groupId>
-            <artifactId>contract-handling</artifactId>
-            <version>${bscs.client}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.billcom</groupId>
             <artifactId>wsprocess</artifactId>
             <version>${process.client}</version>
         </dependency>
@@ -155,7 +90,6 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

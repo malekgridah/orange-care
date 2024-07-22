@@ -1,6 +1,6 @@
 package com.billcom.bscs.commons;
 
-import com.billcom.bscs.commons.beans.bscs.*;
+import com.billcom.bscs.beans.*;
 import org.springframework.http.ResponseEntity;
 
 public interface BscsBaseInfo {

@@ -1,8 +1,8 @@
 package com.billcom.bscs.rest;
 
+import com.billcom.bscs.beans.*;
 import com.billcom.bscs.commons.BscsBaseInfo;
-import com.billcom.bscs.commons.beans.bscs.*;
-import com.billcom.bscs.services.bscs.BscsValuesService;
+import com.billcom.bscs.services.BscsValuesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
