@@ -1,14 +1,14 @@
 spring:
   application:
-    name: "@project.artifactId@"
+    name: "@pom.artifactId@"
   config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
-  output:
-    ansi:
-      enabled: always
-
+    import:
+      - optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
+      - info.yml
 
 ---
-logging:
-  level:
-    com.billcom: debug
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: configserver:http://orange-care-config:8888

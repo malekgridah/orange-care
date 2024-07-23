@@ -1,7 +1,11 @@
 spring:
   cloud:
     config:
-      discovery:
-        enabled: true # This is required
-        service-id: orange-care-config # Config Server's eureka registry name
-      enabled: true # This is de  fault true already
+      uri: http://localhost:8888/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: configserver:http://orange-care-config:8888

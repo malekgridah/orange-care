@@ -1,33 +1,194 @@
 version: '3'
 
 services:
-#  config-server:
-#    image: mgridah/orange-care-config
-#    container_name: config-server
-#    deploy:
-#      resources:
-#        limits:
-#          memory: 512M
-#    healthcheck:
-#      test: ["CMD", "curl", "-I", "http://config-server:8888"]
-#      interval: 5s
-#      timeout: 5s
-#      retries: 10
-#    ports:
-#      - "8888:8888"
-
   discovery-server:
     image: mgridah/orange-care-registry
-    container_name: orange-discovery-server
+    container_name: orange-care-registry
     deploy:
       resources:
         limits:
           memory: 512M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://discovery-server:8761"]
+      test: [ "CMD", "curl", "-I", "orange-care-registry:8761" ]
       interval: 5s
-      timeout: 3s
+      timeout: 5s
       retries: 10
     ports:
-      - 8761:8761
+      - "8761:8761"
+      - "8081:8081"
 
+
+  config-server:
+    image: mgridah/orange-care-config
+    container_name: orange-care-config
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-I", "orange-care-config:8888"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+    ports:
+      - "8888:8888"
+      - "8881:8081"
+
+  admin-server:
+    image: mgridah/orange-care-admin
+    container_name: orange-care-admin
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    ports:
+      - "0:8080"
+      - "0:8081"
+
+  gateway-api:
+    image: mgridah/orange-care-gateway
+    container_name: orange-care-gateway
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    ports:
+      - "8080:8080"
+      - "8181:8081"
+
+#  auth-server:
+#    image: mgridah/orange-care-auth
+#    container_name: orange-care-auth
+#    ports:
+#      - "0:8080"
+#      - "0:8081"
+#    environment:
+#      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+#      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+#      - CONFIG_SERVER_URL=http://orange-care-config:8888
+#    depends_on:
+#      discovery-server:
+#        condition: service_healthy
+#      config-server:
+#        condition: service_healthy
+
+  bscs-service:
+    image: mgridah/orange-care-bscs
+    container_name: orange-care-bscs
+    ports:
+      - "0:8080"
+      - "0:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+  customers-service:
+    image: mgridah/orange-care-customers
+    container_name: orange-care-customers
+    ports:
+      - "0:8080"
+      - "0:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+
+  contracts-service:
+    image: mgridah/orange-care-contracts
+    container_name: orange-care-contracts
+    ports:
+      - "0:8080"
+      - "0:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+  financials-service:
+    image: mgridah/orange-care-financials
+    container_name: orange-care-financials
+    ports:
+      - "0:8080"
+      - "0:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+  payment-service:
+    image: mgridah/orange-care-payment
+    container_name: orange-care-payment
+    ports:
+      - "0:8080"
+      - "0:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+
+  orange-care-ui:
+    image: mgridah/orange-care-ui
+    container_name: orange-care-ui
+    ports:
+      - "0:8080"
+      - "0:8081"
+    environment:
+      - EUREKA_INSTANCE_PREFERIPADDRESS=true
+      - EUREKA_SERVICE_URL=http://orange-care-registry:8761
+      - CONFIG_SERVER_URL=http://orange-care-config:8888
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy

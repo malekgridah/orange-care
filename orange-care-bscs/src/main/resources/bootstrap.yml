@@ -1,7 +1,0 @@
-spring:
-  cloud:
-    config:
-      discovery:
-        enabled: true # This is required
-        service-id: orange-care-config # Config Server's eureka registry name
-      enabled: true # This is de  fault true already

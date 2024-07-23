@@ -4,9 +4,66 @@ server:
 spring:
   cloud:
     config:
+      discovery:
+        enabled: true
       server:
         git:
-          uri: https://github.com/malekgridah/orange-care-microservices-config
-          default-label: main
+          uri: https://github.com/malekgridah/orange-care-config
+          search-paths:
+            - '{application}'
+            - main
+
         native:
           searchLocations: file:///${GIT_REPO}
+  application:
+    name: "@project.artifactId@"
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}    #needed to trigger info and endpoint update after restart
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
+
+
+management: # Actuator Configuration
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint: # Health-Actuator
+    health:
+      show-details: always
+      probes:
+        enabled: true
+    env: # Environment-Actuator
+      show-values: always # caution: can reveal passwords
+    configprops: # Configuration-Actuator
+      show-values: always # caution: can reveal passwords
+  info: # Info-Actuator
+    java:
+      enabled: true
+    os:
+      enabled: true
+    build:
+      enabled: true
+    env:
+      enabled: true
+    git:
+      enabled: true
+info: # Application-Info for the Info-Actuator
+  group: "@pom.groupId@"
+  artifact: "@pom.artifactId@"
+  description: "@pom.description@"
+  version: "@pom.version@"
+  spring-boot: "@spring-boot.version@"
+  spring-cloud: "@spring-cloud.version@"
+  # Tags for the Spring Boot Admin UI
+  tags:
+    version: "@pom.version@"
+    spring-boot: "@spring-boot.version@"
+    spring-cloud: "@spring-cloud.version@"

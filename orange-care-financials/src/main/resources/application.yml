@@ -1,57 +1,5 @@
-# swagger-ui custom path
-springdoc:
-  swagger-ui:
-    path:  "/swagger-ui.html"
-
-#cxf:
-#  path: /
-
-app:
-  name: "@project.artifactId@"
-  version:  "@project.version@"
-  description:  "@project.description@"
-
-spring:
-  output:
-    ansi:
-      enabled:  always
-
-modulename: PaymentApi
-
-module: "${AnsiColor.MAGENTA} :: ${AnsiStyle.BOLD}${modulename} ::${AnsiColor.CYAN}"
-title1: "${AnsiColor.BLUE}${AnsiStyle.BOLD}    App Info    ${AnsiStyle.NORMAL}${AnsiColor.CYAN}"
-txt1: "${AnsiColor.YELLOW}Project:${AnsiStyle.NORMAL} ${app.name}${AnsiColor.CYAN}"
-txt2: "${AnsiColor.YELLOW}Version:${AnsiStyle.NORMAL} ${app.version}${AnsiColor.CYAN}"
-txt3: "${AnsiColor.YELLOW}Description:${AnsiStyle.NORMAL} ${app.description}${AnsiColor.CYAN}"
-
----
-spring:
-  config:
-    import:
-      - webservices.yml
-server:
-  port: 0
-
----
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    health-check-url-path: /actuator/health
-    metadata-map:
-      startup: ${random.int}    #needed to trigger info and endpoint update after restart
-  client:
-    registryFetchIntervalSeconds: 5
-    serviceUrl:
-      defaultZone: ${EUREKA_SERVICE_URL:http://localhost:8761}/eureka/
 spring:
   application:
     name: "@project.artifactId@"
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
-  output:
-    ansi:
-      enabled: always
-logging:
-  level:
-    com.billcom: debug
-
+  profiles:
+    active: info
