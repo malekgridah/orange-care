@@ -12,10 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Log4j2
+@Deprecated
 @Component
 public class JWTUtils {
     private static final String SECRET = "secret";
 
+    @Deprecated
     public String generateToken(Authentication user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("name", user.getName());
@@ -31,6 +33,7 @@ public class JWTUtils {
                 .compact();
     }
 
+    @Deprecated
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET)
@@ -38,11 +41,13 @@ public class JWTUtils {
                 .getBody();
     }
 
+    @Deprecated
     public String extractUsername(String token) {
         log.info("Extracting the subject");
         return getClaims(token).getSubject();
     }
 
+    @Deprecated
     public Boolean validateToken(String token) {
         log.info("Checking token validity");
         return !getClaims(token).getExpiration()

@@ -24,3 +24,4 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(baseWSResponse, HttpStatus.BAD_REQUEST);
     }
 }
+
