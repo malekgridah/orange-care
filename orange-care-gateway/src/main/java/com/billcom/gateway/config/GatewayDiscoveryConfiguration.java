@@ -33,6 +33,12 @@ public class GatewayDiscoveryConfiguration {
                         .uri("lb://orange-care-contracts")
                 )
                 .route(p -> p
+                        .path("/financials/**")
+                        .filters(fm -> fm.stripPrefix(1)
+                                .tokenRelay())
+                        .uri("lb://orange-care-financials")
+                )
+                .route(p -> p
                         .path("/payment/**")
                         .filters(fm -> fm.stripPrefix(1))
                         .uri("lb://orange-care-payment")

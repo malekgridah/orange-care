@@ -12,3 +12,25 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          jwk-set-uri: http://localhost:8015/oauth2/jwks
+      client:
+        registration:
+          login-client:
+            provider: spring
+            client-id: login-client
+            client-secret: openid-connect
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:8080/login/oauth2/code/login-client
+            scope: openid,profile
+            client-name: Spring
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000
+#            authorization-uri: http://localhost:8015/oauth2/authorize
+#            token-uri: http://localhost:8015/oauth2/token
+#            jwk-set-uri: http://localhost:8015/oauth2/jwks
