@@ -11,13 +11,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringDocDef {
 
-    @Value("err${app.name}")
+    @Value("{spring.application.name}")
     private String name;
 
-    @Value("${app.version}")
+    @Value("${info.version}")
     private String version;
 
-    @Value("${app.description}")
+    @Value("${info.description}")
     private String desc;
 
     @Bean

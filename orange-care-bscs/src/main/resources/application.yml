@@ -1,14 +1,5 @@
 spring:
   application:
-    name: "@pom.artifactId@"
-  config:
-    import:
-      - optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}
-      - info.yml
-
----
-spring:
-  config:
-    activate:
-      on-profile: docker
-    import: configserver:http://orange-care-config:8888
+    name: "@project.artifactId@"
+  profiles:
+    active: info

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "FIN_TRX_INTERFACE", schema = "ERICSSON")
+@Table(name = "FIN_TRX_INTERFACE_BCC_BKP", schema = "ERICSSON")
 public class FinTrxInterface {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "fin_trx_interface_gen")

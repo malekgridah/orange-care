@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "FIN_TRX_INTERFACE_HIST", schema = "ERICSSON")
+@Table(name = "FIN_TRX_INTERFACE_HIST_BCC_BKP", schema = "ERICSSON")
 public class FinTrxInterfaceHist {
     @Id
     @Column(name = "REQUEST_ID", nullable = false)

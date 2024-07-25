@@ -3,43 +3,11 @@ server:
 spring:
   application: # Application-Info for the Info-Actuator
     name: "@project.artifactId@"
+  profiles:
+    active:
+      - info
+      - secure
 eureka:
   client:
     registerWithEureka: true
     fetchRegistry: false
-management: # Actuator Configuration
-  server:
-    port: 8081
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint: # Health-Actuator
-    health:
-      show-details: always
-      probes:
-        enabled: true
-    env: # Environment-Actuator
-      show-values: always # caution: can reveal passwords
-    configprops: # Configuration-Actuator
-      show-values: always # caution: can reveal passwords
-  info: # Info-Actuator
-    java:
-      enabled: true
-    os:
-      enabled: true
-    build:
-      enabled: true
-    env:
-      enabled: true
-    git:
-      enabled: true
-info: # Application-Info for the Info-Actuator
-  group: "@pom.groupId@"
-  artifact: "@pom.artifactId@"
-  description: "@pom.description@"
-  version: "@pom.version@"
-  spring-boot: "@spring-boot.version@"
-  # Tags for the Spring Boot Admin UI
-  tags:
-    spring-boot: "@spring-boot.version@"

@@ -11,8 +11,11 @@ info: # Application-Info for the Info-Actuator
     spring-boot: "@spring-boot.version@"
     spring-cloud: "@spring-cloud.version@"
 
+project:
+  parent:
+    module: "@project-parent.name@"
 
-module: "${AnsiColor.MAGENTA} :: ${AnsiStyle.BOLD}${pom.basedir.artifactId} ::${AnsiColor.CYAN}"
+module: "${AnsiColor.MAGENTA} :: ${AnsiStyle.BOLD}${project.parent.module} ::${AnsiColor.CYAN}"
 title1: "${AnsiColor.BLUE}${AnsiStyle.BOLD}    App Info    ${AnsiStyle.NORMAL}${AnsiColor.CYAN}"
 txt1: "${AnsiColor.YELLOW}Project:${AnsiStyle.NORMAL} ${spring.application.name}${AnsiColor.CYAN}"
 txt2: "${AnsiColor.YELLOW}Version:${AnsiStyle.NORMAL} ${info.version}${AnsiColor.CYAN}"

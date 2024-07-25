@@ -13,7 +13,7 @@ info: # Application-Info for the Info-Actuator
 
 project:
   parent:
-    module: "@pom.basedir.artifactId@"
+    module: "@project-parent.name@"
 
 module: "${AnsiColor.MAGENTA} :: ${AnsiStyle.BOLD}${project.parent.module} ::${AnsiColor.CYAN}"
 title1: "${AnsiColor.BLUE}${AnsiStyle.BOLD}    App Info    ${AnsiStyle.NORMAL}${AnsiColor.CYAN}"
