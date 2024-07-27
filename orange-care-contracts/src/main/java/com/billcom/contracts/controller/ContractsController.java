@@ -6,12 +6,14 @@ import com.billcom.contracts.beans.search.ContractSearch;
 import com.billcom.contracts.beans.search.ContractsSearchRequest;
 import com.billcom.contracts.services.ContractOverviewService;
 import com.billcom.contracts.services.ContractsSearchService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@SecurityRequirement(name = "bearerScheme")
 @RequestMapping("api/contracts")
 public class ContractsController {
 

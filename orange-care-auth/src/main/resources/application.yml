@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: @project.artifactId@
+  config:
+    import:
+      - config/connection-settings.yml
+      - config/connection-pools.yml
+  datasource:
+    username: sa
+    url: jdbc:h2:./data/keycloak;DB_CLOSE_ON_EXIT=FALSE
+    hikari:
+      maximum-pool-size: 25
+      minimum-idle: 1
+
+server:
+  port: 9000
+  forward-headers-strategy: native
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
+    org.springframework.boot.autoconfigure: INFO
+springdoc:
+  show-oauth2-endpoints: true
+
+---
+modulename: BscsWs
+module: "${AnsiColor.MAGENTA} :: ${AnsiStyle.BOLD}${modulename} ::${AnsiColor.CYAN}"
+title1: "${AnsiColor.BLUE}${AnsiStyle.BOLD}    App Info    ${AnsiStyle.NORMAL}${AnsiColor.CYAN}"
+txt1: "${AnsiColor.YELLOW}Project:${AnsiStyle.NORMAL} ${application.title}${AnsiColor.CYAN}"
+txt2: "${AnsiColor.YELLOW}Version:${AnsiStyle.NORMAL} ${application.version}${AnsiColor.CYAN}"
+logging:
+  level:
+    root: debug

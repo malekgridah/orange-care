@@ -2,6 +2,7 @@ info: # Application-Info for the Info-Actuator
   group: "@pom.groupId@"
   artifact: "@pom.artifactId@"
   description: "@pom.description@"
+  name: "@pom.name@"
   version: "@pom.version@"
   spring-boot: "@spring-boot.version@"
   spring-cloud: "@spring-cloud.version@"

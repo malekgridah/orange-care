@@ -2,4 +2,6 @@ spring:
   application:
     name: "@project.artifactId@"
   profiles:
-    active: info
+    active:
+      - info
+      - secure

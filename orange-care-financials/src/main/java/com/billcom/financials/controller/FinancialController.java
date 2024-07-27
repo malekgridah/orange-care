@@ -9,12 +9,14 @@ import com.billcom.financials.commons.beans.search.TransactionSearchResponse;
 import com.billcom.financials.service.DocumentDetailsService;
 import com.billcom.financials.service.TransactionOverviewService;
 import com.billcom.financials.service.TransactionSearchService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/financial")
+@SecurityRequirement(name = "bearerScheme")
 public class FinancialController {
 
     private final TransactionSearchService transactionSearchService;

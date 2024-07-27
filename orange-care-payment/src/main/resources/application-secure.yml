@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    defer-datasource-initialization: true
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: ${OAUTH2_SERVER:http://localhost:9000}
+          jwk-set-uri: ${OAUTH2_SERVER:http://localhost:9000/oauth2/jwks}

@@ -19,17 +19,26 @@ public class GatewayDiscoveryConfiguration {
         return builder.routes()
                 .route(p -> p
                         .path("/bscs/**")
-                        .filters(fm -> fm.stripPrefix(1))
+                        .filters(fm -> fm.stripPrefix(1)
+                                .tokenRelay())
                         .uri("lb://orange-care-bscs")
                 )
                 .route(p -> p
-                        .path("/contracts/**")
-                        .filters(fm -> fm.stripPrefix(1))
+                        .path("/customers/**")
+                        .filters(fm -> fm.stripPrefix(1)
+                                .tokenRelay())
                         .uri("lb://orange-care-customers")
                 )
                 .route(p -> p
+                        .path("/contracts/**")
+                        .filters(fm -> fm.stripPrefix(1)
+                                .tokenRelay())
+                        .uri("lb://orange-care-contracts")
+                )
+                .route(p -> p
                         .path("/bscs/**")
-                        .filters(fm -> fm.stripPrefix(1))
+                        .filters(fm -> fm.stripPrefix(1)
+                                .tokenRelay())
                         .uri("lb://orange-care-contracts")
                 )
                 .route(p -> p
@@ -40,7 +49,8 @@ public class GatewayDiscoveryConfiguration {
                 )
                 .route(p -> p
                         .path("/payment/**")
-                        .filters(fm -> fm.stripPrefix(1))
+                        .filters(fm -> fm.stripPrefix(1)
+                                .tokenRelay())
                         .uri("lb://orange-care-payment")
                 )
                 .route(p -> p

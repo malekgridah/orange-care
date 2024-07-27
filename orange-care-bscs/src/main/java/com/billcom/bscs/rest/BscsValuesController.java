@@ -3,11 +3,13 @@ package com.billcom.bscs.rest;
 import com.billcom.bscs.beans.*;
 import com.billcom.bscs.commons.BscsBaseInfo;
 import com.billcom.bscs.services.BscsValuesService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@SecurityRequirement(name = "bearerScheme")
 @RequestMapping("api/bscs")
 public class BscsValuesController implements BscsBaseInfo {
 

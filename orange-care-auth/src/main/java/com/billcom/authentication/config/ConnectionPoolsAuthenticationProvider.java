@@ -1,5 +1,6 @@
 package com.billcom.authentication.config;
 
+import com.lhs.ccb.cfw.cda.session.ConnectionFailedException;
 import com.lhs.ccb.cfw.cda.utility.GlobalUserProperties;
 import com.lhs.ccb.cfw.cda.utility.UserPropertiesFacade;
 import com.lhs.ccb.cfw.wcs.security.JaasAuthenticationProvider;
@@ -18,18 +19,14 @@ public class ConnectionPoolsAuthenticationProvider implements AuthenticationProv
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        JaasAuthenticationProvider localJaasAuthenticationProvider = new JaasAuthenticationProvider();
-
+        JaasAuthenticationProvider localJaasAuthProvider = new JaasAuthenticationProvider();
         try {
             String password = (String) authentication.getCredentials();
-            localJaasAuthenticationProvider.authenticateUser(authentication.getName(),
+            localJaasAuthProvider.authenticateUser(authentication.getName(),
                     password, new Object[]{null});
-            GlobalUserProperties localGlobalUserProperties = new GlobalUserProperties();
-            UserPropertiesFacade.instance().setProperties(localGlobalUserProperties);
-            UserPropertiesFacade.instance().setUserAttribute("AuthenticationProvider", localJaasAuthenticationProvider);
             return new UsernamePasswordAuthenticationToken(authentication.getName(),
                     authentication.getCredentials(), AUTHORITIES);
-        } catch (Exception e) {
+        } catch (ConnectionFailedException e) {
             throw new BadCredentialsException("Invalid Username or Password");
         }
     }

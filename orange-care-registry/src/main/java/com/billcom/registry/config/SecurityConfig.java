@@ -15,18 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-//    @Bean
-//    @Profile("secure")
-//    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/eureka/","/eureka/**", "/actuator/**").permitAll()
-//                        .anyRequest().authenticated())
-//                .csrf((csrf) -> csrf.ignoringRequestMatchers("/eureka/","/eureka/**", "/actuator/**"))
-//                .oauth2Login(Customizer.withDefaults());
-//        return http.build();
-//    }
-
     @Bean
     @Profile("secure")
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {

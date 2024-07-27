@@ -1,4 +1,4 @@
-package com.billcom.bscs.config;
+package com.billcom.contracts.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

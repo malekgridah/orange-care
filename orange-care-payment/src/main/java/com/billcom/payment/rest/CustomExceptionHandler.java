@@ -8,12 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Log4j2
 @ControllerAdvice
 public class CustomExceptionHandler {
 
     @ExceptionHandler(InvokeClientException.class)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<BaseWSResponse> handleInvokeClientException(InvokeClientException exception) {
         BaseWSResponse baseWSResponse = new BaseWSResponse();
         baseWSResponse.setComment(exception.getMessage());
