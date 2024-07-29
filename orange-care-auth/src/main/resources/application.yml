@@ -33,4 +33,7 @@ txt1: "${AnsiColor.YELLOW}Project:${AnsiStyle.NORMAL} ${application.title}${Ansi
 txt2: "${AnsiColor.YELLOW}Version:${AnsiStyle.NORMAL} ${application.version}${AnsiColor.CYAN}"
 logging:
   level:
-    root: debug
+    org:
+      springframework:
+        security:
+          oauth2: debug
