@@ -6,6 +6,8 @@ import { SearchComponent } from './pages/search/search.component';
 import { NotFoundComponent } from './pages/errors/not-found/not-found.component';
 import { ErrorComponent } from './pages/errors/error/error.component';
 import {AuthGuard} from "./core";
+import {SignoutRedirectCallbackComponent} from "./core/signout-redirect-callback/signout-redirect-callback.component";
+import {SigninRedirectCallbackComponent} from "./core/signin-redirect-callback/signin-redirect-callback.component";
 
 
 export const routes: Routes = [
@@ -29,7 +31,10 @@ export const routes: Routes = [
     { path: 'landing', loadChildren: './pages/landing/landing.module#LandingModule' },
     { path: 'login', loadChildren: './pages/login/login.module#LoginModule' },
     { path: 'error', component: ErrorComponent, data: { breadcrumb: 'Error' } },
-    { path: '**', component: NotFoundComponent }
+    // { path: '**', component: NotFoundComponent },
+    { path: '404', component: NotFoundComponent },
+    { path: 'signin-callback', component: SigninRedirectCallbackComponent },
+    { path: 'signout-callback', component: SignoutRedirectCallbackComponent },
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes, {

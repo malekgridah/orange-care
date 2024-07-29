@@ -25,7 +25,10 @@ export const verticalMenuItems = [
     new Menu (47, 'Error', '/error', null, 'warning', null, false, 40),
     new Menu (48, 'Search', '/search', null, 'search', null, false, 40),
     new Menu (49, 'Landing', '/landing', null, 'filter', null, false, 40),
-    new Menu (50, 'Schedule', '/schedule', null, 'event_note', null, false, 0)
+    new Menu (50, 'Schedule', '/schedule', null, 'event_note', null, false, 0),
+    new Menu (51, 'signing in ', '/signin-callback', null, null, null, false, 0),
+    new Menu (52, 'signing off ', '/signout-callback', null, null, null, false, 0),
+    new Menu (53, '404 ', '/404', null, null, null, false, 0),
 ];
 
 export const horizontalMenuItems = [

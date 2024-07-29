@@ -5,6 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { LoginComponent } from './login.component';
 
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
+
 export const routes = [
   { path: '', component: LoginComponent, pathMatch: 'full' }
 ];
@@ -15,7 +19,8 @@ export const routes = [
     RouterModule.forChild(routes),
     FormsModule, 
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+
   ],
   declarations: [
     LoginComponent

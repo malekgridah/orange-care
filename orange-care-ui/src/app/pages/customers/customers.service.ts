@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {environment} from "../../../environments/environment";
 
 
-const BASE_URL = `${environment.apiUrl}/bscs/api/customers`;
+const BASE_URL = `${environment.apiUrl}/customers/api/customers`;
 
 
 @Injectable()

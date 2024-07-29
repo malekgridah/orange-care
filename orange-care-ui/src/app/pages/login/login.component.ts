@@ -1,75 +1,59 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
-import { emailValidator } from '../../theme/utils/app-validators';
 import { AppSettings } from '../../app.settings';
 import { Settings } from '../../app.settings.model';
 import {AuthService} from "../../core";
-import {filter} from "rxjs/operators";
 
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
+  public isUserAuthenticated: boolean = false;
+
   public form:FormGroup;
   public settings: Settings;
   hide = true;
-  constructor(public appSettings:AppSettings, public fb: FormBuilder, public router:Router,
-             private auth: AuthService) {
-    this.settings = this.appSettings.settings; 
-    this.form = this.fb.group({
-      'usuario': [null, Validators.compose([Validators.required])],
-      'senha': [null, Validators.compose([Validators.required, Validators.minLength(3)])],
-      'rememberMe': false
-    });
-  }
 
-  //  login(usuario: string, senha: string) {
-  //   const val = this.form.value;
-  //
-  //   if(this.form.valid) {
-  //   this.auth.login(val.usuario, val.senha);
-  //   this.router.navigate(['/']);
-  //   }
-  // }
-
-  //  login() {
-  //   const val = this.form.value;
-  //
-  //   if (this.form.valid) {
-  //     this.auth.login(val.usuario, val.senha)
-  //       .subscribe(
-  //          () => {
-  //            console.log(val.usuario);
-  //            this.router.navigate['/'];
-  //          }
-  //       )
-  //
-  //     //  this.form.reset();
-  //   }
-  // }
-
-  get email() {
-    return this.form.get('usuario');
+  get username() {
+    return this.form.get('username');
   }
 
   get password() {
-    return this.form.get('senha');
+    return this.form.get('password');
   }
 
   public onSubmit(values:Object):void {
-    if (this.form.valid) {
-     this.auth.login(this.email.value, this.password.value)
-         .pipe(filter(authenticated => authenticated))
-          .subscribe(
-         () => this.router.navigateByUrl('/'),
-     )
-    }
+
   }
 
-  ngAfterViewInit(){
-    this.settings.loadingSpinner = false; 
+  constructor(public appSettings:AppSettings, public fb: FormBuilder, private _authService: AuthService) {
+    this.form = this.fb.group({
+      'username': [null, Validators.compose([Validators.required])],
+      'password': [null, Validators.compose([Validators.required, Validators.minLength(3)])],
+      'rememberMe': false
+    });
+    this.settings = this.appSettings.settings;
+    this.settings.loadingSpinner = false
+    // For debugging:
   }
+
+  ngOnInit(): void {
+    this._authService.loginChanged
+        .subscribe(res => {
+          this.isUserAuthenticated = res;
+        })
+  }
+
+  public login = () => {
+    this._authService.login();
+  }
+
+  public logout = () => {
+    this._authService.logout();
+  }
+
+
 }

@@ -9,7 +9,8 @@ export interface Environment {
 export const environment = {
   production: false,
   // apiUrl: '${API_URL}'
-  apiUrl: 'http://localhost:8083'
+  apiUrl: 'http://localhost:8080',
+  urlAddress: 'http://localhost:8083'
 };
 
 /*

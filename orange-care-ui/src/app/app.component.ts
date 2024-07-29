@@ -1,6 +1,7 @@
 import { Component, ViewChild} from '@angular/core';
 import { AppSettings } from './app.settings';
 import { Settings } from './app.settings.model';
+import {AuthService} from "./core";
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,21 @@ import { Settings } from './app.settings.model';
 })
 export class AppComponent {
   public settings: Settings;
-  constructor(public appSettings:AppSettings){
+  constructor(public appSettings:AppSettings, private _authService: AuthService){
       this.settings = this.appSettings.settings;
-  } 
+    this._authService.loginChanged
+        .subscribe(userAuthenticated => {
+          this.userAuthenticated = userAuthenticated;
+        })
+  }
 
-  ngOnInit() { }
+  public userAuthenticated = false;
 
-    protected readonly getComputedStyle = getComputedStyle;
+
+  ngOnInit(): void {
+    this._authService.isAuthenticated()
+        .then(userAuthenticated => {
+          this.userAuthenticated = userAuthenticated;
+        })
+  }
 }

@@ -1,18 +1,60 @@
-//.mat-form-field {
-//  width: 100%;
-//  z-index: 999999;
-//}
-//
-//.w-full {
-//  z-index: 999999;
-//  position: relative;
-//}
-//
-//.blue-btn {
-//  background-color: #ff7900;
-//  color: white;
-//}
-//
-//mat-icon {
-//  color: rgba(0, 0, 0, 0.54);
-//}
+.divider-wrapper {
+  display: flex;
+  flex-direction: row;
+  text-transform: uppercase;
+  border: none;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
+  padding: 24px 0 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  vertical-align: baseline;
+}
+
+.divider-wrapper:before, .divider-wrapper:after {
+  content: "";
+  border-bottom: 1px solid #c2c8d0;
+  flex: 1 0 auto;
+  height: .5em;
+  margin: 0;
+}
+
+.divider {
+  text-align: center;
+  flex: .2 0 auto;
+  margin: 0;
+  height: 12px;
+}
+
+.social-logo-wrapper {
+  position: absolute;
+  left: 26px;
+  top: 67%;
+  transform: translate(-50%) translateY(-50%);
+}
+
+.social-btn {
+  position: relative;
+  border: 1px solid #c2c8d0;
+  border-radius: 6px;
+  font-size: 25px !important;
+  align-items: center;
+  background-color: #fff;
+  height: 52px;
+  cursor: pointer;
+  color: #2d333a;
+  margin-bottom: 8px;
+  display: flex;
+  outline: 0;
+}
+
+.social-btn {
+  padding: 0 8px 0 52px;
+}
+
+.social-text {
+  text-align: left;
+  position: relative;
+}
