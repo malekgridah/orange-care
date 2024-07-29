@@ -4,9 +4,12 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.util.pattern.PathPatternParser;
 
 import java.util.Collections;
@@ -26,7 +29,7 @@ public class GatewayDiscoveryConfiguration {
                 .route(p -> p
                         .path("/customers/**")
                         .filters(fm -> fm.stripPrefix(1)
-                                .tokenRelay())
+                                .tokenRelay().dedupeResponseHeader("Access-Control-Allow-Credentials Access-Control-Allow-Origin","RETAIN_FIRST"))
                         .uri("lb://orange-care-customers")
                 )
                 .route(p -> p
@@ -70,15 +73,15 @@ public class GatewayDiscoveryConfiguration {
                 .build();
     }
 
-
     @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowCredentials(true);
         corsConfig.addAllowedOriginPattern("*");
         corsConfig.addAllowedMethod("*");
         corsConfig.addAllowedHeader("*");
-        corsConfig.setExposedHeaders(Collections.singletonList("Authorization"));
+        corsConfig.setExposedHeaders(Collections.singletonList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
         source.registerCorsConfiguration("/**", corsConfig);
 
