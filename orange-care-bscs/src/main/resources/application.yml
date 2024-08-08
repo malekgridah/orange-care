@@ -4,4 +4,4 @@ spring:
   profiles:
     active:
       - info
-      - secure
+      - insecure

@@ -23,7 +23,7 @@ public class GatewayDiscoveryConfiguration {
                 .route(p -> p
                         .path("/bscs/**")
                         .filters(fm -> fm.stripPrefix(1)
-                                .tokenRelay())
+                                .tokenRelay().dedupeResponseHeader("Access-Control-Allow-Credentials Access-Control-Allow-Origin","RETAIN_FIRST"))
                         .uri("lb://orange-care-bscs")
                 )
                 .route(p -> p
@@ -35,25 +35,19 @@ public class GatewayDiscoveryConfiguration {
                 .route(p -> p
                         .path("/contracts/**")
                         .filters(fm -> fm.stripPrefix(1)
-                                .tokenRelay())
-                        .uri("lb://orange-care-contracts")
-                )
-                .route(p -> p
-                        .path("/bscs/**")
-                        .filters(fm -> fm.stripPrefix(1)
-                                .tokenRelay())
+                                .tokenRelay().dedupeResponseHeader("Access-Control-Allow-Credentials Access-Control-Allow-Origin","RETAIN_FIRST"))
                         .uri("lb://orange-care-contracts")
                 )
                 .route(p -> p
                         .path("/financials/**")
                         .filters(fm -> fm.stripPrefix(1)
-                                .tokenRelay())
+                                .tokenRelay().dedupeResponseHeader("Access-Control-Allow-Credentials Access-Control-Allow-Origin","RETAIN_FIRST"))
                         .uri("lb://orange-care-financials")
                 )
                 .route(p -> p
                         .path("/payment/**")
                         .filters(fm -> fm.stripPrefix(1)
-                                .tokenRelay())
+                                .tokenRelay().dedupeResponseHeader("Access-Control-Allow-Credentials Access-Control-Allow-Origin","RETAIN_FIRST"))
                         .uri("lb://orange-care-payment")
                 )
                 .route(p -> p

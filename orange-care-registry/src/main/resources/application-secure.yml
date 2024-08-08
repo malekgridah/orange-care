@@ -1,4 +1,6 @@
 spring:
+  thymeleaf:
+    cache: false
   security:
     oauth2:
       resource-server:
@@ -6,17 +8,29 @@ spring:
           jwk-set-uri: http://localhost:9000/oauth2/jwks
       client:
         registration:
-          login-client:
+          eureka-client-oidc:
             provider: spring
             client-id: eureka-client
             client-secret: eureka-connect
-            client-authentication-method: client_secret_basic
             authorization-grant-type: authorization_code
-            redirect-uri: http://127.0.0.1:8761/login/oauth2/code/login-client
-            scope: openid,profile
-            client-name: Spring
+            redirect-uri: "http://127.0.0.1:8761/login/oauth2/code/{registrationId}"
+            scope: openid, profile
+            client-name: eureka-client-oidc
+          eureka-client-authorization-code:
+            provider: spring
+            client-id: eureka-client
+            client-secret: eureka-connect
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8761/authorized"
+            scope: services.read
+            client-name: eureka-client-authorization-code
+          eureka-client-client-credentials:
+            provider: spring
+            client-id: eureka-client
+            client-secret: eureka-connect
+            authorization-grant-type: client_credentials
+            scope: services.read
+            client-name: eureka-client-client-credentials
         provider:
           spring:
-            authorization-uri: http://localhost:9000/oauth2/authorize
-            token-uri: http://localhost:9000/oauth2/token
-            jwk-set-uri: http://localhost:9000/oauth2/jwks
+            issuer-uri: http://localhost:9000

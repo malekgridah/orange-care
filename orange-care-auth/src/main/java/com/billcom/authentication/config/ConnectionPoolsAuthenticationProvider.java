@@ -24,6 +24,8 @@ public class ConnectionPoolsAuthenticationProvider implements AuthenticationProv
             String password = (String) authentication.getCredentials();
             localJaasAuthProvider.authenticateUser(authentication.getName(),
                     password, new Object[]{null});
+            UserPropertiesFacade.instance().setUserAttribute("Username", authentication.getName());
+            UserPropertiesFacade.instance().setUserAttribute("Password", password);
             return new UsernamePasswordAuthenticationToken(authentication.getName(),
                     authentication.getCredentials(), AUTHORITIES);
         } catch (ConnectionFailedException e) {

@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {AfterContentInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { AppSettings } from '../../../app.settings';
 import { Settings } from '../../../app.settings.model';
 import { MenuService } from '../menu/menu.service';
-
+import {AuthService} from "../../../core";
+import { Profile, User, UserManagerSettings } from 'oidc-client';
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
@@ -12,17 +13,26 @@ import { MenuService } from '../menu/menu.service';
   providers: [ MenuService ]
 })
 export class SidenavComponent implements OnInit {
+  loggedUser = ""
   public psConfig: PerfectScrollbarConfigInterface = {
     wheelPropagation:true
   };
   public menuItems:Array<any>;
   public settings: Settings;
-  constructor(public appSettings:AppSettings, public menuService:MenuService){
+  user: Profile;
+  constructor(public appSettings:AppSettings, public menuService:MenuService, public auth:AuthService) {
       this.settings = this.appSettings.settings; 
   }
 
   ngOnInit() {
-    this.menuItems = this.menuService.getVerticalMenuItems();    
+    this.menuItems = this.menuService.getVerticalMenuItems();
+    this.auth.getLoggedUser()
+        .then(token => {
+          this.loggedUser = token
+        })
+
+    this.auth.getUserProfile()
+        .then(user => this.user = user)
   }
 
   ngDoCheck(){

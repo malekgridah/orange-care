@@ -56,7 +56,7 @@ import {AuthInterceptorService} from "./core/auth-interceptor.service";
     SharedModule,
     PipesModule,
     routing,
-    HttpClientModule
+    HttpClientModule,
   ],
   declarations: [
     AppComponent,

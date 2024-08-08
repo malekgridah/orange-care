@@ -86,10 +86,12 @@ public class SecurityConfiguration {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://127.0.0.1:8761/login/oauth2/code/eureka-client")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .redirectUri("http://127.0.0.1:8761/login/oauth2/code/eureka-client-oidc")
                 .redirectUri("http://127.0.0.1:8761/authorized")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
+                .scope("services.read")
                 .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
                 .build();
         RegisteredClient financialsClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -102,6 +104,7 @@ public class SecurityConfiguration {
                 .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
                 .scope("financials:read")
                 .scope("financials:write")
+                .scope("orange-care:all")
                 .tokenSettings(TokenSettings.builder()
                         .authorizationCodeTimeToLive(Duration.ofMinutes(60))
                         .accessTokenTimeToLive(Duration.ofMinutes(60))//accessTokenTimeToLive: access_token validity period
@@ -111,12 +114,92 @@ public class SecurityConfiguration {
                         .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)//idTokenSignatureAlgorithm：signature algorithm
                         .build())
                 .build();
-        // @formatter:on
+        RegisteredClient customersClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("customers-client")
+                .clientSecret("{noop}customers")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scope("customers:read")
+                .scope("customers:write")
+                .scope("orange-care:all")
+                .tokenSettings(TokenSettings.builder()
+                        .authorizationCodeTimeToLive(Duration.ofMinutes(60))
+                        .accessTokenTimeToLive(Duration.ofMinutes(60))//accessTokenTimeToLive: access_token validity period
+                        .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED) // Generate JWT token
+                        .reuseRefreshTokens(true)//reuseRefreshTokens: Whether to reuse refresh tokens
+                        .refreshTokenTimeToLive(Duration.ofHours(6))//refreshTokenTimeToLive: refresh_token validity period
+                        .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)//idTokenSignatureAlgorithm：signature algorithm
+                        .build())
+                .build();
+        RegisteredClient contractsClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("contracts-client")
+                .clientSecret("{noop}contracts")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scope("contracts:read")
+                .scope("contracts:write")
+                .scope("orange-care:all")
+                .tokenSettings(TokenSettings.builder()
+                        .authorizationCodeTimeToLive(Duration.ofMinutes(60))
+                        .accessTokenTimeToLive(Duration.ofMinutes(60))//accessTokenTimeToLive: access_token validity period
+                        .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED) // Generate JWT token
+                        .reuseRefreshTokens(true)//reuseRefreshTokens: Whether to reuse refresh tokens
+                        .refreshTokenTimeToLive(Duration.ofHours(6))//refreshTokenTimeToLive: refresh_token validity period
+                        .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)//idTokenSignatureAlgorithm：signature algorithm
+                        .build())
+                .build();
+
+        RegisteredClient bscsClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("bscs-client")
+                .clientSecret("{noop}bscs")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scope("bscs:read")
+                .scope("bscs:write")
+                .scope("orange-care:all")
+                .tokenSettings(TokenSettings.builder()
+                        .authorizationCodeTimeToLive(Duration.ofMinutes(60))
+                        .accessTokenTimeToLive(Duration.ofMinutes(60))//accessTokenTimeToLive: access_token validity period
+                        .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED) // Generate JWT token
+                        .reuseRefreshTokens(true)//reuseRefreshTokens: Whether to reuse refresh tokens
+                        .refreshTokenTimeToLive(Duration.ofHours(6))//refreshTokenTimeToLive: refresh_token validity period
+                        .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)//idTokenSignatureAlgorithm：signature algorithm
+                        .build())
+                .build();
+
+        RegisteredClient paymentClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("payment-client")
+                .clientSecret("{noop}payment")
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .scope("payment:read")
+                .scope("payment:write")
+                .scope("orange-care:all")
+                .tokenSettings(TokenSettings.builder()
+                        .authorizationCodeTimeToLive(Duration.ofMinutes(60))
+                        .accessTokenTimeToLive(Duration.ofMinutes(60))//accessTokenTimeToLive: access_token validity period
+                        .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED) // Generate JWT token
+                        .reuseRefreshTokens(true)//reuseRefreshTokens: Whether to reuse refresh tokens
+                        .refreshTokenTimeToLive(Duration.ofHours(6))//refreshTokenTimeToLive: refresh_token validity period
+                        .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)//idTokenSignatureAlgorithm：signature algorithm
+                        .build())
+                .build();
 
 
         RegisteredClient publicClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("public-client")
-//                .clientSecret("{noop}angular")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
@@ -128,6 +211,14 @@ public class SecurityConfiguration {
                         .requireProofKey(true)
                         .build()
                 )
+                .tokenSettings(TokenSettings.builder()
+                        .authorizationCodeTimeToLive(Duration.ofMinutes(60))
+                        .accessTokenTimeToLive(Duration.ofMinutes(60))//accessTokenTimeToLive: access_token validity period
+                        .accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED) // Generate JWT token
+                        .reuseRefreshTokens(true)//reuseRefreshTokens: Whether to reuse refresh tokens
+                        .refreshTokenTimeToLive(Duration.ofHours(6))//refreshTokenTimeToLive: refresh_token validity period
+                        .idTokenSignatureAlgorithm(SignatureAlgorithm.RS256)//idTokenSignatureAlgorithm：signature algorithm
+                        .build())
                 .build();
 
 
@@ -135,6 +226,10 @@ public class SecurityConfiguration {
         registeredClientRepository.save(eurekaClient);
         registeredClientRepository.save(loginClient);
         registeredClientRepository.save(financialsClient);
+        registeredClientRepository.save(contractsClient);
+        registeredClientRepository.save(bscsClient);
+        registeredClientRepository.save(paymentClient);
+        registeredClientRepository.save(customersClient);
         registeredClientRepository.save(publicClient);
 
         return registeredClientRepository;

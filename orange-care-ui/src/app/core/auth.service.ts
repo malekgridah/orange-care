@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserManager, User, UserManagerSettings } from 'oidc-client';
+import {UserManager, User, UserManagerSettings, Profile} from 'oidc-client';
 import { Constants } from './constants';
 import { Subject } from 'rxjs';
 import {UrlTree} from "@angular/router";
@@ -15,11 +15,19 @@ export class AuthService {
 
     public loginChanged = this._loginChangedSubject.asObservable();
 
-    public getAccessToken = (): Promise<string> => {
-        return this._userManager.getUser()
-            .then(user => {
-                return !!user && !user.expired ? user.access_token : null;
-            })
+    public getAccessToken = async (): Promise<string> => {
+        const user = await this._userManager.getUser();
+        return !!user && !user.expired ? user.access_token : null;
+    }
+
+    public getLoggedUser = async (): Promise<string> => {
+        const user = await this._userManager.getUser();
+        return !!user && !user.expired ? user.profile.sub : null;
+    }
+
+    public getUserProfile = async (): Promise<Profile> => {
+        const user = await this._userManager.getUser();
+        return !!user && !user.expired ? user.profile : null;
     }
 
     private get idpSettings() : UserManagerSettings {
@@ -31,6 +39,10 @@ export class AuthService {
             response_type: "code",
             post_logout_redirect_uri: `${Constants.clientRoot}/signout-callback`
         }
+    }
+
+    public getUser() {
+        return this._user;
     }
 
     constructor() {

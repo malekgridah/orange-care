@@ -7,7 +7,7 @@ import {ContractOverviewRequest, ContractOverviewResponse} from "./contract-over
 
 
 const BASE_URL = `${environment.apiUrl}/bscs/api`;
-const BASE_CONTRACTS_URL = `${environment.apiUrl}/bscs/api/contracts`;
+const BASE_CONTRACTS_URL = `${environment.apiUrl}/contracts/api/contracts`;
 @Injectable({
   providedIn: 'root'
 })

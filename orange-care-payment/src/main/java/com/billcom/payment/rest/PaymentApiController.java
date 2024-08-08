@@ -34,7 +34,7 @@ public class PaymentApiController {
 
 
     @PostMapping("invoices")
-    @PreAuthorize("hasAuthority('SCOPE_invoices')")
+//    @PreAuthorize("hasAuthority('SCOPE_invoices')")
     public ResponseEntity<InvoiceResponse> invoices(@RequestBody InvoiceRequest request) {
         return ResponseEntity.ok(getInvoicesService.getInvoices(request));
     }

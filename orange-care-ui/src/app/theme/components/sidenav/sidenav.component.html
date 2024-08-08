@@ -4,8 +4,8 @@
             <img src="assets/img/users/default-avatar.png" alt="user-image">
         </div>
         <div fxFlexOffset="5" fxLayout="column">
-            <h2 *ngIf="settings.menuType != 'mini'" class="mt-2">ADMX</h2>
-            <p *ngIf="settings.menuType == 'default'" class="secondary-text-color">Administrator</p>
+            <h2 *ngIf="settings.menuType != 'mini'" class="mt-2">{{loggedUser}}</h2>
+            <p *ngIf="settings.menuType == 'default'" class="secondary-text-color">{{loggedUser}}</p>
         </div>
     </div>
     <div id="vertical-menu" [perfectScrollbar]="psConfig" [disabled]="!settings.fixedSidenavUserContent">

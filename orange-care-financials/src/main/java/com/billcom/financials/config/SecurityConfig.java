@@ -21,8 +21,9 @@ public class SecurityConfig {
     @Profile("secure")
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated())
+                .securityMatcher("/api/financial/**")
+                .authorizeHttpRequests(authorize ->
+                        authorize.requestMatchers("/api/financial/**").hasAuthority("SCOPE_financials.read"))
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(Customizer.withDefaults()));
         return http.build();
@@ -36,3 +37,4 @@ public class SecurityConfig {
                 .build();
     }
 }
+
