@@ -192,8 +192,8 @@
 
     </mat-card>
 
-    <mat-card *ngIf="show" class="mt-3 div-border mat-elevation-z0">
-        <mat-card-header>
+    <mat-card *ngIf="show" [ngClass]="settings.theme === 'pink-dark' ? 'div-border-dark' : 'div-border-light'" class="mat-card-padding mt-3 mat-elevation-z0">
+        <mat-card-header class="pad-16">
             <mat-card-title [style.color]="'#f16e00'">Search Result</mat-card-title>
         </mat-card-header>
         <mat-divider></mat-divider>
@@ -274,7 +274,7 @@
                     </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-row [ngClass]="settings.theme =='pink-dark' ? 'mat-row-dark':'mat-row-light'" *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
             <div *ngIf="loading" [class.mt-5]="loading" fxLayout="column" fxLayoutAlign="center center">
                 <mat-spinner strokeWidth="3" [diameter]="50" color="primary"></mat-spinner>

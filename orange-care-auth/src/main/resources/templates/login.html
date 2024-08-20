@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Care Authorization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 340px;
+            text-align: center;
+        }
+
+        .login-header {
+            display: grid;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+
+        .login-header img {
+            justify-self: center;
+            height: 48px;
+            margin-bottom: 24px;
+        }
+
+        .login-header h2 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .login-container button {
+            background-color: #ff7900;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+
+        .login-container button:hover {
+            background-color: #e06e00;
+        }
+
+        .login-container .remember-me {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-top: 8px;
+        }
+
+        .login-container .remember-me input[type="checkbox"] {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="login-header">
+        <img th:src="@{/images/logo.png}" alt="Orange Logo"> <!-- Replace with your logo -->
+        <h2>Orange Care Authorization</h2>
+    </div>
+    <div th:if="${param.error}">
+        Invalid username or password.</div>
+    <div th:if="${param.logout}">
+        You have been logged out.</div>
+    <form th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <div class="remember-me">
+            <input type="checkbox" name="remember-me" id="remember-me">
+            <label for="remember-me">Remember me</label>
+        </div>
+        <button type="submit"><strong>Login</strong></button>
+    </form>
+</div>
+</body>
+</html>

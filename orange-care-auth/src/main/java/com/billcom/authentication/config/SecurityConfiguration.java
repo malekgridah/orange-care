@@ -47,11 +47,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration(proxyBeanMethods = false)
 public class SecurityConfiguration {
 
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                .authorizationEndpoint(oath2 -> oath2.consentPage(CUSTOM_CONSENT_PAGE_URI))
                 .oidc(withDefaults());
         http
                 .cors(withDefaults())

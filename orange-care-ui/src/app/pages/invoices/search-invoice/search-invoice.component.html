@@ -206,6 +206,13 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr [ngClass]="appSetting.settings.theme =='pink-dark' ? 'mat-row-dark':'mat-row-light'" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+            <div *ngIf="loading" [class.mt-5]="loading" fxLayout="column" fxLayoutAlign="center center">
+                <mat-spinner strokeWidth="3" [diameter]="50" color="primary"></mat-spinner>
+            </div>
+
+            <div class="mt-5" *ngIf="!loading && (dataSource.data == null || dataSource.data?.length==0)" fxLayoutAlign="center center">
+                <h3>No Data</h3>
+            </div>
         </mat-card-content>
         <mat-card-footer>
             <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>

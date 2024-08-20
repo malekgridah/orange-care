@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("endpoint.service")
 public class WebServicesProperties {
     private EndpointProperties wsi;
-    private EndpointProperties contractHandling;
+    private EndpointProperties customerHandling;
 
     @Data
     public static class EndpointProperties {

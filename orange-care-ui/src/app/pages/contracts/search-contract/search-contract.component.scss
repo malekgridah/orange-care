@@ -12,14 +12,6 @@ table {
   width: 100%;
 }
 
-td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type {
-  padding-right: 0;
-}
-
-td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type, th.mat-header-cell:first-of-type {
-  padding-left: 0;
-}
-
 .div-border {
   border-radius: 12px;
 }
@@ -54,6 +46,78 @@ form {
   height: 20px;
   width: 20px;
 }
+
+
+table {
+  width: 100%;
+}
+
+.div-border {
+  border-radius: 12px;
+}
+
+.mat-card-padding {
+  padding: unset !important;
+}
+
+.pad-16 {
+  padding: 16px 16px 0;
+}
+
+mat-card-footer {
+  padding: 0 16px 16px;
+}
+
+mat-card-content {
+  padding: unset !important;
+}
+h3 {
+  color: #ff7900;
+}
+
+.filters {
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.div-border-light {
+  border-radius: 12px;
+  border: 1px solid #c4c6d0;
+}
+
+.div-border-dark {
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.bg-primary-trs {
+  background: rgba(255, 121, 0, 0.80) !important;
+}
+
+ul {
+  list-style: none;
+}
+
+.mat-row {
+  border-radius: 12px !important;
+}
+
+.mat-row-dark:nth-child(odd) {
+  background-color: #101010 !important;
+  border-radius: 12px !important;
+}
+
+.mat-row-light:nth-child(odd) {
+  background-color: #efedf1 !important;
+  border-radius: 12px !important;
+}
+
+.mat-row:hover {
+  background-color: rgba(241, 110, 0, 0.14) !important;
+  border-radius: 12px !important;
+}
+
 
 
 

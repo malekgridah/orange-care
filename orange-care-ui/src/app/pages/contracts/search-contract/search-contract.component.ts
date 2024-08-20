@@ -1,14 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Settings} from "../../../app.settings.model";
-import {AppSettings} from "../../../app.settings";
-import {Router} from "@angular/router";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {ContractsService} from "../contracts.service";
-import {ContractsSearchRequest, ContractsSearchResponse, Rateplan} from "../conntracts.model";
-import {EccodingUriPipe} from "../../../shared/services/EncodingUri.pipe";
+import {MatTableDataSource} from '@angular/material/table';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Settings} from '../../../app.settings.model';
+import {AppSettings} from '../../../app.settings';
+import {Router} from '@angular/router';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {ContractsService} from '../contracts.service';
+import {ContractsSearchRequest, ContractsSearchResponse, Rateplan} from '../conntracts.model';
+import {EccodingUriPipe} from '../../../shared/services/EncodingUri.pipe';
 
 @Component({
   selector: 'app-search-contract',
@@ -16,6 +16,13 @@ import {EccodingUriPipe} from "../../../shared/services/EncodingUri.pipe";
   styleUrls: ['./search-contract.component.scss']
 })
 export class SearchContractComponent implements OnInit {
+  constructor(public appSettings: AppSettings,
+              private contractsService: ContractsService,
+              private router: Router,
+              private fb: FormBuilder) {
+    this.settings = this.appSettings.settings;
+    this.setInitialForm();
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -30,31 +37,31 @@ export class SearchContractComponent implements OnInit {
   show = false;
   loading = false;
 
-  public displayedColumns = ['coCode','rateplan', 'coStatus', 'csIdPub','csCode', 'market', 'network', 'customer', 'street', 'city', 'action'];
+  public displayedColumns = ['coCode', 'rateplan', 'coStatus', 'csIdPub', 'csCode', 'market', 'network', 'customer', 'street', 'city', 'action'];
   public settings: Settings;
-  constructor(public appSettings: AppSettings,
-              private contractsService: ContractsService,
-              private router: Router,
-              private fb: FormBuilder) {
-    this.settings = this.appSettings.settings;
-    this.setInitialForm();
-  }
+
+
+rateplans: Rateplan[];
 
   searchFormRequest(): ContractsSearchRequest {
-    let contractSearch: ContractsSearchRequest = new ContractsSearchRequest();
+    const contractSearch: ContractsSearchRequest = new ContractsSearchRequest();
 
     contractSearch.srchCount = this.optionForm.value.srchCount;
     contractSearch.flagCase = this.optionForm.value.flagCase;
     contractSearch.includeResHist = this.optionForm.value.includeResHist;
 
-    if (this.selectForm.value.resType != 'all')
+    if (this.selectForm.value.resType !== 'all') {
       contractSearch.resType = this.selectForm.value.resType;
-    if (this.selectForm.value.coRpCode != 'all')
+    }
+    if (this.selectForm.value.coRpCode !== 'all') {
       contractSearch.coRpCode = this.selectForm.value.coRpCode;
-    if (this.selectForm.value.coPaymentOption != 'all')
+    }
+    if (this.selectForm.value.coPaymentOption !== 'all') {
       contractSearch.coPaymentOption = this.selectForm.value.coPaymentOption;
-    if (this.selectForm.value.coStatus != 'all')
+    }
+    if (this.selectForm.value.coStatus !== 'all') {
       contractSearch.coStatus = this.selectForm.value.coStatus;
+    }
 
     contractSearch.coCode = this.searchForm.value.coCode;
     contractSearch.resNo = this.searchForm.value.resNo;
@@ -63,12 +70,15 @@ export class SearchContractComponent implements OnInit {
     contractSearch.csIdPub = this.searchForm.value.csIdPub;
     contractSearch.csCode = this.searchForm.value.csCode;
 
-    if (this.networksForm.value.market != 'all')
+    if (this.networksForm.value.market !== 'all') {
       contractSearch.market = this.networksForm.value.market;
-    if (this.networksForm.value.subMarket != 'all')
+    }
+    if (this.networksForm.value.subMarket !== 'all') {
       contractSearch.subMarket = this.networksForm.value.subMarket;
-    if (this.networksForm.value.network != 'all')
+    }
+    if (this.networksForm.value.network !== 'all') {
       contractSearch.network = this.networksForm.value.network;
+    }
 
     return contractSearch;
 }
@@ -87,9 +97,9 @@ export class SearchContractComponent implements OnInit {
         this.dataSource.data = [];
       }
       this.loading = false;
-    },error => {
+    }, error => {
       this.loading = false;
-      console.log(error)
+      console.log(error);
     });
   }
 
@@ -97,7 +107,7 @@ export class SearchContractComponent implements OnInit {
   contractOverview(coId: number, coCode: string) {
     const encodedId = new EccodingUriPipe().transform(coId.toString(), true);
     const encodedCoCode = new EccodingUriPipe().transform(coCode, true);
-    this.router.navigate(['contracts', 'overview'], {queryParams:{ contract: encodedCoCode, token:encodedId} }).then((success) => {
+    this.router.navigate(['contracts', 'overview'], {queryParams: { contract: encodedCoCode, token: encodedId} }).then((success) => {
       if (success) {
         console.log('Navigation successful!');
       } else {
@@ -127,7 +137,7 @@ export class SearchContractComponent implements OnInit {
 
     this.searchForm = this.fb.group({
       resNo: [null, []],
-      coCode:[null,[]],
+      coCode: [null, []],
       csLName: [null, []],
       csFName: [null, []],
       csCode: [null, []],
@@ -147,14 +157,11 @@ export class SearchContractComponent implements OnInit {
     });
   }
 
-
-rateplans: Rateplan[];
-
   getRateplans() {
     this.contractsService.getRateplans().subscribe(data => {
-      console.log(this.rateplans)
+      console.log(this.rateplans);
       this.rateplans = data.rateplans;
-    })
+    });
   }
 
   ngOnInit() {

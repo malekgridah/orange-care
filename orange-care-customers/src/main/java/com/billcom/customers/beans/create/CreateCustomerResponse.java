@@ -1,9 +1,9 @@
-package com.billcom.customers.beans;
+package com.billcom.customers.beans.create;
 
 import lombok.Data;
 
 @Data
 public class CreateCustomerResponse {
-    private String csId;
+    private Long csId;
     private String csIdPub;
 }
